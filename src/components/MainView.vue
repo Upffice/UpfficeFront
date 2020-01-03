@@ -16,7 +16,7 @@
         <div v-else>
             <h4>You logIned successfully!</h4>
             로그인 되었을 때 메인
-            지영
+            지영++
         </div>
     </div>
 </template>
