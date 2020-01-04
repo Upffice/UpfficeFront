@@ -22,9 +22,8 @@
 </template>
 
 <script>
-    import http from "../http-common";
+import http from "../http-common";
 
- var login_emp_id=0;
  export default {
    name: "employee-login",
    data() {
@@ -33,32 +32,33 @@
          emp_id: "",
          emp_pw: ""
        },
-       logIned: false
+       logIned: false,
+       login_emp_id: 0
      };
    },
    methods: {
      /* eslint-disable no-console */
     login() {
          if(this.input.emp_id != "" && this.input.emp_pw != "") {
-                               var data = {
-                                  emp_id: this.input.emp_id,
-                                  emp_pw: this.input.emp_pw
-                                };
+              var data = {
+                emp_id: this.input.emp_id,
+                emp_pw: this.input.emp_pw
+              };
               http
               .post("/login", data)
               .then(response => {
-                 login_emp_id = response.data;
-                 console.log(login_emp_id + " : 로그인 아이디 받아온 거");
-                 console.log(logIned + " : 로그인 아이디 받아온 결과");
+                 this.login_emp_id = response.data;
+                 console.log(this.login_emp_id + " : 로그인 아이디 받아온 거");
+                 console.log(this.logIned + " : 로그인 아이디 받아온 결과");
               })
               .catch(e => {
                 console.log(e);
               });
 
-           if(login_emp_id != 0) {
+           if(this.login_emp_id != 0) {
                 this.logIned = true;
-                                 console.log(login_emp_id + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 거");
-                                 console.log(logIned + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 결과");
+                                 console.log(this.login_emp_id + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 거");
+                                 console.log(this.logIned + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 결과");
                 //this.$emit("authenticated", true);
                 //this.$router.replace({ name: "secure" });
              } else {
