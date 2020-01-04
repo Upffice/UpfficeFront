@@ -3,14 +3,14 @@
         <div v-if="!logIned">
             <div class="form-group">
               <label for="emp_id">id</label>
-              <input type="text" id="emp_id" required v-model="employees.emp_id">
+              <input type="text" id="emp_id" required v-model="input.emp_id">
             </div>
 
             <div class="form-group">
               <label for="emp_pw">pw</label>
-              <input type="password" id="emp_pw" required v-model="employees.emp_pw">
+              <input type="password" id="emp_pw" required v-model="input.emp_pw">
             </div>
-            <button v-on:click="chkInput" class="btn btn-success">LogIn</button>
+            <button v-on:click="login" class="btn btn-success">LogIn</button>
         </div>
 
         <div v-else>
@@ -24,57 +24,53 @@
 <script>
     import http from "../http-common";
 
- let login_emp_id;
+ var login_emp_id=0;
  export default {
    name: "employee-login",
    data() {
      return {
-       employees: {
+       input: {
          emp_id: "",
-         emp_pw:"",
+         emp_pw: ""
        },
        logIned: false
      };
    },
    methods: {
      /* eslint-disable no-console */
-           chkInput() {
-                   if(document.getElementById('emp_id').value == "" ||
-                       document.getElementById('emp_pw').value == "") {
-                       alert("사번이나 비밀번호의 빈 칸을 확인해주세요!");
-                    } else {
-                         //getEmp_id();
-                                var data = {
-                                  emp_id: this.employees.emp_id,
-                                  emp_pw: this.employees.emp_pw
+    login() {
+         if(this.input.emp_id != "" && this.input.emp_pw != "") {
+                               var data = {
+                                  emp_id: this.input.emp_id,
+                                  emp_pw: this.input.emp_pw
                                 };
+              http
+              .post("/login", data)
+              .then(response => {
+                 login_emp_id = response.data;
+                 console.log(login_emp_id + " : 로그인 아이디 받아온 거");
+                 console.log(logIned + " : 로그인 아이디 받아온 결과");
+              })
+              .catch(e => {
+                console.log(e);
+              });
 
-                                http
-                                  .post("/login", data)
-                                  .then(response => {
-                                    this.employees.emp_id = response.data;
-                                    login_emp_id = response.data;
-                                    chkLogin();
-                                  })
-                                  .catch(e => {
-                                    console.log(e);
-                                  });
-                    }
-           },
-
-
-      chkLogin() {
-           if(login_emp_id != 0){
+           if(login_emp_id != 0) {
                 this.logIned = true;
-                // pushEmpId();
-           } else {
-                alert("사번이나 비밀번호가 틀렸습니다!");
-                this.logIned = false;
-           }
-      }
-            /* eslint-enable no-console */
-        }
-    };
+                                 console.log(login_emp_id + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 거");
+                                 console.log(logIned + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 결과");
+                //this.$emit("authenticated", true);
+                //this.$router.replace({ name: "secure" });
+             } else {
+                alert("The username and / or password is incorrect");
+             }
+         } else {
+            alert("A username and password must be present");
+          } // End : if-else
+    } // End - login()
+
+   }
+   };
 </script>
 
 <style>
