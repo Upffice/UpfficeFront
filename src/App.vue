@@ -1,19 +1,33 @@
 <template>
     <div id="app" class="container-fluid">
         <TopMenu></TopMenu>
+
         <router-view></router-view>
     </div>
 </template>
 
 <script>
     import TopMenu from "./components/TopMenu.vue";
+    import {EventBus} from "./event-bus";
 
     export default {
         name: "app",
         components: {
             TopMenu: TopMenu
+        },
+        methods: {
+            forceRerender() {
+                EventBus.$on("re-render",  sts=> {
+                    console.log(sts + "+re-render");
+                });
+
+            }
+        },
+        created() {
+            this.forceRerender();
         }
     };
+
 </script>
 
 <style>

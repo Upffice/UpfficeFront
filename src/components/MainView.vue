@@ -1,16 +1,16 @@
 <template>
     <div class="mainForm">
-        <div v-if="!logIned">
+        <div v-if="!loginInfo.loginStatus">
             <div class="form-group">
-              <label for="emp_id">id</label>
-              <input type="text" id="emp_id" required v-model="input.emp_id">
+              <label for="emp_id">ID</label>&nbsp;&nbsp;&nbsp;
+              <input type="text" id="emp_id" required v-model="input.emp_id" placeholder="사번">
             </div>
 
             <div class="form-group">
-              <label for="emp_pw">pw</label>
-              <input type="password" id="emp_pw" required v-model="input.emp_pw">
+              <label for="emp_pw">PW</label>&nbsp;&nbsp;&nbsp;
+              <input type="password" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호">
             </div>
-            <button v-on:click="login" class="btn btn-success">LogIn</button>
+            <button v-on:click="login" class="btn btn-success">Login</button>
         </div>
 
         <div v-else>
@@ -32,7 +32,10 @@ import http from "../http-common";
          emp_id: "",
          emp_pw: ""
        },
-       logIned: false,
+       loginInfo: {
+           loginStatus: "",
+           loginId: ""
+       },
        login_emp_id: 0
      };
    },
@@ -49,21 +52,22 @@ import http from "../http-common";
               .then(response => {
                  this.login_emp_id = response.data;
                  console.log(this.login_emp_id + " : 로그인 아이디 받아온 거");
-                 console.log(this.logIned + " : 로그인 아이디 받아온 결과");
+
+                  if(this.login_emp_id != 0) {
+                      this.loginInfo.loginId = this.login_emp_id;
+                      this.loginInfo.loginStatus = true;
+                      localStorage.setItem("login_id", this.loginInfo.loginId);
+                      localStorage.setItem("login_status", this.loginInfo.loginStatus);
+                      console.log("로컬스토리지 : " + localStorage.getItem("login_id"));
+                  } else {
+                      alert("The username and / or password is incorrect");
+                  }
+
               })
               .catch(e => {
                 console.log(e);
               });
 
-           if(this.login_emp_id != 0) {
-                this.logIned = true;
-                                 console.log(this.login_emp_id + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 거");
-                                 console.log(this.logIned + " : 아디비번 빈칸 아닐 때 로그인 아이디 받아온 결과");
-                //this.$emit("authenticated", true);
-                //this.$router.replace({ name: "secure" });
-             } else {
-                alert("The username and / or password is incorrect");
-             }
          } else {
             alert("A username and password must be present");
           } // End : if-else

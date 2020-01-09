@@ -16,9 +16,12 @@
                         <router-link class="nav-link" to="/customer">customer</router-link>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <form v-if="!loginInfo.login_status" class="form-inline my-2 my-lg-0">
+                    <span style="color: white">로그인이 필요합니다</span>
+                </form>
+                <form v-else class="form-inline my-2 my-lg-0">
+                    <span style="color: white">MY PAGE</span>
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" v-on:click="clearInput">로그아웃</button>
                 </form>
             </div>
         </nav>
@@ -27,7 +30,37 @@
 </template>
 
 <script>
-    export default {};
+    import {EventBus} from "../event-bus";
+
+    export default {
+        data() {
+            return {
+                customers: [],
+                loginInfo: {
+                    login_status: "",
+                    login_id: ""
+                },
+                cnt:0
+            };
+        },
+        methods: {
+            clearInput() {
+                localStorage.clear();
+                // localStorage.removeItem("login_id");
+                // localStorage.removeItem("login_status");
+            }
+        },
+        created() {
+            this.loginInfo.login_id = localStorage.getItem("login_id");
+            this.loginInfo.login_status = localStorage.getItem("login_status");
+            console.log(this.loginInfo.login_id + " - topmenu@@@@")
+            console.log(this.loginInfo.login_status+ " - topmenu status");
+            EventBus.$emit("re-render", true);
+        },
+        mounted() {
+            this.$router.push("/");
+        }
+    };
 </script>
 
 <style>
