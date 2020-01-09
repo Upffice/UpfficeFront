@@ -3,12 +3,12 @@
         <div v-if="!loginInfo.loginStatus">
             <div class="form-group">
               <label for="emp_id">ID</label>&nbsp;&nbsp;&nbsp;
-              <input type="text" id="emp_id" required v-model="input.emp_id" placeholder="사번">
+              <input type="text" id="emp_id" v-on:keyup.enter="login" required v-model="input.emp_id" placeholder="사번">
             </div>
 
             <div class="form-group">
               <label for="emp_pw">PW</label>&nbsp;&nbsp;&nbsp;
-              <input type="password" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호">
+              <input type="password" v-on:keyup.enter="login" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호">
             </div>
             <button v-on:click="login" class="btn btn-success">Login</button>
         </div>

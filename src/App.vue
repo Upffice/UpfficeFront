@@ -1,7 +1,6 @@
 <template>
     <div id="app" class="container-fluid">
-        <TopMenu></TopMenu>
-
+        <TopMenu :key="cc"></TopMenu>
         <router-view></router-view>
     </div>
 </template>
@@ -14,6 +13,11 @@
         name: "app",
         components: {
             TopMenu: TopMenu
+        },
+        data() {
+            return {
+                cc: ""
+            }
         },
         methods: {
             forceRerender() {

@@ -54,12 +54,10 @@
             this.loginInfo.login_id = localStorage.getItem("login_id");
             this.loginInfo.login_status = localStorage.getItem("login_status");
             console.log(this.loginInfo.login_id + " - topmenu@@@@")
-            console.log(this.loginInfo.login_status+ " - topmenu status");
+            console.log(this.loginInfo.login_status + " - topmenu status");
             EventBus.$emit("re-render", true);
-        },
-        mounted() {
-            this.$router.push("/");
         }
+
     };
 </script>
 
