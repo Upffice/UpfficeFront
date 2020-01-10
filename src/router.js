@@ -9,6 +9,9 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
+import MainEmployAddress from "./components/address/employees/MainEmployAddress";
+import Employees from "./components/address/employees/Employees";
+import SearchEmployees from "./components/address/employees/SearchEmployees";
 
 Vue.use(Router);
 
@@ -63,6 +66,52 @@ export default new Router({
             path: "/customer/search",
             name: "search",
             component: SearchCustomers
-        }
+        },
+
+
+
+
+
+
+        /*--addressRouter*/
+        {
+            path: "/MainEmployAddress",
+            name: "MainEmployAddress",
+            component: MainEmployAddress,
+            props: true,
+            children: [
+                {
+                    path: "/MainEmployAddress/:id",
+                    name: "employees",
+                    component: Employees,
+                    props: true
+
+                },
+                {
+                    path: "/MainEmployAddress/searchEmployees",
+                    name: "searchEmployees",
+                    component:  SearchEmployees,
+                    props: true
+
+                }
+            ]
+
+        },
+        {
+            path: "/employees",
+            name: "employees",
+            component: Employees
+        },
+        {
+            path: "/searchEmployees",
+            name: "searchEmployees",
+            component: SearchEmployees
+        },
+
+
+
+
+
+
     ]
 });
