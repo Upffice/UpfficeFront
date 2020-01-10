@@ -1,14 +1,19 @@
 import Vue from "vue";
 import Router from "vue-router";
 import MainView from "./components/MainView";
+
 import BoardList from "./components/board/BoardList.vue";
 import AddBorad from "./components/board/AddBorad.vue";
 import SearchBoards from "./components/board/SearchBoards.vue";
 import Board from "./components/board/Board.vue";
+
 import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
+
+import SignWait from "./components/approval/SignWait.vue";
+
 
 Vue.use(Router);
 
@@ -20,6 +25,7 @@ export default new Router({
             name: "mainView",
             component: MainView,
         },
+
         {
             path: "/bbs/board",
             name: "boards",
@@ -42,6 +48,7 @@ export default new Router({
             name: "search",
             component: SearchBoards
         },
+
         {
             path: "/customer/customer",
             name: "customers",
@@ -63,6 +70,13 @@ export default new Router({
             path: "/customer/search",
             name: "search",
             component: SearchCustomers
+        },
+
+        {
+            path: "/approval/sign/wait",
+            name: "wait",
+            alias : "/app",
+            component :SignWait
         }
     ]
 });

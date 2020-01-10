@@ -15,6 +15,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/customer">customer</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/app">전자결재</router-link>
+                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -33,6 +36,7 @@
 <style>
     .topMenu {
         text-align: center;
+
     }
 
     .btn-primary {
