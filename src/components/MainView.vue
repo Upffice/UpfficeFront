@@ -2,15 +2,16 @@
     <div class="mainForm">
         <div v-if="!loginInfo.loginStatus">
             <div class="form-group">
-              <label for="emp_id">ID</label>&nbsp;&nbsp;&nbsp;
-              <input type="text" id="emp_id" v-on:keyup.enter="login" required v-model="input.emp_id" placeholder="사번">
+                <label class="col-form-label col-form-label-lg" for="emp_id">ID</label>
+                <input class="form-control form-control-lg" type="text"id="emp_id" v-on:keyup.enter="login" required v-model="input.emp_id" placeholder="사번">
             </div>
 
             <div class="form-group">
-              <label for="emp_pw">PW</label>&nbsp;&nbsp;&nbsp;
-              <input type="password" v-on:keyup.enter="login" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호">
-            </div>
-            <button v-on:click="login" class="btn btn-success">Login</button>
+                <label class="col-form-label col-form-label-lg" for="emp_pw">PW</label>
+                <input class="form-control form-control-lg"  type="password" v-on:keyup.enter="login" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호">
+            </div><br>
+
+            <button v-on:click="login" class="btn btn-primary btn-lg">Login</button>
         </div>
 
         <div v-else>
@@ -73,7 +74,8 @@ import http from "../http-common";
           } // End : if-else
     } // End - login()
 
-   }
+   } // End - methods
+
    };
 </script>
 

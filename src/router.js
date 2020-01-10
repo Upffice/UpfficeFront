@@ -9,7 +9,8 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
-import EmployeeInfo from"./components/mypage/EmployeeInfo.vue"
+import EmployeeInfo from "./components/mypage/MypageInfo.vue"
+import MypageInfo from "./components/mypage/MypageInfo";
 
 Vue.use(Router);
 
@@ -68,7 +69,7 @@ export default new Router({
         {
             path: "/mypage",
             name: "mypage",
-            component: EmployeeInfo
+            component: MypageInfo
         }
     ]
 });
