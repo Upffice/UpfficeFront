@@ -1,12 +1,11 @@
 <template>
-    <div class="myPage">
-        <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
+    <div v-if="login_status">
+        <!--수정 가능한 항목 : 사진, 이메일, 휴대폰 번호, 비밀번호-->
         <!--왼쪽에 사진, 업로드-수정부분-->
         <!--비밀번호 변경 누르면 변경 창 띄우기? - 현재 비밀번호, 비밀번호, 확인 해서 수정-->
-        <h4>마이페이지</h4>
-        <table class="table table-hover mypageTbl">
+        <table class="table table-hover">
             <tr>
-                <td rowspan="19">이미지 들어갈 부분<br>
+                <td rowspan="17">이미지 들어갈 부분<br>
                 {{employee.emp_name}} 님</td>
                 <th>사번</th>
                 <td>{{employee.emp_id}}</td>
@@ -135,7 +134,9 @@ export default {
         if (sessionStorage.length > 0) {
             this.employee.emp_id = sessionStorage.getItem("login_id");
             this.getEmpInfo(this.employee.emp_id); // 사원 정보 가져오기
+
         }
+
     }
 
 }
