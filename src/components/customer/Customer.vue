@@ -46,7 +46,7 @@
                     name: this.customer.name,
                     age: this.customer.age,
                     active: status
-                };
+            };
 
                 http
                     .put("/customer/customer/" + this.customer.id, data)

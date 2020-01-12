@@ -13,7 +13,7 @@ import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
 
 import SignWait from "./components/approval/SignWait.vue";
-
+import Approval from "./components/approval/Approval";
 
 Vue.use(Router);
 
@@ -73,9 +73,16 @@ export default new Router({
         },
 
         {
-            path: "/approval/sign/wait",
-            name: "wait",
+            path: "/approval",
+            name: "approval",
             alias : "/app",
+            component :Approval
+        },
+
+        {
+            path: "/app/sign/wait",
+            name: "wait",
+
             component :SignWait
         }
     ]

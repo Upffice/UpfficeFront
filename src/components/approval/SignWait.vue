@@ -1,7 +1,5 @@
 <template>
 
-
-
     <div class="container">
 
         <div class="list row">
@@ -18,30 +16,28 @@
             <th scope="col">문서제목</th>
             <th scope="col">기안자</th>
             <th scope="col">기안일</th>
-
         </tr>
         </thead>
         <tbody>
 
-        <tr class="table-light">
-            <th scope="row">Light</th>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-        </tr>
-
+        <!--로그인 정보에서 받아올 부분-->
+            <tr class="table-light">
+                <th scope="row">Light</th>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+            </tr>
         </tbody>
     </table>
     </div>
 
-
 </template>
 
 <script>
-    import http from "../../http-common";
+    /*import http from "../../http-common";*/
     import ApprovalSubMenu from "./ApprovalSubMenu";
 
     export default {
