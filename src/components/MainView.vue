@@ -2,12 +2,12 @@
     <div class="mainForm">
         <div v-if="!loginInfo.loginStatus">
             <div class="form-group">
-                <label class="col-form-label col-form-label-lg idLbl" for="emp_id">사번</label>
-                <input class="form-control form-control-lg" type="text" id="emp_id" v-on:keyup.enter="login" required v-model="input.emp_id" placeholder="사번을 입력해주세요">
+                <label class="col-form-label col-form-label-lg inputLbl" for="emp_id">사원번호</label>
+                <input class="form-control form-control-lg" type="text" id="emp_id" v-on:keyup.enter="login" required v-model="input.emp_id" placeholder="사원번호를 입력해주세요">
             </div>
 
             <div class="form-group">
-                <label class="col-form-label col-form-label-lg pwLbl" for="emp_pw">비밀번호</label>
+                <label class="col-form-label col-form-label-lg inputLbl" for="emp_pw">비밀번호</label>
                 <input class="form-control form-control-lg"  type="password" v-on:keyup.enter="login" id="emp_pw" required v-model="input.emp_pw" placeholder="비밀번호를 입력해주세요">
             </div><br>
 
@@ -67,7 +67,7 @@ import http from "../http-common";
                       }
 
                   } else {
-                      alert("The username and / or password is incorrect");
+                      alert("사원 번호 또는 비밀번호가 일치하지 않습니다!");
                   }
 
               })
@@ -76,7 +76,7 @@ import http from "../http-common";
               });
 
          } else {
-            alert("A username and password must be present");
+            alert("빈 칸을 확인해주세요!");
           } // End : if-else
     } // End - login()
 
@@ -94,11 +94,7 @@ import http from "../http-common";
         max-width: 300px;
         margin: 100px auto auto;
     }
-    .idLbl {
-        margin-right: 250px;
-        font-weight: bold;
-    }
-    .pwLbl {
+    .inputLbl {
         margin-right: 220px;
         font-weight: bold;
     }

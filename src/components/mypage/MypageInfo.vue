@@ -6,14 +6,18 @@
         <h4>마이페이지</h4>
         <table class="table table-hover mypageTbl">
             <tr>
-                <td rowspan="17">이미지 들어갈 부분<br>
+                <td rowspan="19">이미지 들어갈 부분<br>
                 {{employee.emp_name}} 님</td>
                 <th>사번</th>
                 <td>{{employee.emp_id}}</td>
             </tr>
             <tr>
                 <th>비밀번호</th>
-                <td><button class="btn btn-secondary" @click="openWin">비밀번호변경</button></td>
+                <td><input class="form-control" type="password" placeholder="비밀번호" required v-model="employee.emp_pw"></td>
+            </tr>
+            <tr>
+                <th>비밀번호 확인</th>
+                <td><input class="form-control" type="password" placeholder="비밀번호 확인" required v-model="emp_pw_chk"></td>
             </tr>
             <tr>
                 <th>소속</th>
@@ -39,8 +43,8 @@
                 <th>휴대폰 번호</th>
                 <td><input class="form-control" type="text" placeholder="000-0000-0000" required v-model="employee.phone_number"></td>
             </tr>
-        </table><br><br>
-        <button class="btn btn-primary btn-lg" @click="updatePhone(employee.emp_id)">수정하기</button>
+        </table><br>
+        <button class="btn btn-primary btn-lg" @click="updateInfo(employee.emp_id)">수정하기</button>
     </div>
 
 </template>
@@ -62,7 +66,8 @@ export default {
             phone_number: "",
             dep_id: ""
           },
-          dep_name : ""
+          dep_name : "",
+          emp_pw_chk : ""
           // 정보수정 시 확인하는 변수 추가...?
         };
     },
@@ -96,27 +101,35 @@ export default {
                     console.log(e);
             });
         }, // 부서 정보 가져오기
-        updatePhone(id) {
-            let phone = this.employee.phone_number;
-            if(phone == "") {
-                alert("Don't leave the input of phone number blank!");
+        updateInfo(id) {
+            // let phone = this.employee.phone_number;
+            let data = {
+                emp_pw : this.employee.emp_pw,
+                pw_chk : this.emp_pw_chk,
+                phone_number : this.employee.phone_number
+            }
+            if (data.phone_number == "" | data.emp_pw == "" | data.pw_chk == "") {
+                alert("빈 칸을 확인해주세요!");
+            } else if(data.emp_pw != data.pw_chk){
+                alert("비밀번호를 확인해주세요!");
             } else {
                 http
-                    .put("/mypage/update/phone/" + id, phone)
+                    .put("/mypage/update/phone/" + id, data)
                     .then(response => {
                         if (response.data == 1) {
-                            alert("수정 완료!")
+                            alert("수정 완료!");
+
+                            for(let i=0; i<1; i++) {
+                                location.reload();
+                            }// 한 번만 새로고침
                         }
                     })
                     .catch(e => {
                         console.log(e);
                     });
             }
-        }, // End - updatePhone()
-        openWin() {
-            var ret = window.open("/mypage/popup?id="+this.employee.emp_id, "비밀번호 수정", "width=500", true );
+        } // End - updatePhone()
 
-        }
     },
     mounted() {
         if (sessionStorage.length > 0) {
