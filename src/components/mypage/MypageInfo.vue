@@ -151,7 +151,4 @@ export default {
         width: 200px;
         margin: auto;
     }
-    .mypageTbl {
-        margin: 30px auto auto;
-    }
 </style>
