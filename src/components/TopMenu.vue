@@ -24,7 +24,7 @@
                     <router-link :to="{ name: 'mypage'}">
                         <span style="color: white">{{login_name}} 님</span>
                     </router-link>&nbsp;&nbsp;&nbsp;
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" v-on:click="clearInput">Logout</button>
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" v-on:click="logout">Logout</button>
                 </form>
             </div>
         </nav>
@@ -34,7 +34,6 @@
 
 <script>
     import http from "../http-common";
-    import {EventBus} from "../event-bus";
 
     export default {
         data() {
@@ -49,8 +48,11 @@
             };
         },
         methods: {
-            clearInput() {
-                localStorage.clear();
+            logout() {
+                sessionStorage.removeItem("login_id");
+                sessionStorage.removeItem("login_status");
+                sessionStorage.clear();
+                this.$router.push("/"); // logout 시 첫 로그인 페이지로 이동
             }, // End - clearInput()
             getName() {
                 http
@@ -58,18 +60,12 @@
                 .then(response => {
                     this.login_name = response.data;
                 })
-                .catch(e => {
-                    console.log(e);
-                });
             } // End - getName()
         },
         mounted() {
-            if (localStorage.length > 0) {
-                this.loginInfo.login_id = localStorage.getItem("login_id");
-                this.loginInfo.login_status = localStorage.getItem("login_status");
-                console.log(this.loginInfo.login_id + " - topmenu@@@@")
-                console.log(this.loginInfo.login_status + " - topmenu status");
-                EventBus.$emit("re-render", true);
+            if (sessionStorage.length > 0) {
+                this.loginInfo.login_id = sessionStorage.getItem("login_id");
+                this.loginInfo.login_status = sessionStorage.getItem("login_status");
 
                 this.getName(); // 이름 보여주기 위한 메소드
             }
@@ -83,7 +79,7 @@
         text-align: center;
     }
 
-    .btn-primary {
+    .btn-secondary {
         margin-right: 5px;
     }
 </style>

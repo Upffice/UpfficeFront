@@ -1,9 +1,10 @@
 <template>
-    <div v-if="login_status">
-        <!--수정 가능한 항목 : 사진, 이메일, 휴대폰 번호, 비밀번호-->
+    <div class="myPage">
+        <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
         <!--왼쪽에 사진, 업로드-수정부분-->
         <!--비밀번호 변경 누르면 변경 창 띄우기? - 현재 비밀번호, 비밀번호, 확인 해서 수정-->
-        <table class="table table-hover">
+        <h4>마이페이지</h4>
+        <table class="table table-hover mypageTbl">
             <tr>
                 <td rowspan="17">이미지 들어갈 부분<br>
                 {{employee.emp_name}} 님</td>
@@ -12,7 +13,7 @@
             </tr>
             <tr>
                 <th>비밀번호</th>
-                <td><button>비밀번호변경</button></td>
+                <td><button class="btn btn-secondary" @click="openWin">비밀번호변경</button></td>
             </tr>
             <tr>
                 <th>소속</th>
@@ -36,16 +37,12 @@
             </tr>
             <tr>
                 <th>휴대폰 번호</th>
-                <td>{{employee.phone_number}}</td>
+                <td><input class="form-control" type="text" placeholder="000-0000-0000" required v-model="employee.phone_number"></td>
             </tr>
-        </table>
-
+        </table><br><br>
+        <button class="btn btn-primary btn-lg" @click="updatePhone(employee.emp_id)">수정하기</button>
     </div>
 
-    <div v-else>
-        ex) 마이페이지에서 로그아웃 한 경우
-        로그인 페이지로 redirect 해야함
-    </div>
 </template>
 
 <script>
@@ -65,7 +62,6 @@ export default {
             phone_number: "",
             dep_id: ""
           },
-          login_status : "",
           dep_name : ""
           // 정보수정 시 확인하는 변수 추가...?
         };
@@ -99,21 +95,49 @@ export default {
             .catch(e => {
                     console.log(e);
             });
-        } // 부서 정보 가져오기
-    },
-    mounted() {
-        if (localStorage.length > 0) {
-            this.employee.emp_id = localStorage.getItem("login_id");
-            this.login_status = localStorage.getItem("login_status");
-            this.getEmpInfo(this.employee.emp_id); // 사원 정보 가져오기
+        }, // 부서 정보 가져오기
+        updatePhone(id) {
+            let phone = this.employee.phone_number;
+            if(phone == "") {
+                alert("Don't leave the input of phone number blank!");
+            } else {
+                http
+                    .put("/mypage/update/phone/" + id, phone)
+                    .then(response => {
+                        if (response.data == 1) {
+                            alert("수정 완료!")
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }
+        }, // End - updatePhone()
+        openWin() {
+            var ret = window.open("/mypage/popup?id="+this.employee.emp_id, "비밀번호 수정", "width=500", true );
 
         }
-
+    },
+    mounted() {
+        if (sessionStorage.length > 0) {
+            this.employee.emp_id = sessionStorage.getItem("login_id");
+            this.getEmpInfo(this.employee.emp_id); // 사원 정보 가져오기
+        }
     }
 
 }
 </script>
 
 <style scoped>
-
+    .myPage {
+        margin: auto;
+        width: 90%;
+    }
+    .form-control {
+        width: 200px;
+        margin: auto;
+    }
+    .mypageTbl {
+        margin: 30px auto auto;
+    }
 </style>
