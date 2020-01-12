@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="container-fluid">
-        <TopMenu :key="cc"></TopMenu>
+        <TopMenu></TopMenu>
         <router-view></router-view>
     </div>
 </template>
@@ -13,23 +13,18 @@
         name: "app",
         components: {
             TopMenu: TopMenu
-        },
-        data() {
-            return {
-                cc: ""
-            }
-        },
-        methods: {
-            forceRerender() {
-                EventBus.$on("re-render",  sts=> {
-                    console.log(sts + "+re-render");
-                });
-
-            }
-        },
-        created() {
-            this.forceRerender();
         }
+        // methods: {
+        //     forceRerender() {
+        //         EventBus.$on("re-render",  sts=> {
+        //             console.log(sts + "+re-render");
+        //         });
+        //
+        //     }
+        // },
+        // created() {
+        //     this.forceRerender();
+        // }
     };
 
 </script>
