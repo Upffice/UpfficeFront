@@ -1,8 +1,7 @@
 <template>
-    <div v-if="login_status">
-        <!--수정 가능한 항목 : 사진, 이메일, 휴대폰 번호, 비밀번호-->
-        <!--왼쪽에 사진, 업로드-수정부분-->
-        <!--비밀번호 변경 누르면 변경 창 띄우기? - 현재 비밀번호, 비밀번호, 확인 해서 수정-->
+    <div>
+        <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
+        <!--왼쪽에 사진 -->
         <table class="table table-hover">
             <tr>
                 <td rowspan="17">이미지 들어갈 부분<br>
@@ -67,7 +66,6 @@ export default {
           },
           dep_name : "",
           emp_pw_chk : ""
-          // 정보수정 시 확인하는 변수 추가...?
         };
     },
     methods: {
@@ -136,7 +134,6 @@ export default {
             this.getEmpInfo(this.employee.emp_id); // 사원 정보 가져오기
 
         }
-
     }
 
 }
