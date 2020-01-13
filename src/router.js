@@ -73,7 +73,7 @@ export default new Router({
         },
 
         {
-            path: "/approval",
+            path: "/app/sign",
             name: "approval",
             alias : "/app",
             component :Approval
