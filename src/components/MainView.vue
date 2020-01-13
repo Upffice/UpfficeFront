@@ -1,5 +1,6 @@
 <template>
     <div class="mainForm">
+        <!--로그인이 된 경우 보일 <div> 태그 부분-->
         <div v-if="!loginInfo.loginStatus">
             <div class="form-group">
                 <label class="col-form-label col-form-label-lg inputLbl" for="emp_id">사원번호</label>
@@ -17,8 +18,8 @@
         <div v-else>
             <h4>You logIned successfully!</h4>
             로그인 되었을 때 메인
-<!--            {{this.$router.push("/mypage")}}-->
-            <!--이 부분에 위 처럼 push해서 요약 페이지로 넘기기-->
+            <!--ex) {{this.$router.push("/mypage")}}-->
+            <!--요약 메인 페이지를 하나 만들고 위처럼 주소 push 해서 넘기면 된다.(로그인 성공 시)-->
         </div>
 
     </div>
@@ -26,41 +27,39 @@
 
 <script>
 import http from "../http-common";
-// import {EventBus} from "../event-bus";
 
  export default {
    name: "employee-login",
    data() {
      return {
        input: {
-         emp_id: "",
-         emp_pw: ""
+         emp_id: "",    // 사원번호 입력 값 검사를 위한 변수
+         emp_pw: ""     // 비밀번호 입력 값 검사를 위한 변수
        },
        loginInfo: {
-           loginStatus: "",
-           loginId: ""
-       },
-       login_emp_id: 0
+           loginStatus: "", //로그인 상태 담을 변수
+           loginId: ""      // 로그인 아이디
+       }
      };
    },
    methods: {
-     /* eslint-disable no-console */
     login() {
-         if(this.input.emp_id != "" && this.input.emp_pw != "") {
+         if(this.input.emp_id != "" && this.input.emp_pw != "") { // 사원번호, 비밀번호 input 빈 칸 확인
               var data = {
                 emp_id: this.input.emp_id,
                 emp_pw: this.input.emp_pw
               };
+
+             // UpfficeBack 의 LoginController 로 매핑
               http
               .post("/login", data)
               .then(response => {
-                 this.login_emp_id = response.data;
 
-                  if(this.login_emp_id != 0) {
-                      this.loginInfo.loginId = this.login_emp_id;
-                      this.loginInfo.loginStatus = true;
-                      sessionStorage.setItem("login_id", this.loginInfo.loginId);
-                      sessionStorage.setItem("login_status", this.loginInfo.loginStatus);
+                  if(response.data != 0) {  // 결과 값이 0이 아니면 DB에 사번(아이디), 비밀번호가 존재한다는 뜻
+                      this.loginInfo.loginId = response.data;   // loginId에 응답 데이터를 넣는다.(응답 데이터는 사원번호)
+                      this.loginInfo.loginStatus = true;        // loginStatus 에 현재 로그인 상태 true로 바꾸기
+                      sessionStorage.setItem("login_id", this.loginInfo.loginId);           // sessionStorage 에 로그인 아이디(사번) 저장하기
+                      sessionStorage.setItem("login_status", this.loginInfo.loginStatus);   // sessionStorage 에 로그인 상태 저장하기
 
                       for(let i=0; i<1; i++) {
                           location.reload();// 로그인 시 한 번만 새로고침
@@ -72,10 +71,11 @@ import http from "../http-common";
 
               })
               .catch(e => {
+                /* eslint-disable no-console */
                 console.log(e);
               });
 
-         } else {
+         } else { // 사원번호, 비밀번호 input 빈 칸인 경우
             alert("빈 칸을 확인해주세요!");
           } // End : if-else
     } // End - login()
@@ -83,6 +83,7 @@ import http from "../http-common";
    }, // End - methods
      mounted() {
          if (sessionStorage.length > 0) {
+             // 로그인 상태를 <div> 태그에서 판별하기 위해 this.loginInfo.loginStatus 로 대입한다.
              this.loginInfo.loginStatus = sessionStorage.getItem("login_status");
          }
      }
