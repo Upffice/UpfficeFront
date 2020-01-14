@@ -21,20 +21,20 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr class="table-light">
-                <th v-for="(approval, index) in approvals" :key=index" scope="row">Light</th>
-                <td>{{this.approval.app_doc_num}}</td>
-                <td>{{this.approval.app_type}}</td>
-                <td>{{this.approval.app_doc_title}}</td>
-                <!--<td>{{this.approval.idx}}</td>
-                <td>{{this.approval.dep_name}}</td>
-                <td>{{this.approval.app_doc_num}}</td>
-                <td>{{this.approval.app_type}}</td>
-                <td>{{this.approval.app_doc_title}}</td>
-                <td>{{this.approval.emp_id}}</td>
-                <td>{{this.approval.app_doc_date}}</td>-->
+<!--            <tr class="table-light"  v-for="(app, index) in approvals" :key="index">-->
+<!--                <td v-bind:app.depname="approval.app_writer_depname">{{app.app_writer_depname}}</td>-->
+<!--                <td>{{index+1}}</td>-->
+<!--                <td>{{this.approval.app_writer_depname}}</td>-->
+<!--                <td>{{approval.app_doc_num}}</td>-->
+<!--                <td>{{approval.app_type}}</td>-->
+<!--                <td>{{approval.app_doc_title}}</td>-->
+<!--                <td>{{approval.app_writer_name}}</td>-->
+<!--                <td>{{approval.app_date}}</td>-->
+<!--                <td>{{}}</td>-->
 
-            </tr>
+
+
+<!--            </tr>-->
             </tbody>
         </table>
     </div>
@@ -47,31 +47,41 @@
     import ApprovalSubMenu from "./ApprovalSubMenu";
 
     export default {
-        name: "Approval",
+        name: "approval",
         data(){
             return{
-                approvals:[]
+                approvals:[],
+                approval : {
+                    app_writer_depname : "",
+                    app_doc_num : "",
+                    app_type : "",
+                    app_doc_title : "",
+                    app_writer_name : "",
+                    app_date : ""
+                },
+                // appData : {
+                //     writer_depname : this.approval.app_writer_depname,
+                //     doc_num : this.approval.app_doc_num,
+                //     type : this.approval.app_type,
+                //     doc_title : this.approval.app_doc_title,
+                //     writer_name : this.approval.app_writer_depname,
+                //     date : this.approval.app_date
+                // }
+
             };
         },
         components: {
             subMenu:ApprovalSubMenu
         },
         methods : {
-        /* updateInformation() {
 
-             var data = {
-                 index: this.approval.idx,
-                 depName: this.approval.dep_name,
-                 docNum: this.approval.app_doc_num,
-                 docType: this.approval.app_type,
-                 docTitle: this.approval.app_doc_title,
-                 empId: this.approval.emp_id,
-                 docDate: this.approval.app_doc_date
-             }*/
         getApprovals(){
+
+
            http
-           .get("/app")
+           .get("/app/"+1)
             .then(response =>{
+                // this.approval = response.data;
                 this.approvals = response.data;
                 console.log(response.data);
             })
@@ -85,22 +95,23 @@
         },
         mounted() {
             this.getApprovals();
+            console.log("haha");
         }
     }
 </script>
 
 <style scoped>
 
-    .list {
-        text-align: left;
-        max-width: 450px;
-        margin: auto;
-    }
-    .table{
+    /*.list {*/
+    /*    text-align: left;*/
+    /*    max-width: 450px;*/
+    /*    margin: auto;*/
+    /*}*/
+    /*.table{*/
 
-        margin: auto;
-        width: 1000px;
+    /*    margin: auto;*/
+    /*    width: 1000px;*/
 
-    }
+    /*}*/
 
 </style>

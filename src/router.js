@@ -14,6 +14,7 @@ import Customer from "./components/customer/Customer.vue";
 
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
+import DocWrite from "./components/approval/DocWrite";
 
 Vue.use(Router);
 
@@ -82,8 +83,12 @@ export default new Router({
         {
             path: "/app/sign/wait",
             name: "wait",
-
             component :SignWait
+        },
+        {
+            path : "/app/doc/write",
+            name: "write",
+            component : DocWrite
         }
     ]
 });
