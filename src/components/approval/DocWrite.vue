@@ -10,12 +10,14 @@
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문작성</b></span>
                 <span class="button-group">
-                    <button type="button" class="btn btn-secondary disabled buttons">결재선</button>
-                    <button type="button" class="btn btn-secondary disabled buttons">임시저장</button>
-                    <button type="button" class="btn btn-secondary disabled buttons">상신</button>
-                    <button type="button" class="btn btn-secondary disabled buttons">취소</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="showsignDoc">결재선</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="tempsaveDoc">임시저장</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc">상신</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
                 </span>
             </div>
+
+<!--------------------------------------------결제선 테이블 시작------------------------------------------------------->
             <div class="sign-line" style="float: right; padding-right: 65px; padding-bottom: 40px;">
                 <table class="sign-table" style="border: black 2px solid">
                     <thead>
@@ -38,42 +40,47 @@
                     </tbody>
                 </table>
             </div>
-            <table class="table">
+<!--------------------------------------------결재선 테이블 끝--------------------------------------------------------->
+
+<!--------------------------------------------form테이블 시작---------------------------------------------------------->
+            <table class="table tb-bd">
                 <tr>
-                    <th scope="row" class="table-light">문서번호</th>
-                    <td>Column content</td>
-                    <th scope="row" class="table-light">기안일자</th>
-                    <td>Column content</td>
+                    <th scope="row" class="table-light"><label for="docNum">문서번호</label></th>
+                    <td><input type="text" class="form-control" id="docNum" required v-model="approval.docNum" name="docNum"></td>
+                    <th scope="row" class="table-light"><label for="type">기안일자</label></th>
+                    <td><input type="text" class="form-control" id="type" required v-model="approval.type" name="type"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="table-light">기안자</th>
-                    <td>Column content</td>
-                    <th scope="row" class="table-light">기안부서</th>
-                    <td>Column content</td>
+                    <th scope="row" class="table-light"><label for="writerName">기안자</label></th>
+                    <td><input type="text" class="form-control" id="writerName" required v-model="approval.writerName" name="writerName"></td>
+                    <th scope="row" class="table-light"><label for="writerDepName">기안부서</label></th>
+                    <td><input type="text" class="form-control" id="writerDepName" required v-model="approval.writerDepName" name="writerDepName"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="table-light">직위/직책</th>
-                    <td>Column content</td>
-                    <th scope="row" class="table-light">참조자</th>
-                    <td>Column content</td>
+                    <th scope="row" class="table-light"><label for="writerPosition">직위/직책</label></th>
+                    <td><input type="text" class="form-control" id="writerPosition" required v-model="approval.writerPosition" name="writerPosition"></td>
+                    <th scope="row" class="table-light"><label for="refId">참조자</label></th><!--수정-->
+                    <td><input type="text" class="form-control" id="refId" required v-model="approval.refId" name="refId"></td>
+<!--                    <td><button>추가</button></td>-->
                 </tr>
                 <tr>
-                    <th scope="row" class="table-light">의견</th>
-                    <td colspan="3">Column content</td>
+                    <th scope="row" class="table-light"><label for="comment">의견</label></th>
+                    <td colspan="3"><input type="text" class="form-control" id="comment" required v-model="approval.comment" name="comment"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="table-light">문서제목</th>
-                    <td colspan="3">Column content</td>
+                    <th scope="row" class="table-light"><label for="title">문서제목</label></th>
+                    <td colspan="3"><input type="text" class="form-control" id="title" required v-model="approval.title" name="title"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="table-light">참조</th>
-                    <td colspan="3">Column content</td>
+                    <th scope="row" class="table-light"><label for="refFile">참조</label></th><!--수정-->
+                    <td colspan="3"><input type="text" class="form-control" id="refFile" required v-model="approval.refFile" name="refFile"></td>
                 </tr>
                 <tr>
-                    <td colspan="3" rowspan="10" style="height: 500px">Column content</td>
+                    <td colspan="3" rowspan="10" style="height: 500px"><textarea></textarea></td>
                 </tr>
             </table>
         </div>
+ <!--------------------------------------------form테이블 끝---------------------------------------------------------->
     </div>
 
 
@@ -113,6 +120,9 @@
                     writerPosition: "",
                     writerDepId: "",
                     writerDepName: ""
+                },
+                beforeCreate : {
+                    /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
                 }
             }
         },
@@ -120,8 +130,11 @@
             subMenu: ApprovalSubMenu
         },
         methods: {
+
+
             /* eslint-disable no-console */
-            saveDoc() {
+            saveDoc: function () {
+                /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 var data = {
                     app_doc_num: this.approval.docNum,
                     app_type: this.approval.type,
@@ -149,7 +162,6 @@
                     app_writer_depid: this.approval.writerDepId,
                     app_writer_depname: this.approval.writerDepName
                 };
-
                 //     http
                 //         .post("/app/doc/write", data)
                 //         .then(response => {
@@ -167,7 +179,17 @@
                 //     this.approval = {};
                 // }
                 /* eslint-enable no-console */
+            },
+            showsignDoc() {
+                /*결재선(검색 or 트리구조)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
+            },
+            tempsaveDoc(){
+                /*임시저장, 임시저장함으로 보내고, 임시저장함으로 이동하는 로직*/
+            },
+            cancelDoc(){
+                /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/
             }
+
         }
     }
 </script>
@@ -184,9 +206,12 @@
     }
 
     .table{
-        width: 1100px;
-        max-width: 1100px;
-    }
+         width: 1100px;
+         max-width: 1100px;
+         /*border:1.5px solid black;*/
+         /*border-collapse: collapse;*/
+     }
+
     .card-header{
         margin: 0;
         padding: 0;
@@ -201,9 +226,6 @@
         width: 150px;
     }
     .button-group{
-        /*text-align: right;*/
-        /*margin-right: 20px;*/
-
         margin-top: 0px;
         margin-left: 500px;
     }
@@ -218,4 +240,22 @@
     .sign-th{
 
     }
+    input{
+        background-color:transparent;
+        border: transparent;
+        width: border-box;
+
+    }
+    textarea{
+        height: 500px;
+        width: 159%;
+        background-color:transparent;
+        border: transparent;
+        float: left;
+
+    }
+    .tb-bd{
+        /*border: black 2px solid;*/
+    }
+
 </style>
