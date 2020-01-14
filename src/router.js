@@ -88,6 +88,7 @@ export default new Router({
         {
             path : "/app/doc/write",
             name: "write",
+            alias: "/app/doc",
             component : DocWrite
         }
     ]

@@ -20,16 +20,16 @@
                 <table class="sign-table" style="border: black 2px solid">
                     <thead>
                         <tr>
-                            <th class="sign-th" rowspan="2"style="width:90px"></th>
-                            <th style="border: black 2px solid">기안</th>
-                            <th style="border: black 2px solid">결재</th>
-                            <th style="border: black 2px solid">결재</th>
-                            <th style="border: black 2px solid">결재</th>
+                            <th class="sign-th table-light" rowspan="2"style="width:90px"></th>
+                            <th class="table-light" style="border: black 2px solid">기안</th>
+                            <th class="table-light" style="border: black 2px solid">결재</th>
+                            <th class="table-light" style="border: black 2px solid">결재</th>
+                            <th class="table-light" style="border: black 2px solid">결재</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
+                            <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
                             <td style="border: black 2px solid">김범준<br><br>사인<br>20.01.14</td>
                             <td style="border: black 2px solid">장범준</td>
                             <td style="border: black 2px solid">김범준</td>
