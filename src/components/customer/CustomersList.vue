@@ -28,7 +28,8 @@
         name: "customers-list",
         data() {
             return {
-                customers: []
+                customers: [],
+                emp_id : ""
             };
         },
         components: {
@@ -50,10 +51,14 @@
             refreshList() {
                 this.retrieveCustomers();
             }
-            /* eslint-enable no-console */
         },
         mounted() {
-            this.retrieveCustomers();
+            if (sessionStorage.length > 0) {
+                this.emp_id = sessionStorage.getItem("login_id");
+                this.retrieveCustomers();
+            } else {
+                this.$router.push("/");
+            }
         }
     };
 </script>
