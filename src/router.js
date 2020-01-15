@@ -9,8 +9,10 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
-import EmployeeInfo from "./components/mypage/MypageInfo.vue"
 import MypageInfo from "./components/mypage/MypageInfo";
+import Addposts from "./components/posts/Addposts";
+import PostsList from "./components/posts/PostsList";
+import Post from "./components/posts/Post";
 
 Vue.use(Router);
 
@@ -70,6 +72,26 @@ export default new Router({
             path: "/mypage",
             name: "mypage",
             component: MypageInfo
+        },
+        {
+            path: "/pst/add",
+            name: "add",
+            component: Addposts
+        },
+        {
+            path:  "/pst/posts",
+            name: "post",
+            alias: "/pst",
+            component: PostsList
+
+
+        },
+        {
+            path: "/pst/PostsList/:post_id",
+            name: "post-details",
+            component: Post,
+            props : true
+
         }
     ]
 });
