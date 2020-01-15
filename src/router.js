@@ -12,6 +12,8 @@ import Customer from "./components/customer/Customer.vue";
 import MainEmployAddress from "./components/address/employees/MainEmployAddress";
 import Employees from "./components/address/employees/Employees";
 import SearchEmployees from "./components/address/employees/SearchEmployees";
+import EmployeesList from "./components/address/employees/EmployeesList";
+import OutAddressMain from "./components/address/outaddress/OutAddressMain";
 
 Vue.use(Router);
 
@@ -75,43 +77,75 @@ export default new Router({
 
         /*--addressRouter*/
         {
-            path: "/MainEmployAddress",
+            path: "/mainEmployAddress",
             name: "MainEmployAddress",
             component: MainEmployAddress,
             props: true,
             children: [
-                {
+               /* {
                     path: "/MainEmployAddress/:id",
                     name: "employees",
                     component: Employees,
                     props: true
 
-                },
+                },*/
                 {
                     path: "/MainEmployAddress/searchEmployees",
                     name: "searchEmployees",
                     component:  SearchEmployees,
                     props: true
+                },
+                {
+                    path: "/MainEmployAddress/employeesList",
+                    name: "employeesList",
+                    component:  EmployeesList,
+                    props: true,
+                   /* children: [
+                        {
+                            path: "/employees/:id",
+                            name: "employees-details",
+                            component: Employees
+                        },
+
+
+                    ]*/
 
                 }
             ]
 
         },
         {
-            path: "/employees",
+            path: "/employeesList",
+            name: "employeesList",
+            component: EmployeesList,
+            props: true,
+            children: [
+                {
+                    path: "/employees/:id",
+                    name: "employees-details",
+                    component: Employees,
+                    props: true
+                },
+            ]
+        },
+
+
+        {
+            path: "/employees/:id",
             name: "employees",
-            component: Employees
+            component: Employees,
+            props: true
         },
         {
             path: "/searchEmployees",
             name: "searchEmployees",
             component: SearchEmployees
         },
-
-
-
-
-
+        {
+            path: "/mainOutAddress",
+            name: "outAddressMain",
+            component: OutAddressMain
+        },
 
     ]
 });

@@ -1,6 +1,6 @@
 <template>
     <div class="searchform">
-        <h7>이름으로 찾기</h7>
+        <h6>이름으로 찾기</h6>
         <div class="form-group">
             <input type="text" class="form-control" id="name" required v-model="name" name="name">
 
@@ -32,7 +32,7 @@
             /* eslint-disable no-console */
             searchEmployees() {
                 http
-                    .get("/employees/employees/name/" + this.name)
+                    .get("/employees/employees/emp_id/" + this.emp_id)
                     .then(response => {
                         this.employees = response.data; // JSON are parsed automatically.
                         console.log(response.data);

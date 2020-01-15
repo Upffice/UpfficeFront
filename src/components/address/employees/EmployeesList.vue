@@ -1,39 +1,43 @@
 <template>
     <div class="list row">
-        <AddressSubMenu></AddressSubMenu>
         <div class="col-md-6">
-            <h4>외부 주소록</h4>
-            <div>
-                <SearchEmployees></SearchEmployees>
-
-            </div>
 
             <table boder="2" class="table table-hover">
-                <thead>부서1</thead>
-                <tr class="table-primary" v-for="(employees, index) in employees" :key="index">
+                <thead class="table-primary">부서1</thead>
+                <tr v-for="(employees, index) in employees" :key="index">
                     <td>{{employees.name}}</td>
                     <td>
                         <router-link :to="{
-                            name: 'board-details',
-                            params: { employees: employees, emp_id: employees.emp_id }
-                        }">
-                            {{employees.position}}
-                        </router-link>
-                    </td>
-                </tr>
-                <thead>부서2</thead>
-                <tr class="table-primary" v-for="(employees, index) in employees" :key="index">
-                    <td>{{employees.name}}</td>
-                    <td>
-                        <router-link :to="{
-                            name: 'board-details',
-                            params: { employees: employees, emp_id: employees.emp_id }
+                    name : 'employees-details',
+                    params: { employees: employees, emp_id: employees.emp_id,
+                            emp_name:employees.name, emp_email:employees.emp_email,
+                            position:employees.position,extension_number:employees.extension_number,
+                            dep_id:employees.dep_id,phone_number:employees.phone_number}
                         }">
                             {{employees.position}}
                         </router-link>
                     </td>
                 </tr>
             </table>
+
+            <table boder="2" class="table table-hover">
+                <thead class="table-primary">부서2</thead>
+                <tr v-for="(employees, index) in employees" :key="index">
+                    <td>{{employees.name}}</td>
+                    <td>
+                        <router-link :to="{
+                    name : 'employees-details',
+                    params: { employees: employees, emp_id: employees.emp_id,
+                            emp_name:employees.name, emp_email:employees.emp_email,
+                            position:employees.position,extension_number:employees.extension_number,
+                            dep_id:employees.dep_id,phone_number:employees.phone_number}
+                        }">
+                            {{employees.position}}
+                        </router-link>
+                    </td>
+                </tr>
+            </table>
+
         </div>
         <div class="col-md-6">
             <router-view @refreshData="refreshList"></router-view>
@@ -42,16 +46,17 @@
 </template>
 
 <script>
-    import AddressSubMenu from "../AddressSubMenu";
     import http from "../../../http-common";
-    import SearchEmployees from "./SearchEmployees";
+    import Employees from "./Employees";
 
     export default {
-        name: "MainEmployAddress",
+        name: "EmployeesList",
+
         data() {
             return {
                 employees: []
             };
+
         },
         methods: {
             /* eslint-disable no-console */
@@ -75,21 +80,21 @@
             this.retrieveEmployees();
         },
         components: {
-            AddressSubMenu: AddressSubMenu,
-            SearchEmployees: SearchEmployees
+            Employees
         }
+
+
     }
+    // demo data
+
 </script>
 
 <style>
     .list {
+
         text-align: left;
         max-width: 450px;
         margin: auto;
     }
 
-    .sidelist {
-        position: fixed;
-        left: 0;
-    }
 </style>
