@@ -12,20 +12,17 @@
 
             <table boder="2" class="table table-hover">
                <thead class="table-primary">부서1</thead>
-               <tr v-for="(employees, index) in employees" :key="index">
+               <tr v-for="(employee, index) in employees" :key="index">
                    <td>
                        <router-link :to="{
                    name : 'employees-details',
-                   params: { employees: employees, emp_id: employees.emp_id,
-                           emp_name:employees.name, emp_email:employees.emp_email,
-                           position:employees.position,extension_number:employees.extension_number,
-                           dep_id:employees.dep_id,phone_number:employees.phone_number}
+                   params: { employee: employee, emp_id: employee.emp_id}
                        }">
-                           {{employees.name}}
+                           {{employee.name}}
                        </router-link>
                    </td>
 
-                   <td>{{employees.position}}</td>
+                   <td>{{employee.position}}</td>
 
                </tr>
            </table>
@@ -43,7 +40,6 @@
 <script>
     import http from "../../../http-common";
     import AddressSubMenu from "../AddressSubMenu";
-    import Employees from "./Employees";
 
     export default {
         name: "MainEmployAddress",
@@ -75,7 +71,6 @@
         },
         components: {
             AddressSubMenu,
-            Employees
         },
 
     }

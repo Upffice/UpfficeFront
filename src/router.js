@@ -80,44 +80,18 @@ export default new Router({
             path: "/mainEmployAddress",
             name: "MainEmployAddress",
             component: MainEmployAddress,
-            props: true,
             children: [
                 {
-                    path: "/MainEmployAddress/:id",
+                    path: "/mainEmployAddress/:emp_id",
                     name: "employees-details",
                     component: Employees,
                     props: true
-
                 },
-                {
-                    path: "/MainEmployAddress/searchEmployees",
-                    name: "searchEmployees",
-                    component:  SearchEmployees,
-                    props: true
-                },
-              /*  {
-                    path: "/MainEmployAddress/employeesList",
-                    name: "employeesList",
-                    component:  EmployeesList,
-                    props: true,
-                    children: [
-                        {
-                            path: "/employees/:id",
-                            name: "employees-details",
-                            component: Employees
-                        },
-
-
-                    ]
-
-                }*/
-                ,
             ]
-
         },
 
         {
-            path: "/employees/:id",
+            path: "/employees/:emp_id",
             name: "employees",
             component: Employees,
             props: true
