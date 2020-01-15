@@ -2,10 +2,11 @@
     <div class="list row">
         <div class="col-md-6">
 
-            <table boder="2" class="table table-hover">
+            <div><button v-on:click="helloWorld">부서1</button></div>
+
+            <!--<table boder="2" class="table table-hover">
                 <thead class="table-primary">부서1</thead>
                 <tr v-for="(employees, index) in employees" :key="index">
-                    <td>{{employees.name}}</td>
                     <td>
                         <router-link :to="{
                     name : 'employees-details',
@@ -14,29 +15,22 @@
                             position:employees.position,extension_number:employees.extension_number,
                             dep_id:employees.dep_id,phone_number:employees.phone_number}
                         }">
-                            {{employees.position}}
+                            {{employees.name}}
                         </router-link>
                     </td>
-                </tr>
-            </table>
 
-            <table boder="2" class="table table-hover">
-                <thead class="table-primary">부서2</thead>
-                <tr v-for="(employees, index) in employees" :key="index">
-                    <td>{{employees.name}}</td>
-                    <td>
-                        <router-link :to="{
-                    name : 'employees-details',
-                    params: { employees: employees, emp_id: employees.emp_id,
-                            emp_name:employees.name, emp_email:employees.emp_email,
-                            position:employees.position,extension_number:employees.extension_number,
-                            dep_id:employees.dep_id,phone_number:employees.phone_number}
-                        }">
-                            {{employees.position}}
-                        </router-link>
-                    </td>
+                    <td>{{employees.position}}</td>
+
                 </tr>
             </table>
+-->
+
+
+
+
+
+
+
 
         </div>
         <div class="col-md-6">
@@ -49,16 +43,20 @@
     import http from "../../../http-common";
     import Employees from "./Employees";
 
+
     export default {
         name: "EmployeesList",
 
         data() {
             return {
-                employees: []
+                employees: [],
             };
 
         },
         methods: {
+            helloWorld(){
+                this.$emit('employees-list', this.employees)
+            },
             /* eslint-disable no-console */
             retrieveEmployees() {
                 http
@@ -73,7 +71,7 @@
             },
             refreshList() {
                 this.retrieveEmployees();
-            }
+            },
             /* eslint-enable no-console */
         },
         mounted() {
@@ -81,7 +79,9 @@
         },
         components: {
             Employees
-        }
+        },
+
+
 
 
     }

@@ -1,6 +1,7 @@
 <template>
+    <div class="list row">
     <div v-if="this.employees">
-
+<br><br><br><br><br><br><br><br><br>
         <h4>&#60;상세정보&#62;</h4>
         <div>
             <label>이름: </label> {{this.employees.name}}
@@ -22,11 +23,12 @@
         </div>
 
         <span>메시지</span>
-        <router-link to="/employeesList">취소</router-link>
+        <router-link to="/mainEmployAddress">취소</router-link>
     </div>
     <div v-else>
         <br/>
         <p>Please click on a Board...</p>
+    </div>
     </div>
 
 </template>
@@ -44,6 +46,11 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .list {
 
+        text-align: left;
+        max-width: 450px;
+        margin: auto;
+    }
 </style>

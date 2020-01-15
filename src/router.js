@@ -82,25 +82,25 @@ export default new Router({
             component: MainEmployAddress,
             props: true,
             children: [
-               /* {
+                {
                     path: "/MainEmployAddress/:id",
-                    name: "employees",
+                    name: "employees-details",
                     component: Employees,
                     props: true
 
-                },*/
+                },
                 {
                     path: "/MainEmployAddress/searchEmployees",
                     name: "searchEmployees",
                     component:  SearchEmployees,
                     props: true
                 },
-                {
+              /*  {
                     path: "/MainEmployAddress/employeesList",
                     name: "employeesList",
                     component:  EmployeesList,
                     props: true,
-                   /* children: [
+                    children: [
                         {
                             path: "/employees/:id",
                             name: "employees-details",
@@ -108,27 +108,13 @@ export default new Router({
                         },
 
 
-                    ]*/
+                    ]
 
-                }
+                }*/
+                ,
             ]
 
         },
-        {
-            path: "/employeesList",
-            name: "employeesList",
-            component: EmployeesList,
-            props: true,
-            children: [
-                {
-                    path: "/employees/:id",
-                    name: "employees-details",
-                    component: Employees,
-                    props: true
-                },
-            ]
-        },
-
 
         {
             path: "/employees/:id",
