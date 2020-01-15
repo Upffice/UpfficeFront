@@ -1,13 +1,13 @@
 <template>
     <div class="subMenu">
         시계자리<br>
-        출근시간:{{this.workingIn}}<br>
-        퇴근시간:{{this.workingOut}}<br>
-        근무시간:{{this.workingTime}}<br>
-        <button v-if="!this.workingIn" v-on:click="saveWorkingIn()" class="btn btn-outline-danger btn-working">출근</button>
+        출근시간:{{this.working.workingIn}}<br>
+        퇴근시간:{{this.working.workingOut}}<br>
+        근무시간:{{this.working.workingTime}}<br>
+        <button v-if="!this.working.workingIn" v-on:click="saveWorkingIn()" class="btn btn-outline-danger btn-working">출근</button>
         <button v-else class="btn btn-danger disabled btn-working">출근</button>
 
-        <button v-if="!this.workingOut" v-on:click="saveWorkingOut()" class="btn btn-outline-info btn-working">퇴근</button>
+        <button v-if="!this.working.workingOut" v-on:click="saveWorkingOut()" class="btn btn-outline-info btn-working">퇴근</button>
         <button v-else class="btn btn-info disabled btn-working">퇴근</button>
         <br>
         [근태관리]
@@ -38,99 +38,94 @@
         name: "WorkingSubMenu",
         data() {
             return {
-                empId: 1,
-                workingIn: "",
-                workingOut: "",
-                workingTime:"",
+                working: {
+                    empId: "",
+                    workingDate:"",
+                    workingIn: "",
+                    workingOut: "",
+                    workingTime:"",
+                },
                 modalShow: false
             };
-        },
+        },// End - data
         components: {
             Modal: Modal
-        },
+        }, // End - components
         methods: {
             /* eslint-disable no-console */
-            readWorkingIn() {
+            readWorkingToday() {//당일에 출퇴근기록이 있으면 불러온다, mounted()때 호출되는 메소드.
                 http
-                    .get("/working/readIn/" + this.empId)
+                    .get("/working/readToday/" + this.working.empId)
                     .then(response => {
-                        this.workingIn = response.data;
+                        this.working = response.data;
                         console.log("read" + response.data);
                     })
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            readWorkingOut() {
+            },// End - readWorkingToday()
+            saveWorkingIn() {// 출근시 출근 시간을 DB에 저장하기 위한 메소드
                 http
-                    .get("/working/readOut/" + this.empId)
+                    .get("/working/saveIn/" + this.working.empId)
                     .then(response => {
-                        this.workingOut = response.data;
-                        console.log("read" + response.data);
-                        this.calcWorkingTime();
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
-            saveWorkingIn() {
-                http
-                    .get("/working/saveIn/" + this.empId)
-                    .then(response => {
-                        this.workingIn = response.data;
+                        this.working.workingIn = response.data;
                         console.log(response.data);
                     })
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            saveWorkingOut() {
+            },// End - saveWorkingIn()
+            saveWorkingOut() {// 퇴근 시 퇴근 시간을 DB에 저장하기 위한 메소드
                 http
-                    .get("/working/saveOut/" + this.empId)
+                    .get("/working/saveOut/" + this.working.empId)
                     .then(response => {
-                        this.workingOut = response.data;
+                        this.working.workingOut = response.data;
                         console.log(response.data);
                         this.calcWorkingTime();
                     })
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            saveWorkingTime() {
+            },// End - saveWorkingOut()
+            saveWorkingTime() {// 총 근무 시간을 DB에 저장하기 위한 메소드
                 http
-                    .get("/working/saveTime/" + this.empId)
+                    .get("/working/saveTime/" + this.working.empId+"?wd="+this.working.workingTime)
                     .then(response => {
-                        this.workingOut = response.data;
+                        this.working.workingTime = response.data;
                         console.log(response.data);
                     })
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            calcWorkingTime() {
-                let wit = new Date(Date.parse("0001-01-01 "+this.workingIn));
-                let date = new Date(Date.parse("0001-01-01 "+this.workingOut));
+            },// End - saveWorkingTime()
+            calcWorkingTime() {// 총 근무 시간을 계산하는 메소드
+                let wit = new Date(Date.parse("0001-01-01 "+this.working.workingIn));// 출근시간을 Date형으로 형변환
+                let wot = new Date(Date.parse("0001-01-01 "+this.working.workingOut));// 퇴근시간을 Date형으로 형변환
 
-                date.setHours(date.getHours()-wit.getHours());
-                date.setMinutes(date.getMinutes()-wit.getMinutes());
-                date.setSeconds(date.getSeconds()-wit.getSeconds());
+                wot.setHours(wot.getHours()-wit.getHours());// 시 부분끼리 연산
+                wot.setMinutes(wot.getMinutes()-wit.getMinutes());// 분 부분끼리 연산
+                wot.setSeconds(wot.getSeconds()-wit.getSeconds());// 초 부분끼리 연산
 
-                this.workingTime=date.toString().substr(16,8);
-            },
-            showModal() {
+                this.working.workingTime=wot.toString().substr(16,8); // 연산된 값중 시간에 관련된 부분을 잘라서 저장
+                this.saveWorkingTime();// DB에 총 근무 시간 저장
+            },// End - calcWorkingTime()
+            showModal() {// 모달 제어를 위한 메소드
                 this.modalShow = !this.modalShow;
                 console.log(this.modalShow);
-            },
+            },// End - showModal()
             applyAnnual() {
 
-            }
+            }// End - applyAnnual()
             /* eslint-enable no-console */
-        },
+        },// End - methods
         mounted() {
-            this.readWorkingIn();
-            this.readWorkingOut();
-        }
-    };
+            // mounted 될 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.working.empId = sessionStorage.getItem("login_id");// sessionStorage에서 사번 가져오기
+                this.readWorkingToday();// 출퇴근 기록 가져오기
+            }
+        }// End - mounted()
+    };// End - export default
 </script>
 
 <style>

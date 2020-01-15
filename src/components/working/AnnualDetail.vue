@@ -1,7 +1,7 @@
 <template>
     <div class="list row">
         <subMenu></subMenu>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h4>연차</h4>
             <table class="table table-hover">
                 <thead>
@@ -20,7 +20,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h4>연차 사용 이력</h4>
             <table class="table table-hover">
                 <thead>
@@ -46,11 +46,11 @@
         name: "annual-detail",
         data() {
             return {
-                empId: 1,
+                empId: "",
                 name: "대표",
-                totalAnnual: "",
-                usedAnnual: "",
-                leftAnnual: "",
+                totalAnnual: 0,
+                usedAnnual: 0,
+                leftAnnual: 0,
                 annuals: []
             };
         },
@@ -59,7 +59,7 @@
         },
         methods: {
             /* eslint-disable no-console */
-            readAnnual() {
+            readAnnuals() {// 사용한 연차의 내역을 조회하는 메소드
                 http
                     .get("/working/annuals/" + this.empId)
                     .then(response => {
@@ -69,8 +69,19 @@
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            countAnnual() {
+            },// End - readAnnuals()
+            readTotalAnnual(){//총 연차를 받아오는 메소드
+                http
+                    .get("/working/totalAnnuals/" + this.empId)
+                    .then(response => {
+                        this.totalAnnual = response.data; // JSON are parsed automatically.
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },// End - readTotalAnnual()
+            countAnnual() {//총 사용 연차를 받아오는 메소드
                 http
                     .get("/working/annuals/count" + this.empId)
                     .then(response => {
@@ -80,11 +91,18 @@
                     .catch(e => {
                         console.log(e);
                     });
-            }
+            }// End - countAnnual()
             /* eslint-enable no-console */
-        },
+        },// End - methods
         mounted() {
-            this.readAnnual();
+            // mounted 될 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.empId = sessionStorage.getItem("login_id");
+                this.readAnnuals();
+                this.readTotalAnnual();
+            } else {
+                this.$router.push("/");
+            }
         }
     };
 </script>
