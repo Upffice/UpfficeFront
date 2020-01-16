@@ -1,33 +1,20 @@
 <template>
     <div class="root"><h4>게시판 등록</h4>
-    <div class="submitform">
-        <div class="sidelist">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst">게시판</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/add">게시물 작성</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/add">게시물 조회</router-link>
-                </li>
-            </ul>
+    <div>
+        <div>
+            <subMenu></subMenu>
         </div>
 
         <div v-if="!submitted"  class="ppo">
-
+<!--        사용자 정보 입력란-->
         <div class="form-group" >
-<!--   <label for="writer">작성자</label>-->
           <input type="text" class="form-control" id="writer" required v-model="post.post_writer" name="writer" placeholder="작성자">
 
         </div>
             <div class="form-group">
-                <!--            <label for="created">날짜</label>-->
                 <input type="text" class="form-control" id="created" required v-model="post.post_created" name="created" placeholder="날짜는 자동으로 기입됩니다.">
             </div>
         <div class="form-group">
-<!--            <label for="subject">글 제목</label>-->
             <input type="text" class="form-control" id="subject" required v-model="post.post_subject" name="subject" placeholder="글 제목">
         </div>
 
@@ -56,7 +43,7 @@
 
 <script>
     import http from "../../http-common";
-
+    import PostSubmenu from "./PostSubmenu";
     export default {
         name: "add-post",
         data() {
@@ -74,8 +61,12 @@
                 submitted: false
             };
         },
+        components: {
+            subMenu: PostSubmenu
+        },
         methods: {
             /* eslint-disable no-console */
+            //입력한 데이터 저장하는 메서드
             savePost() {
                 var data = {
                     post_id: this.post.post_id,
@@ -87,6 +78,7 @@
                     post_created: this.post.post_created,
                     post_view: this.post.post_view
                 };
+                //입력한 데이터들을 컨트롤러에 보내주는 메서드
                 http
                     .post("/pst/post", data)
                     .then(response => {
@@ -105,16 +97,7 @@
 </script>
 
 <style scoped>
- .submitform{
-     max-width: 800px;
-     margin: auto;
-     border: solid lightgray 1px ;
 
- }
-.sidelist {
-    width: 15%;
-    left: 0;
-}
     .ppo{
         text-align: center;
         max-width: 550px;

@@ -1,18 +1,8 @@
 <template>
     <div class="list row">
 
-        <div class="sidelist">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst">게시판</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/add">게시물작성</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/search">게시물찾기</router-link>
-                </li>
-            </ul>
+        <div>
+            <subMenu></subMenu>
         </div>
         <div class="col-md-20">
             <h4>Post List</h4>
@@ -65,15 +55,21 @@
 
 <script>
     import http from "../../http-common";
+    import PostSubmenu from "./PostSubmenu";
 
 
     export default {
         name: "post-list",
+        components: {PostSubmenu},
         data() {
             return {
                 posts: []
 
             };
+
+        },
+        components: {
+            PostSubmenu,
 
         },
 

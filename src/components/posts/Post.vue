@@ -1,18 +1,8 @@
 <template>
 
     <div v-if="this.post">
-        <div class="sidelist">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst">Board</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/add">Add</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/pst/search">Search</router-link>
-                </li>
-            </ul>
+        <div>
+            <subMenu></subMenu>
         </div>
             <h4>전사 게시판</h4>
         <!--여기부터-->
@@ -59,6 +49,7 @@
 
 <script>
     import http from "../../http-common";
+    import PostSubmenu from "./PostSubmenu";
 
     export default {
         name: "post",
@@ -66,6 +57,9 @@
             return{
                  flex: true // 나중에 조건 검사하면 글 작성자==나 일때 false로 바꾸기
             }
+        },
+        components: {
+            subMenu: PostSubmenu
         },
         props: ["post"],
         methods: {
@@ -75,9 +69,9 @@
                     .delete("/pst/delete/" + this.post.post_id)
                     .then(response => {
                         console.log(response.data);
-                        // this.$emit("refreshData");
                         this.$router.push('/pst');
                     })
+                    alert("삭제되었습니다.")
                     .catch(e => {
                         console.log(e);
                     });
@@ -94,6 +88,7 @@
                     .put("/pst/update/"+this.post.post_id, postData)
                     .then(response => {
                         console.log("수정완료");
+                        alert("수정되었습니다")
                         this.$router.push("/pst/posts")
                     })
                     .catch(e => {
