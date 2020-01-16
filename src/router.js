@@ -9,10 +9,13 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
+import EmployeeInfo from "./components/mypage/MypageInfo.vue"
 import MypageInfo from "./components/mypage/MypageInfo";
 import Addposts from "./components/posts/Addposts";
 import PostsList from "./components/posts/PostsList";
 import Post from "./components/posts/Post";
+import WorkingStatus from "./components/working/WorkingStatus.vue";
+import AnnualDetail from "./components/working/AnnualDetail.vue";
 
 Vue.use(Router);
 
@@ -92,6 +95,17 @@ export default new Router({
             component: Post,
             props : true
 
+        },
+        {
+            path: "/working/status",
+            name: "workingStatus",
+            alias: "/working",
+            component: WorkingStatus
+        },
+        {
+            path: "/working/annual",
+            name: "annualDetail",
+            component: AnnualDetail
         }
     ]
 });
