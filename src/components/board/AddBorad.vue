@@ -50,6 +50,7 @@
         methods: {
             /* eslint-disable no-console */
             saveBoard() {
+                console.log("###saveboard진입###");
                 var data = {
                     subject: this.board.subject,
                     content: this.board.content,

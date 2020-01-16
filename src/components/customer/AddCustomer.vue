@@ -55,6 +55,7 @@
                     .then(response => {
                         this.customer.id = response.data.id;
                         console.log(response.data);
+
                     })
                     .catch(e => {
                         console.log(e);

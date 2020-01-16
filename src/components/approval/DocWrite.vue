@@ -49,8 +49,8 @@
                     <th scope="row" class="table-light"><label for="docNum">문서번호</label></th>
                     <td><input type="text" class="form-control" id="docNum" required v-model="approval.docNum"
                                name="docNum"></td>
-                    <th scope="row" class="table-light"><label for="type">기안일자</label></th>
-                    <td><input type="text" class="form-control" id="type" required v-model="approval.type" name="type">
+                    <th scope="row" class="table-light"><label for="date">기안일자</label></th>
+                    <td><input type="text" class="form-control" id="date" required v-model="approval.date" name="type">
                     </td>
                 </tr>
                 <tr>
@@ -73,7 +73,7 @@
                 <tr>
                     <th scope="row" class="table-light"><label for="comment">의견</label></th>
                     <td colspan="3"><input type="text" class="form-control" id="comment" required
-                                           v-model="approval.comment" name="comment"
+                          q                v-model="approval.comment" name="comment"
                                            placeholder="간단한 의견을 적어주세요.(100byte 이내)"></td>
                 </tr>
                 <tr>
@@ -103,6 +103,7 @@
 <script>
     import ApprovalSubMenu from "./ApprovalSubMenu";
     import http from "../../http-common";
+    // import {EventBus} from "../../event-bus";
 
     export default {
         name: "write",
@@ -135,7 +136,7 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
-                beforeCreate: {
+                mounted: {
                     /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
                 }
             }
@@ -183,7 +184,11 @@
                     .then(response => {
                         this.approval = response.data;
                         console.log(response.data);
+                        // console.log(response.data);
+
                         alert("DB에 저장되었습니다.");
+                        this.$router.push('/app');
+                        // EventBus.$emit("approval", this.approval);
                     })
                     .catch(e => {
                         console.log(e);
