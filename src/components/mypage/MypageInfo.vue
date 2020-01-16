@@ -2,46 +2,52 @@
     <div>
         <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
         <!--테이블 왼쪽에 사진 넣을것임-->
-        <table class="table table-hover">
-            <tr>
-                <td rowspan="17">이미지 들어갈 부분<br>
-                {{employee.emp_name}} 님</td>
-                <th>사번</th>
-                <td>{{employee.emp_id}}</td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td><input class="form-control" type="password" placeholder="비밀번호" required v-model="employee.emp_pw"></td>
-            </tr>
-            <tr>
-                <th>비밀번호 확인</th>
-                <td><input class="form-control" type="password" placeholder="비밀번호 확인" required v-model="emp_pw_chk"></td>
-            </tr>
-            <tr>
-                <th>소속</th>
-                <td>{{dep_name}}</td>
-            </tr>
-            <tr>
-                <th>직책</th>
-                <td>{{employee.position}}</td>
-            </tr>
-            <tr>
-                <th>내선번호</th>
-                <td>{{employee.extension_number}}</td>
-            </tr>
-            <tr>
-                <th>입사일</th>
-                <td>{{employee.hire_date}}</td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td>{{employee.emp_email}}</td>
-            </tr>
-            <tr>
-                <th>휴대폰 번호</th>
-                <td><input class="form-control" type="text" placeholder="000-0000-0000" required v-model="employee.phone_number"></td>
-            </tr>
-        </table><br>
+        <div >
+            <table class="table table-hover">
+                <tr>
+                    <td rowspan="6" width="25%">
+                        <div class="img_div">
+                            <img v-bind:src="emp_img_url"><br>
+                        </div>
+                    </td>
+                    <th width="25%">사번</th>
+                    <td width="50%">{{employee.emp_id}}</td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td><input class="form-control" type="password" placeholder="비밀번호" required v-model="employee.emp_pw"></td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td><input class="form-control" type="password" placeholder="비밀번호 확인" required v-model="emp_pw_chk"></td>
+                </tr>
+                <tr>
+                    <th>소속</th>
+                    <td>{{dep_name}}</td>
+                </tr>
+                <tr>
+                    <th>직책</th>
+                    <td>{{employee.position}}</td>
+                </tr>
+                <tr>
+                    <th>내선번호</th>
+                    <td>{{employee.extension_number}}</td>
+                </tr>
+                <tr>
+                    <th rowspan="3" style="text-align: center"><span style="font-size: large">{{employee.emp_name}}</span></th>
+                    <th>입사일</th>
+                    <td>{{employee.hire_date}}</td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>{{employee.emp_email}}</td>
+                </tr>
+                <tr>
+                    <th>휴대폰 번호</th>
+                    <td><input class="form-control" type="text" placeholder="000-0000-0000" required v-model="employee.phone_number"></td>
+                </tr>
+            </table><br>
+        </div>
         <button class="btn btn-primary btn-lg" @click="updateInfo(employee.emp_id)">수정하기</button>
     </div>
 
@@ -65,7 +71,8 @@ export default {
             dep_id: ""
           },
           dep_name : "", // 부서이름 담을 변수
-          emp_pw_chk : "" // 비밀번호 확인값 담을 변수
+          emp_pw_chk : "", // 비밀번호 확인값 담을 변수
+          emp_img_url : "" // 사원 사진 경로
         };
     },
     methods: {
@@ -83,7 +90,8 @@ export default {
                 this.employee.phone_number = response.data.phone_number;
                 this.employee.dep_id = response.data.dep_id;
 
-                this.getDep_Name(this.employee.dep_id); // 사원 정보 중 부서 이름 가져오기
+                this.getDep_Name(this.employee.dep_id);     // 사원 정보 중 부서 이름 가져오기
+                this.emp_img_url = require('../../assets/emp_img/'+ this.employee.emp_id + '.jpg');  // 사원 이미지 경로 설정
             })
             .catch(e => {
                 /* eslint-disable no-console */
@@ -146,8 +154,31 @@ export default {
 </script>
 
 <style scoped>
+    .table {
+        width: 100%;
+        margin: auto;
+        border: 1px solid #dddddd;
+    }
     .form-control {
         width: 200px;
-        margin: auto;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .img_div {
+        margin: 50px auto auto;
+        width: 250px;
+        height: 250px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+    th {
+        vertical-align: middle;
+        text-align: left;
+    }
+    td {
+        text-align: left;
     }
 </style>
