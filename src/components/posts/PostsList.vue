@@ -60,7 +60,6 @@
 
     export default {
         name: "post-list",
-        components: {PostSubmenu},
         data() {
             return {
                 posts: []
@@ -69,10 +68,8 @@
 
         },
         components: {
-            PostSubmenu,
-
+            subMenu: PostSubmenu
         },
-
         methods: {
             /* eslint-disable no-console */
             retrieveBoards() {

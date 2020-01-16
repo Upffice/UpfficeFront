@@ -34,7 +34,7 @@
 
     <div v-else>
         <h4>게시물이 등록 되었습니다 !!</h4>
-        <button class="btn btn-success" v-on:click="savePost">Add</button>
+        <button class="btn btn-success" @click="backlist">돌아가기</button>
     </div>
     </div>
     </div>
@@ -90,8 +90,12 @@
                     });
 
                 this.submitted = true;
+            },
+            backlist(){
+                this.$router.push({
+                    path:'/pst'
+                })
             }
-
         }
     };
 </script>
