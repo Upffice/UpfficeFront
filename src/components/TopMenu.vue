@@ -96,8 +96,8 @@
         margin-right: 5px;
     }
     .img_div {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
         border-radius: 70%;
         overflow: hidden;
         margin-right: 10px;
