@@ -72,6 +72,7 @@
             }
             /* eslint-enable no-console */
         }
+
     };
 </script>
 <style>

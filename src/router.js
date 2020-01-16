@@ -11,6 +11,9 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
+import MypageInfo from "./components/mypage/MypageInfo";
+import WorkingStatus from "./components/working/WorkingStatus.vue";
+import AnnualDetail from "./components/working/AnnualDetail.vue";
 
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
@@ -26,7 +29,6 @@ export default new Router({
             name: "mainView",
             component: MainView,
         },
-
         {
             path: "/bbs/board",
             name: "boards",
@@ -49,7 +51,6 @@ export default new Router({
             name: "search",
             component: SearchBoards
         },
-
         {
             path: "/customer/customer",
             name: "customers",
@@ -71,6 +72,22 @@ export default new Router({
             path: "/customer/search",
             name: "search",
             component: SearchCustomers
+        },
+        {
+            path: "/mypage",
+            name: "mypage",
+            component: MypageInfo
+        },
+        {
+            path: "/working/status",
+            name: "workingStatus",
+            alias: "/working",
+            component: WorkingStatus
+        },
+        {
+            path: "/working/annual",
+            name: "annualDetail",
+            component: AnnualDetail
         },
 
         {

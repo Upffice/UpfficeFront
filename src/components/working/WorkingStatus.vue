@@ -2,7 +2,7 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-6">
-            <h4>Customers List</h4>
+            <h4>근태</h4>
             <ul>
                 <li v-for="(customer, index) in customers" :key="index">
                     <router-link :to="{
@@ -22,18 +22,17 @@
 
 <script>
     import http from "../../http-common";
-    import CustomerSubMenu from "./CustomerSubMenu";
+    import WorkingSubMenu from "./WorkingSubMenu";
 
     export default {
-        name: "customers-list",
+        name: "working-status",
         data() {
             return {
-                customers: [],
-                emp_id : ""
+                customers: []
             };
         },
         components: {
-            subMenu: CustomerSubMenu
+            subMenu: WorkingSubMenu
         },
         methods: {
             /* eslint-disable no-console */
@@ -51,14 +50,10 @@
             refreshList() {
                 this.retrieveCustomers();
             }
+            /* eslint-enable no-console */
         },
         mounted() {
-            if (sessionStorage.length > 0) {
-                this.emp_id = sessionStorage.getItem("login_id");
-                this.retrieveCustomers();
-            } else {
-                this.$router.push("/");
-            }
+            this.retrieveCustomers();
         }
     };
 </script>
