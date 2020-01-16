@@ -1,16 +1,21 @@
-<template>
+<template>                                                                  <!--내부주소록 첫화면-->
     <div class="list row">
         <AddressSubMenu></AddressSubMenu>
         <div class="col-md-6">
             <h4>내부 주소록</h4>
             <hr>
-            <div>
+            <div class="searchform">
+                <div class="form-group">                                         <!--이름으로 검색-->
+                    <input type="text" placeholder="이름 입력" class="form-control" id="name"
+                           required v-model="name" name="name">
+                </div>
+                <div class="btn-group">
+                    <button v-on:click="searchName">검색</button>
+                </div>
 
-               <textarea placeholder="검색어입력"></textarea><button>검색</button>
             </div>
-            <br>
 
-            <table boder="2" class="table table-hover">
+            <table boder="2" class="table table-hover">                             <!--출력부분-->
                <thead class="table-primary">부서1</thead>
                <tr v-for="(employee, index) in employees" :key="index">
                    <td>
@@ -45,6 +50,7 @@
         name: "MainEmployAddress",
         data() {
             return {
+                name:"",
                 employees: [],
             };
 
@@ -64,7 +70,18 @@
             refreshList() {
                 this.retrieveEmployees();
             },
-            /* eslint-enable no-console */
+            searchName(){                                                           /*이름으로 검색*/
+                http
+                    .get("/employees/employees/name/" + this.name)
+                    .then(response => {
+                        this.employees = response.data; // JSON are parsed automatically.
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }
+
         },
         mounted() {
             this.retrieveEmployees();

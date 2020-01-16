@@ -2,12 +2,14 @@
     <div class="searchform">
         <h6>이름으로 찾기</h6>
         <div class="form-group">
-            <input type="text" class="form-control" id="name" required v-model="name" name="name">
+            <input type="text" v-on:keyup.enter="searchEmployees" class="form-control" id="name" required v-model="name" name="name">
 
         </div>
 
         <div class="btn-group">
             <button v-on:click="searchEmployees" class="btn btn-success">Search</button>
+            <!--<button v-on:click="/mainEmployAddress">취소</button>
+            <router-link to="/mainEmployAddress">취소</router-link>-->
         </div>
 
         <ul class="search-result">

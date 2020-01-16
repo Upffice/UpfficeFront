@@ -1,11 +1,21 @@
-<template>
+<template>                                                                  <!--외부주소록 메인-->
     <div class="list row">
         <AddressSubMenu></AddressSubMenu>
         <div class="col-md-6">
             <h4>외부 주소록</h4>
             <hr>
+            <div class="searchform">
+                <div class="form-group">                                            <!--회사명으로 검색-->
+                    <input type="text" v-on:keypress="searchOutAddress" placeholder="회사명 입력" class="form-control" id="outCompany"
+                           required v-model="outCompany" name="outCompany">
+                </div>
+                <div class="btn-group">
+                    <button v-on:click="searchOutAddress">검색</button>
+                </div>
 
-            <table boder="2" class="table table-hover">
+            </div>
+
+            <table boder="2" class="table table-hover">                                 <!--출력-->
                 <thead class="table-primary">
                 <td>이름</td>
                 <td>휴대폰</td>
@@ -14,23 +24,22 @@
                 <td>부서 전화번호</td>
 
                 </thead>
-                <tr v-for="(outaddress,index) in outaddress" :key="index">
+                <tr v-for="(outAddress,index) in outaddress" :key="index">
                     <td>
 
-                            {{outaddress.outName}}
+                        {{outAddress.outName}}
 
                     </td>
-                    <td>{{outaddress.out_mobile}}</td>
-                    <td>{{outaddress.out_email}}</td>
-                    <td>{{outaddress.out_company}}</td>
-                    <td>{{outaddress.out_dep_phone}}</td>
+                    <td>{{outAddress.out_mobile}}</td>
+                    <td>{{outAddress.out_email}}</td>
+                    <td>{{outAddress.outCompany}}</td>
+                    <td>{{outAddress.out_dep_phone}}</td>
 
 
                 </tr>
 
             </table>
         </div>
-
     </div>
 
 
@@ -45,6 +54,8 @@
         name: "outAddressMain",
         data(){
             return{
+                outCompany:"",
+                outName:"",
                 outaddress:[]
             }
         },
@@ -62,6 +73,18 @@
             },
             refreshList() {
                 this.retrieveOutAddress();
+            },
+            searchOutAddress(){                                                         /*회사명으로 출력*/
+                http
+                    .get("/outaddress/outaddress/outCompany/"+ this.outCompany/*||"/outaddress/outaddress/outName/"+this.outName*/)
+                    .then(response => {
+                        this.outaddress = response.data, // JSON are parsed automatically.
+                            /*  this.outName = response.data;*/
+                            console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
             }
         },
         mounted() {
@@ -76,11 +99,23 @@
 </script>
 
 <style>
+    .searchform {
+        max-width: 300px;
+        margin: auto;
+    }
+    .search-result {
+        margin-top: 20px;
+        text-align: left;
+    }
+    .form-control{
+
+    }
     .list {
         text-align: center;
         max-width: 90%;
         /*  margin: auto;*/
         margin-left: 15%;
     }
+
 
 </style>

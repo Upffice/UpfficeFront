@@ -1,29 +1,21 @@
-<template>
+<template>                                                                  <!--상세페이지 출력부분-->
     <div class="list row">
     <div v-if="this.employee">
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
         <h4>&#60;상세정보&#62;</h4>
-        <div>
-            <label>이름: </label> {{this.employee.name}}
-        </div>
-        <div>
-            <label>부서: </label> {{this.employee.dep_id}}
-        </div>
-        <div>
-            <label>직책: </label> {{this.employee.position}}
-        </div>
-        <div>
-            <label>휴대폰: </label> {{this.employee.phone_number}}
-        </div>
-        <div>
-            <label>email: </label> {{this.employee.emp_email}}
-        </div>
-        <div>
-            <label>내선번호: </label> {{this.employee.extension_number}}
-        </div>
 
-        <span>메시지</span>
-        <router-link to="/mainEmployAddress">취소</router-link>
+        <table boder="2" class="table table-hover">                             <!--이름 눌렀을때 나오는 부분-->
+            <tr><a>사진</a></tr>
+            <tr><th>이름</th><td>{{this.employee.name}}</td></tr>
+            <tr><th>부서</th><td>{{this.employee.dep_id}}</td></tr>
+            <tr><th>직책</th><td>{{this.employee.position}}</td></tr>
+            <tr><th>휴대폰</th><td>{{this.employee.phone_number}}</td></tr>
+            <tr><th>email</th><td>{{this.employee.emp_email}}</td></tr>
+            <tr><th>내선번호</th><td> {{this.employee.extension_number}}</td></tr>
+            <tr><td>메시지</td><td>  <router-link to="/mainEmployAddress">취소</router-link></td></tr>
+        </table>
+        <span></span>
+
     </div>
     <div v-else>
         <br/>
@@ -40,26 +32,6 @@
         name: "employees-details",
         props: ["employee"],
         methods: {
-            updateActive() {
-                var data = {
-                    id: this.employees.emp_id,
-                    name: this.employees.name,
-                    email: this.employees.emp_email,
-                    position:this.employees.position,
-                    department:this.employees.dep_id,
-                    phone:this.employees.phone_number
-                };
-
-                http
-                    .put("/employees/" + this.employee.id, data)
-                    .then(response => {
-                        this.employee.active = response.data.active;
-                        console.log(response.data);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
 
         }
     }
