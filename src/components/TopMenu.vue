@@ -24,8 +24,11 @@
 
                 <!-- 로그인 한 상태 => v-else : 로그인 된 후 top menu 오른쪽에 이름을 띄우며, 이름 클릭 시 마이페이지로 이동 -->
                 <form v-else class="form-inline my-2 my-lg-0">
+                    <div class="img_div">
+                        <img v-bind:src="emp_img_url"><br>
+                    </div>
                     <router-link :to="{ name: 'mypage'}"> <!-- name이 mypage인 컴포넌트를 router에서 자동 매핑해준다-->
-                        <span style="color: white">{{login_name}} 님</span> <!-- 이름 : mounted() 일 때, 로그인 성공 상태이면 getName()으로 가져옴 -->
+                        <span style="color: white">{{login_name}}({{loginInfo.login_id}}) 님</span> <!-- 이름 : mounted() 일 때, 로그인 성공 상태이면 getName()으로 가져옴 -->
                     </router-link>&nbsp;&nbsp;&nbsp;
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="logout">Logout</button> <!-- 로그아웃 버튼 -->
                 </form>
@@ -48,7 +51,8 @@
                     login_id: ""
                 },
                 cnt:0,
-                login_name: ""
+                login_name: "",
+                emp_img_url : "" // 사원 사진 경로
             };
         },
         methods: {
@@ -74,18 +78,30 @@
                 this.loginInfo.login_status = sessionStorage.getItem("login_status");
 
                 this.getName(); // 이름 가져오기 위한 메소드
+                this.emp_img_url = require('../assets/emp_img/'+ this.loginInfo.login_id + '.jpg');  // 사원 이미지 경로 설정
             }
         }
 
     };
 </script>
 
-<style>
+<style scoped>
     .topMenu {
         text-align: center;
     }
-
     .btn-secondary {
         margin-right: 5px;
+    }
+    .img_div {
+        width: 50px;
+        height: 50px;
+        border-radius: 70%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+    img {
+        width: 100%;
+        height: 120%;
+        object-fit: cover;
     }
 </style>

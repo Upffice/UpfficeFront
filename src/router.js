@@ -9,7 +9,6 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
-import EmployeeInfo from "./components/mypage/MypageInfo.vue"
 import MypageInfo from "./components/mypage/MypageInfo";
 
 Vue.use(Router);
