@@ -18,6 +18,8 @@ import AnnualDetail from "./components/working/AnnualDetail.vue";
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
 import DocWrite from "./components/approval/DocWrite";
+import SignWaitDetails from "./components/approval/SignWaitDetails";
+
 
 Vue.use(Router);
 
@@ -107,6 +109,12 @@ export default new Router({
             name: "write",
             alias: "/app/doc",
             component : DocWrite
+
+        },
+        {
+            path : "/app/sign/wait",
+            name: "wait-details",
+            component : SignWaitDetails
         }
     ]
 });

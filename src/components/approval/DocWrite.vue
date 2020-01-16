@@ -33,38 +33,67 @@
                     <tbody>
                     <tr>
                         <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid">김범준<br><br>사인<br>20.01.14</td>
-                        <td style="border: black 2px solid">장범준</td>
-                        <td style="border: black 2px solid">김범준</td>
-                        <td style="border: black 2px solid">장범준</td>
+                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{approval.date}}</td>
+<!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
+
+                        <td style="border: black 2px solid"><b>{{approval.signId1}}<br><br></b></td>
+                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{approval.signId2}}장범준<br><br></b></td>
+                        <td v-if="approval.signId3!=null"style="border: black 2px solid"><b>{{approval.signId3}}강범준<br><br></b></td>
+<!--                        <td style="border: black 2px solid">장범준</td>-->
+<!--                        <td style="border: black 2px solid">김범준</td>-->
+<!--                        <td style="border: black 2px solid">장범준</td>-->
                     </tr>
                     </tbody>
                 </table>
             </div>
             <!--------------------------------------------결재선 테이블 끝--------------------------------------------------------->
 
+
             <!--------------------------------------------form테이블 시작---------------------------------------------------------->
             <table class="table tb-bd">
+                <th scope="row" style="border: aliceblue; font-size: 18px"><div>문서유형</div>
+
+                </th>
+                <td scope="row" style="border: aliceblue;">
+<!--                <select id="type" name="type" required v-model="approval.type" style="width: 80px; height: 25px; float: left;">-->
+<!--                <select id="type" name="type" required v-model="selectedData" style="width: 80px; height: 25px; float: left;">-->
+<!--                    <option v-for="type in types" v-bind:selected="type === 'approval'">{{type}}</option>-->
+                    <select id="type" name="type" required v-model="approval.type" style="width: 80px; height: 25px; float: left;">
+                        <option v-for="type in types">{{type}}</option>
+
+
+<!--                    <option v-for="height in heights" v-bind:selected="height == 'Medium'">-->
+<!--                    <option value="결재" name="type" v-bind:selected="types == '결재'">결재</option>-->
+<!--                    <option value="합의" name="type">합의</option>-->
+<!--                    <option value="협조" name="type">협조</option>-->
+                </select>
+                </td>
+
+
                 <tr>
                     <th scope="row" class="table-light"><label for="docNum">문서번호</label></th>
                     <td><input type="text" class="form-control" id="docNum" required v-model="approval.docNum"
-                               name="docNum"></td>
+                               name="docNum" readonly placeholder="자동기입" style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="date">기안일자</label></th>
-                    <td><input type="text" class="form-control" id="date" required v-model="approval.date" name="type">
+                    <td><input type="text" class="form-control" id="date" required v-model="approval.date" name="type"
+                               readonly style="background-color: aliceblue">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="writerName">기안자</label></th>
                     <td><input type="text" class="form-control" id="writerName" required v-model="approval.writerName"
-                               name="writerName"></td>
+                               name="writerName" value="this.writer_info.writer_name" readonly
+                               style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="writerDepName">기안부서</label></th>
                     <td><input type="text" class="form-control" id="writerDepName" required
-                               v-model="approval.writerDepName" name="writerDepName"></td>
+                               v-model="approval.writerDepName" name="writerDepName" readonly
+                               style="background-color: aliceblue"></td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="writerPosition">직위/직책</label></th>
                     <td><input type="text" class="form-control" id="writerPosition" required
-                               v-model="approval.writerPosition" name="writerPosition"></td>
+                               v-model="approval.writerPosition" name="writerPosition" readonly
+                               style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="refId">참조자</label></th><!--수정-->
                     <td><input type="text" class="form-control" id="refId" required v-model="approval.refId"
                                name="refId" placeholder="참조자를 선택해주세요."></td>
@@ -103,15 +132,22 @@
 <script>
     import ApprovalSubMenu from "./ApprovalSubMenu";
     import http from "../../http-common";
-    // import {EventBus} from "../../event-bus";
 
     export default {
         name: "write",
         data: function () {
             return {
+                login_id: "",
+                selectedData:"approval",
+                types:["결재","합의","협조"],
+                // signIdInfo :{
+                //     id:"",
+                //     date:""
+                // },
+                // signIds : [],
                 approval: {
                     docNum: "",
-                    type: "",
+                    type: "결재",
                     title: "",
                     writerId: "",
                     date: "",
@@ -136,9 +172,6 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
-                mounted: {
-                    /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
-                }
             }
         },
         components: {
@@ -146,39 +179,37 @@
         },
         methods: {
 
-
-            /* eslint-disable no-console */
             saveDoc: function () {
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
-
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
                 var data = {
-                    app_doc_num: this.approval.docNum,
-                    app_type: this.approval.type,
-                    app_doc_title: this.approval.title,
-                    app_writer_id: this.approval.writerId,
-                    app_date: this.approval.date,
-                    app_comment: this.approval.comment,
-                    app_ref_id1: this.approval.refId1,
-                    app_ref_id2: this.approval.refId2,
-                    app_ref_id3: this.approval.refId3,
-                    app_ref_file: this.approval.refFile,
-                    app_content: this.approval.content,
-                    app_sign_id1: this.approval.signId1,
-                    app_sign_id2: this.approval.signId2,
-                    app_sign_id3: this.approval.signId3,
-                    app_sign_date1: this.approval.signDate1,
-                    app_sign_date2: this.approval.signDate2,
-                    app_sign_date3: this.approval.signDate3,
-                    app_status_check: this.approval.statusCheck,
-                    app_status1: this.approval.status1,
-                    app_status2: this.approval.status2,
-                    app_status3: this.approval.status3,
-                    app_writer_name: this.approval.writerName,
-                    app_writer_position: this.approval.writerPosition,
-                    app_writer_depid: this.approval.writerDepId,
-                    app_writer_depname: this.approval.writerDepName
-                };
+                        app_doc_num: this.approval.docNum,
+                        app_type: this.approval.type,
+                        app_doc_title: this.approval.title,
+                        app_writer_id: this.approval.writerId,
+                        app_date: this.approval.date,
+                        app_comment: this.approval.comment,
+                        app_ref_id1: this.approval.refId1,
+                        app_ref_id2: this.approval.refId2,
+                        app_ref_id3: this.approval.refId3,
+                        app_ref_file: this.approval.refFile,
+                        app_content: this.approval.content,
+                        app_sign_id1: this.approval.signId1,
+                        app_sign_id2: this.approval.signId2,
+                        app_sign_id3: this.approval.signId3,
+                        app_sign_date1: this.approval.signDate1,
+                        app_sign_date2: this.approval.signDate2,
+                        app_sign_date3: this.approval.signDate3,
+                        app_status_check: this.approval.statusCheck,
+                        app_status1: this.approval.status1,
+                        app_status2: this.approval.status2,
+                        app_status3: this.approval.status3,
+                        app_writer_name: this.approval.writerName,
+                        app_writer_position: this.approval.writerPosition,
+                        app_writer_depid: this.approval.writerDepId,
+                        app_writer_depname: this.approval.writerDepName
+
+                    };
                 http
                     .post("/app/doc/write", data)
                     .then(response => {
@@ -188,19 +219,15 @@
 
                         alert("DB에 저장되었습니다.");
                         this.$router.push('/app');
-                        // EventBus.$emit("approval", this.approval);
                     })
                     .catch(e => {
                         console.log(e);
                     });
 
-                // this.submitted = true;
             },
             newApproval() {
-                // this.submitted = false;
                 this.approval = {};
             },
-            /* eslint-enable no-console */
 
             showsignDoc() {
                 /*결재선(검색 or 트리구조)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
@@ -213,8 +240,51 @@
             cancelDoc() {
                 /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/
                 console.log("cancelDoc_method");
-            }
+            },
+            getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
+                http
+                    .post("/mypage/" + id)
+                    .then(response => {
+                        // 응답 데이터를 employee 데이터에 대입하기.
+                        this.approval.writerName = response.data.emp_name;
+                        this.approval.writerPosition = response.data.position;
+                        this.approval.writerDepId = response.data.dep_id;
 
+                        this.approval.writerId = id;
+
+                        var d = new Date();
+                        var currentDate = d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();
+                        this.approval.date = currentDate;
+                        this.getDep_Name(this.approval.writerDepId);     // 사원 정보 중 부서 이름 가져오기
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }, // End - getEmpInfo : 사원 정보 가져오기, mounted()일 때 실행 됨.
+            getDep_Name(dep_id) {
+                http
+                    .post("/dep/" + dep_id)
+                    .then(response => {
+                        this.approval.writerDepName =  response.data;
+
+                        console.log( response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }
+        },
+        mounted() {
+            /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
+
+            if (sessionStorage.length > 0) {
+                this.login_id = sessionStorage.getItem("login_id");
+
+                this.getEmpInfo(this.login_id);
+            }else{
+                alert("로그인을 해주세요!");
+                this.$router.push('/');
+            }
         }
     }
 </script>

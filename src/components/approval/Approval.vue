@@ -26,7 +26,14 @@
                         <td>{{app.app_writer_depname}}</td>
                         <td>{{app.app_doc_num}}</td>
                         <td>{{app.app_type}}</td>
-                        <td>{{app.app_doc_title}}</td>
+                    <td>
+                        <router-link :to="{
+                        name : 'wait-details',
+                        params:{approval : app, id : app.app_writer_id}
+                    }">
+                        {{app.app_doc_title}}
+                    </router-link>
+                    </td>
                         <td>{{app.app_writer_name}}</td>
                         <td>{{app.app_date}}</td>
                 </tr>
@@ -46,23 +53,8 @@
         name: "approval",
         data: function () {
             return {
+                login_id: "",
                 approvals: [],
-                // approval : {
-                //     app_writer_depname : "",
-                //     app_doc_num : "",
-                //     app_type : "",
-                //     app_doc_title : "",
-                //     app_writer_name : "",
-                //     app_date : ""
-                // },
-                // appData : {
-                //     writer_depname : this.approval.app_writer_depname,
-                //     doc_num : this.approval.app_doc_num,
-                //     type : this.approval.app_type,
-                //     doc_title : this.approval.app_doc_title,
-                //     writer_name : this.approval.app_writer_depname,
-                //     date : this.approval.app_date
-                // }
                 a : 0
             };
         },
@@ -71,29 +63,33 @@
         },
         methods : {
 
-        getApprovals(){
-
-
+        getApprovals(id){
            http
-           .get("/app/"+1)
+           .get("/app/"+id)
             .then(response =>{
-                // this.approval = response.data;
                 this.approvals = response.data;
                 console.log(this.approvals);
-                console.log(this.approvals);
-
-
             })
             .catch(e=>{
                 console.log(e);
             });
          },
-               refreshList(){
-            this.getApprovals();
+               refreshList(id){
+            this.getApprovals(id);
                }
         },
         mounted() {
-            this.getApprovals();
+                /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
+
+                if (sessionStorage.length > 0) {
+                    this.login_id = sessionStorage.getItem("login_id");
+                    // console.log(login_id);
+                    // this.getEmpInfo(this.login_id);
+                    this.getApprovals(this.login_id);
+                }else{
+                    alert("로그인을 해주세요!");
+                    this.$router.push('/');
+                }
 
         }
     }
