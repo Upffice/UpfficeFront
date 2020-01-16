@@ -10,6 +10,8 @@ import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
 import MypageInfo from "./components/mypage/MypageInfo";
+import WorkingStatus from "./components/working/WorkingStatus.vue";
+import AnnualDetail from "./components/working/AnnualDetail.vue";
 
 Vue.use(Router);
 
@@ -69,6 +71,17 @@ export default new Router({
             path: "/mypage",
             name: "mypage",
             component: MypageInfo
+        },
+        {
+            path: "/working/status",
+            name: "workingStatus",
+            alias: "/working",
+            component: WorkingStatus
+        },
+        {
+            path: "/working/annual",
+            name: "annualDetail",
+            component: AnnualDetail
         }
     ]
 });
