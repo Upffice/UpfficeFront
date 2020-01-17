@@ -1,21 +1,22 @@
 <template>
     <div class="list row">
         <subMenu></subMenu>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h4>근태</h4>
-            <ul>
-                <li v-for="(customer, index) in customers" :key="index">
-                    <router-link :to="{
-                            name: 'customer-details',
-                            params: { customer: customer, id: customer.id }
-                        }">
-                        {{customer.name}}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <router-view @refreshData="refreshList"></router-view>
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-primary">
+                    <td>날짜</td>
+                    <td>출근시각</td>
+                    <td>퇴근시각</td>
+                    <td>근무시간</td>
+                </tr>
+                </thead>
+                <tr v-for="(working, index) in workings" :key="index">
+                    <td>{{index+1}}</td>
+                    <td>{{working}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
@@ -28,34 +29,28 @@
         name: "working-status",
         data() {
             return {
-                customers: []
+                workings: [],
+                empId:""
             };
-        },
+        },// End - data
         components: {
             subMenu: WorkingSubMenu
-        },
+        },// End - components
         methods: {
             /* eslint-disable no-console */
-            retrieveCustomers() {
-                http
-                    .get("/customer/customers")
-                    .then(response => {
-                        this.customers = response.data; // JSON are parsed automatically.
-                        console.log(response.data);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
-            refreshList() {
-                this.retrieveCustomers();
-            }
+
             /* eslint-enable no-console */
-        },
+        },// End - methods
         mounted() {
-            this.retrieveCustomers();
-        }
-    };
+            // mounted 될
+            // 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.empId = sessionStorage.getItem("login_id");
+            } else {
+                this.$router.push("/");
+            }
+        } // End - mounted()
+    };// End - export default
 </script>
 
 <style>

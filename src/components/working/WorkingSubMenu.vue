@@ -24,15 +24,12 @@
             </router-link>
         </ul>
         <button v-on:click="showModal()" class="btn btn-secondary btn-lg btn-block">연차신청</button>
-        <div v-if="modalShow">
-            <Modal></Modal>
-        </div>
     </div>
 </template>
 
 <script>
     import http from "../../http-common";
-    import Modal from "./Modal";
+    import Modal from "./Modal.vue";
 
     export default {
         name: "WorkingSubMenu",
