@@ -33,7 +33,7 @@
                     <tbody>
                     <tr>
                         <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{approval.date}}</td>
+                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
 <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
                         <td style="border: black 2px solid"><b>{{approval.signId1}}<br><br></b></td>
@@ -76,7 +76,7 @@
                                name="docNum" readonly placeholder="자동기입" style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="date">기안일자</label></th>
                     <td><input type="text" class="form-control" id="date" required v-model="approval.date" name="type"
-                               readonly style="background-color: aliceblue">
+                         style="background-color: aliceblue" :placeholder="cTime" readonly>
                     </td>
                 </tr>
                 <tr>
@@ -145,6 +145,7 @@
                 //     date:""
                 // },
                 // signIds : [],
+                cTime:"",
                 approval: {
                     docNum: "",
                     type: "결재",
@@ -218,7 +219,10 @@
                         // console.log(response.data);
 
                         alert("DB에 저장되었습니다.");
-                        this.$router.push('/app');
+
+                            this.$router.push('/app/');
+
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -240,6 +244,13 @@
             cancelDoc() {
                 /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/
                 console.log("cancelDoc_method");
+
+                var result = confirm("입력을 취소하시겠습니까?");
+                if(result) {
+                    alert("입력이 취소되었습니다!");
+                    this.$router.push('/app');
+                }
+
             },
             getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
                 http
@@ -253,8 +264,10 @@
                         this.approval.writerId = id;
 
                         var d = new Date();
-                        var currentDate = d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();
-                        this.approval.date = currentDate;
+                        var currentDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+                        var currentTime = " " + d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                        // this.approval.date = currentDate;
+                        this.cTime = currentDate;
                         this.getDep_Name(this.approval.writerDepId);     // 사원 정보 중 부서 이름 가져오기
                     })
                     .catch(e => {
