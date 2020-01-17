@@ -72,7 +72,10 @@ export default new Router({
             name: "search",
             component: SearchCustomers
         },
-        /*--addressRouter*/
+
+
+
+                                                                /*--addressRouter*/
         {
             path: "/mainEmployAddress",
             name: "MainEmployAddress",
@@ -104,7 +107,11 @@ export default new Router({
             component: OutAddressMain
         },
 
-        },
+       /*---------------------------------------------- */
+
+
+
+
         {
             path: "/mypage",
             name: "mypage",

@@ -6,11 +6,11 @@
             <hr>
             <div class="searchform">
                 <div class="form-group">                                         <!--이름으로 검색-->
-                    <input type="text" placeholder="이름 입력" class="form-control" id="name"
-                           required v-model="name" name="name">
+                    <input type="text"  v-on:keypress="searchNameAndPosition" placeholder="이름, 직책 입력" class="form-control" id="nameAndPosition"
+                           required v-model="nameAndPosition" name="nameAndPosition">
                 </div>
                 <div class="btn-group">
-                    <button v-on:click="searchName">검색</button>
+                    <button v-on:click="searchNameAndPosition">검색</button>
                 </div>
 
             </div>
@@ -50,7 +50,7 @@
         name: "MainEmployAddress",
         data() {
             return {
-                name:"",
+                nameAndPosition:"",
                 employees: [],
             };
 
@@ -70,11 +70,11 @@
             refreshList() {
                 this.retrieveEmployees();
             },
-            searchName(){                                                           /*이름으로 검색*/
+            searchNameAndPosition(){                                                           /*이름으로 검색*/
                 http
-                    .get("/employees/employees/name/" + this.name)
+                    .get("/employees/employees/nameAndPosition/" + this.nameAndPosition)
                     .then(response => {
-                        this.employees = response.data; // JSON are parsed automatically.
+                        this.employees = response.data;
                         console.log(response.data);
                     })
                     .catch(e => {

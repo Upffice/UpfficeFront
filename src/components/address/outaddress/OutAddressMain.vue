@@ -5,9 +5,11 @@
             <h4>외부 주소록</h4>
             <hr>
             <div class="searchform">
-                <div class="form-group">                                            <!--회사명으로 검색-->
-                    <input type="text" v-on:keypress="searchOutAddress" placeholder="회사명 입력" class="form-control" id="outCompany"
-                           required v-model="outCompany" name="outCompany">
+                <div class="form-group">                                            <!--성명,회사명으로 검색-->
+
+                    <input type="text" v-on:keypress="searchOutAddress" placeholder="성명, 회사명 입력" class="form-control" id="nameAndCompany"
+                           required v-model="nameAndCompany" name="nameAndCompany">
+
                 </div>
                 <div class="btn-group">
                     <button v-on:click="searchOutAddress">검색</button>
@@ -54,8 +56,7 @@
         name: "outAddressMain",
         data(){
             return{
-                outCompany:"",
-                outName:"",
+                nameAndCompany:"",
                 outaddress:[]
             }
         },
@@ -74,12 +75,12 @@
             refreshList() {
                 this.retrieveOutAddress();
             },
-            searchOutAddress(){                                                         /*회사명으로 출력*/
+
+            searchOutAddress(){                                                         /*회사명, 성명으로 출력*/
                 http
-                    .get("/outaddress/outaddress/outCompany/"+ this.outCompany/*||"/outaddress/outaddress/outName/"+this.outName*/)
+                    .get("/outaddress/outaddress/nameAndCompany/"+ this.nameAndCompany)
                     .then(response => {
                         this.outaddress = response.data, // JSON are parsed automatically.
-                            /*  this.outName = response.data;*/
                             console.log(response.data);
                     })
                     .catch(e => {
@@ -91,7 +92,7 @@
             this.retrieveOutAddress();
         },
         components: {
-            AddressSubMenu,
+            AddressSubMenu
 
         },
 
