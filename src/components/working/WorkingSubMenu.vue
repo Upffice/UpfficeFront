@@ -1,6 +1,6 @@
 <template>
     <div class="subMenu">
-        시계자리<br>
+        <Clock></Clock>
         출근시간:{{this.working.workingIn}}<br>
         퇴근시간:{{this.working.workingOut}}<br>
         근무시간:{{this.working.workingTime}}<br>
@@ -23,13 +23,12 @@
                 </li>
             </router-link>
         </ul>
-        <button v-on:click="showModal()" class="btn btn-secondary btn-lg btn-block">연차신청</button>
     </div>
 </template>
 
 <script>
     import http from "../../http-common";
-    import Modal from "./Modal.vue";
+    import Clock from "./Clock";
 
     export default {
         name: "WorkingSubMenu",
@@ -41,13 +40,12 @@
                     workingIn: "",
                     workingOut: "",
                     workingTime:"",
-                },
-                modalShow: false
+                }
             };
         },// End - data
         components: {
-            Modal: Modal
-        }, // End - components
+            Clock: Clock
+        },
         methods: {
             /* eslint-disable no-console */
             readWorkingToday() {//당일에 출퇴근기록이 있으면 불러온다, mounted()때 호출되는 메소드.
@@ -86,7 +84,7 @@
             },// End - saveWorkingOut()
             saveWorkingTime() {// 총 근무 시간을 DB에 저장하기 위한 메소드
                 http
-                    .get("/working/saveTime/" + this.working.empId+"?wd="+this.working.workingTime)
+                    .get("/working/saveTime/" + this.working.empId+"?time="+this.working.workingTime)
                     .then(response => {
                         this.working.workingTime = response.data;
                         console.log(response.data);
@@ -106,13 +104,6 @@
                 this.working.workingTime=wot.toString().substr(16,8); // 연산된 값중 시간에 관련된 부분을 잘라서 저장
                 this.saveWorkingTime();// DB에 총 근무 시간 저장
             },// End - calcWorkingTime()
-            showModal() {// 모달 제어를 위한 메소드
-                this.modalShow = !this.modalShow;
-                console.log(this.modalShow);
-            },// End - showModal()
-            applyAnnual() {
-
-            }// End - applyAnnual()
             /* eslint-enable no-console */
         },// End - methods
         mounted() {
@@ -127,6 +118,6 @@
 
 <style>
     .btn-working {
-        align: center;
+        text-align: center;
     }
 </style>

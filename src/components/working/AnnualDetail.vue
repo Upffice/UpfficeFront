@@ -2,7 +2,7 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-12">
-            <h4>연차</h4>
+            <h4>연차</h4><button v-on:click="showModal()" class="btn btn-outline-success btn-lg">연차신청</button>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -35,12 +35,14 @@
                 </tr>
             </table>
         </div>
+        <modals-container />
     </div>
 </template>
 
 <script>
     import http from "../../http-common";
     import WorkingSubMenu from "./WorkingSubMenu";
+    import Modal from "./Modal.vue";
 
     export default {
         name: "annual-detail",
@@ -55,7 +57,8 @@
             };
         },
         components: {
-            subMenu: WorkingSubMenu
+            subMenu: WorkingSubMenu,
+            Modal: Modal
         },
         methods: {
             /* eslint-disable no-console */
@@ -81,10 +84,20 @@
                         console.log(e);
                     });
             },// End - readTotalAnnual()
-            setLeftAnnual(){
+            setLeftAnnual(){//사용한 연차와 남은 연차 계산
                 this.usedAnnual=this.annuals.length;
                 this.leftAnnual=this.totalAnnual-this.usedAnnual;
-            }
+            },// End - setLeftAnnual()
+            showModal() {// 모달 제어를 위한 메소드
+                this.$modal.show(Modal,{
+                    hot_table : 'data',
+                    modal : this.$modal },{
+                    name: 'dynamic-modal',
+                    width : '300px',
+                    height : '130px',
+                    draggable: true,
+                })
+            }// End - showModal()
             /* eslint-enable no-console */
         },// End - methods
         mounted() {
