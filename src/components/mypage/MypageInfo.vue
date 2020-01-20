@@ -1,8 +1,6 @@
 <template>
     <div>
-        <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
-        <!--테이블 왼쪽에 사진 넣을것임-->
-        <div >
+        <div>
             <table class="table table-hover">
                 <tr>
                     <td rowspan="6" width="25%">

@@ -12,6 +12,7 @@ import Customer from "./components/customer/Customer.vue";
 import MypageInfo from "./components/mypage/MypageInfo";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
+import Calendar from "./components/schedule/Calendar";
 
 Vue.use(Router);
 
@@ -82,6 +83,12 @@ export default new Router({
             path: "/working/annual",
             name: "annualDetail",
             component: AnnualDetail
+        },
+        {
+            path: "/schedule/calendar",
+            name: "calendar",
+            alias: "/calendar",
+            component: Calendar
         }
     ]
 });
