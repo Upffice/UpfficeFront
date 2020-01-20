@@ -40,7 +40,7 @@
             settingInput() {// Input의 날짜 범위 설정
                 var moment = require('moment');
                 this.min = moment().format('YYYY-MM-DD');
-                this.max = moment().format('YYYY') + "-12-31";
+                this.max = moment().endOf('year').format('YYYY-MM-DD');
             }// End - settingInput()
             /* eslint-enable no-console */
         },
