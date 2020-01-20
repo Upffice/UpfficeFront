@@ -43,6 +43,11 @@
 </style>-->
 <template>
     <div class="container">
+        <!--<일정 카테고리 추가>
+        카테고리 이름, 색(id는 자동부여)
+        <일정 추가>
+        일정 이름, 일정시작일, 일정마감일, 일정 시작 시간, 일정 마감시간,
+        일정 장소, 일정 디테일, emp_id, dep_id, calendar_id (sche id는 자동부여)-->
         <div class="input-group col-md-3">
             <span class = "input-group-addon">
                 PW
@@ -62,12 +67,12 @@
                 del_password:'',
             }
         },props : [
-            'hot_table',
+            'registerData',
         ],methods : {
             del_data(){
 
                 this.$emit('close')
             }
         }
-    }
+    };
 </script>

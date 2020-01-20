@@ -2,15 +2,11 @@
     <div class="schedule">
         <subMenu></subMenu>
             <div class="calendar">
-<!--                <div class="form-inline search">-->
-<!--                    <input class="form-control mr-sm-2 searchInput" type="text" placeholder="일정 검색">-->
-<!--                    <button class="btn btn-secondary my-2 my-sm-0 searchBtn" type="submit">검색</button>-->
-<!--                </div>-->
                 <div>
                     <span class="cal_nav">
-                        <button class="btn btn-link btn-lg monChangeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
+                        <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
                         {{currentYear}}년 {{currentMonth}}월
-                        <button class="btn btn-link btn-lg monChangeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
+                        <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
                     </span>
                     <div class="form-inline search">
                         <input class="form-control mr-sm-2 searchInput" type="text" placeholder="일정 검색">
@@ -38,10 +34,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="modal">
                     <!--modal 컴포넌트 포함 시키기 위한 div-->
                     <modals-container/>
-                </div>
             </div>
     </div>
 </template>
@@ -178,7 +172,7 @@
                 if(day==""){ // 달력에 없는 일자일 경우(day 정보가 없는 경우)
                     return;
                 } else {
-                    /*this.$modal.show(RegisterPopup, {
+                    this.$modal.show(RegisterPopup, {
                             registerData : 'data',
                             modal : this.$modal
                     },
@@ -187,15 +181,7 @@
                             width:'400px',
                             height: '600px',
                             draggable: true
-                    });*/
-                    this.$modal.show(RegisterPopup,{
-                        hot_table : 'data',
-                        modal : this.$modal },{
-                        name: 'dynamic-modal',
-                        width : '330px',
-                        height : '130px',
-                        draggable: true,
-                    })
+                    });
                 } // End : if-else
             }
         },
@@ -219,7 +205,7 @@
         font-size: 30px;
         margin: auto auto auto 265px;
     }
-    .monChangeBtn {
+    .changeBtn {
         font-size: 25px;
     }
     .rounded {
