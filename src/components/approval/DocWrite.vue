@@ -10,14 +10,16 @@
                 <span class="title"><b>기안문작성</b></span>
                 <span class="button-group">
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="showsignDoc">결재선</button>
+                           v-on:click="search_signer">결재선</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="tempsaveDoc">임시저장</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc">상신</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
                 </span>
             </div>
-
+            <div class="row">
+                <modals-container />
+            </div>
             <!--------------------------------------------결제선 테이블 시작------------------------------------------------------->
             <div class="sign-line" style="float: right; padding-right: 65px; padding-bottom: 40px;">
                 <table class="sign-table" style="border: black 2px solid">
@@ -55,17 +57,10 @@
 
                 </th>
                 <td scope="row" style="border: aliceblue;">
-<!--                <select id="type" name="type" required v-model="approval.type" style="width: 80px; height: 25px; float: left;">-->
-<!--                <select id="type" name="type" required v-model="selectedData" style="width: 80px; height: 25px; float: left;">-->
-<!--                    <option v-for="type in types" v-bind:selected="type === 'approval'">{{type}}</option>-->
+
                     <select id="type" name="type" required v-model="approval.type" style="width: 80px; height: 25px; float: left;">
                         <option v-for="type in types">{{type}}</option>
 
-
-<!--                    <option v-for="height in heights" v-bind:selected="height == 'Medium'">-->
-<!--                    <option value="결재" name="type" v-bind:selected="types == '결재'">결재</option>-->
-<!--                    <option value="합의" name="type">합의</option>-->
-<!--                    <option value="협조" name="type">협조</option>-->
                 </select>
                 </td>
 
@@ -132,19 +127,16 @@
 <script>
     import ApprovalSubMenu from "./ApprovalSubMenu";
     import http from "../../http-common";
+    import SearchSigner from "./SearchSigner";
 
     export default {
         name: "write",
         data: function () {
             return {
+                visible:false,
                 login_id: "",
                 selectedData:"approval",
                 types:["결재","합의","협조"],
-                // signIdInfo :{
-                //     id:"",
-                //     date:""
-                // },
-                // signIds : [],
                 cTime:"",
                 approval: {
                     docNum: "",
@@ -215,26 +207,27 @@
                     .post("/app/doc/write", data)
                     .then(response => {
                         this.approval = response.data;
-                        console.log(response.data);
-                        // console.log(response.data);
-
                         alert("DB에 저장되었습니다.");
-
-                            this.$router.push('/app/');
-
-
+                        this.$router.push('/app/');
                     })
                     .catch(e => {
                         console.log(e);
                     });
-
             },
-            newApproval() {
-                this.approval = {};
+            search_signer(){
+                /*결제자 누르면 검색창(modal)띄워주는 로직*/
+                this.$modal.show(SearchSigner,{
+                    hot_table : 'data',
+                    modal : this.$modal },{
+                    name: 'dynamic-modal',
+                    width : '600px',
+                    height : '600px',
+                    draggable: true
+                })
             },
 
             showsignDoc() {
-                /*결재선(검색 or 트리구조)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
+                /*결재선(검색 modal)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
                 console.log("showsignDoc_method");
             },
             tempsaveDoc() {
@@ -279,8 +272,6 @@
                     .post("/dep/" + dep_id)
                     .then(response => {
                         this.approval.writerDepName =  response.data;
-
-                        console.log( response.data);
                     })
                     .catch(e => {
                         console.log(e);
@@ -298,6 +289,7 @@
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
             }
+
         }
     }
 </script>
