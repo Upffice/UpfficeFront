@@ -25,23 +25,12 @@
                     </fieldset>
                     <div v-if="showArr.length>0"
                          style="background-color: aliceblue; width: 400px; border: #95a5a6 1.5px solid; border-top: 0px; border-radius: 3px">
-                        <div id="empList" v-for="emp in showArr" style="text-align: -webkit-left;">
-                            <div style="background-color: blue">
-                                <b style="margin-left: 10px">{{emp.dep_name}}</b>
-                                <b>{{emp.emp_name}}</b>
-                                <b>{{emp.emp_email}}</b>
+                        <div id="empList" v-for="(emp,index) in showArr" :key="index"  style="text-align: -webkit-left;">
+                            <div v-bind:class="{'selected':isSelected(index)}" ><!--v-if="emp.selected=false"-->
+                                <b style="margin-left: 10px">{{emp.dep_name}}{{emp.emp_name}}{{emp.emp_email}}</b>
                             </div>
-                            <!--                            <div class="red" v-if="emp.selected=false" style="background-color: red">-->
-                            <!--                                <b style="margin-left: 10px">{{emp.dep_name}}</b>-->
-                            <!--                                <b>{{emp.emp_name}}</b>-->
-                            <!--                                <b>{{emp.emp_email}}</b>-->
-                            <!--                            </div>-->
-                            <!--                                                        <div v-bind:class="{showArr.selected=false}"  style="background-color: red">-->
-                            <!--                                                            <b style="margin-left: 10px">{{emp.dep_name}}</b>-->
-                            <!--                                                            <b>{{emp.emp_name}}</b>-->
-                            <!--                                                            <b>{{emp.emp_email}}</b>-->
-                            <!--                                                        </div>-->
                         </div>
+
                     </div>
 
                 </div>
@@ -64,10 +53,12 @@
         name: "SearchSigner",
         data: function () {
             return {
+                keyNum: 0,
                 sign1: "",
                 sign2: "",
                 sign3: "",
                 del_password: '',
+                selected: false,
                 showArr: [],
                 depArr: [],
                 empArr: [],
@@ -79,12 +70,13 @@
                 this.$emit('close')
             },
             searchMatching: function (lang) {
-                if (this.showArr.length > 6) {//결과값 6이상이면 함수종료
+                if (this.showArr.length > 6) {//결과값 6이상이면 함수종료//유효하지않은듯
                     return
                 } else {//결과값 6개 미만
                     /*새변수 = .filter() [새로운 배열로 반환]*/
                     this.showArr = this.empArr.filter(function (emp) {
                         /*return [이름,부서] 문자열검색 || 초성검색*/
+
                         return emp.emp_name.includes(lang) || emp.dis_emp_name.includes(Hangul.disassemble(lang).join(""))
                             || emp.dep_name.includes(lang) || emp.dis_dep_name.includes(Hangul.disassemble(lang).join(""));
                     })
@@ -94,7 +86,7 @@
                 /*emp,dep table dep_id비교해서 emp에 dep_name bind*/
                 for (let i = 0; i < this.empArr.length; i++) {
                     for (let j = 0; j < this.depArr.length; j++) {
-                        if (this.empArr[i].dep_id == this.depArr[j].dep_id) {
+                        if (this.empArr[i].dep_id === this.depArr[j].dep_id) {
                             this.empArr[i].dep_name = this.depArr[j].dep_name;
                         }
                     }
@@ -115,6 +107,7 @@
                     }, "");
                     emp.dis_emp_name = cho;
                     emp.dis_dep_name = cho2;
+                    emp.selected = false;//선택 property 추가
                 });
             },
             saveInfo: function () {
@@ -146,46 +139,71 @@
                 if (this.sign1 == null) {
 
                 }
-
             },
             selectAbove() {
+                console.log("selectAbove진입")
+                console.log("keyNum=" + this.keyNum)
+                if (this.keyNum == 0) {
+                    this.showArr[this.keyNum].selected = true;
+                    this.showArr[this.keyNum + 1].selected = false;
 
+                } else if (this.keyNum == this.showArr.length) {
+                    this.showArr[this.keyNum - 1].selected = true;
+                    this.keyNum--
+                } else {
+                    this.showArr[this.keyNum - 1].selected = true;
+                    this.showArr[this.keyNum].selected = false;
+                    this.keyNum--
+                }
+                console.log("keyNum=" + this.keyNum)
             },
             selectBelow() {
+                console.log("selectBelow진입")
+                console.log("keyNum=" + this.keyNum)
 
-                // console.log("this.showArr")
-                // console.log(this.showArr)
-                // if (this.showArr.length > 0 && this.showArr[0].selected === false) {
-                //     this.showArr[0].selected = true;
-                // } else if (this.showArr.length > 0 && this.showArr[0].selected === true) {
-                //     this.showArr[0].selected = false;
-                //     this.showArr[1].selected = true;
-                //     console.log("1진입, showArr1==>>" + this.showArr[1].selected)
-                // } else if (this.showArr.length > 1 && this.showArr[1].selected === true) {
-                //     this.showArr[1].selected = false;
-                //     this.showArr[2].selected = true;
-                //     console.log("2진입, showArr2==>>" + this.showArr[2].selected)
-                // } else if (this.showArr.length > 2 && this.showArr[2].selected === true) {
-                //     this.showArr[2].selected = false;
-                //     this.showArr[3].selected = true;
-                //     console.log("3진입, showArr3==>>" + this.showArr[3].selected)
-                // } else if (this.showArr.length > 3 && this.showArr[3].selected === true) {
-                //     this.showArr[3].selected = false;
-                //     this.showArr[4].selected = true;
-                //     console.log("4진입, showArr4==>>" + this.showArr[4].selected)
-                // }
+
+                if (this.keyNum == 0) {
+                    this.showArr[this.keyNum].selected = true;
+                    this.keyNum++
+                } else if (this.keyNum == this.showArr.length) {
+                    this.showArr[this.keyNum - 1].selected = true;
+                } else {
+                    this.showArr[this.keyNum].selected = true;
+                    this.showArr[this.keyNum - 1].selected = false;
+                    this.keyNum++
+                }
+
+                console.log("keyNum=" + this.keyNum)
+            },  isSelected(index){
+                console.log("진입")
+                if(index==this.keyNum){
+                    console.log("진입2")
+
+                    return true
+                }else{
+                    return false
+                }
             }
+
+
         },//End of method :{}
+        created() {
+
+        },
         mounted() {
             /*db가져와서 info에 넣어주는 로직*/
             this.saveInfo();
-
-
-        }//End of mounted(){}
+        },//End of mounted(){}
+        updated() {
+            console.log("this.showArr" + this.showArr);
+            console.log(this.showArr);
+        },
 
     }//End of export default
 </script>
 
 <style scoped>
-
+.selected{
+    background-color: darkslateblue;
+}
 </style>
