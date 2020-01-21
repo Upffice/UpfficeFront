@@ -26,7 +26,7 @@
                 <label for="three">질문: {{this.survey.answer3}}</label>
                 <input type="radio" id="three" name="a" :value="3" v-model="survey.answer">
             </div>
-            aaa {{this.survey.answer}} bbb
+            {{this.survey.answer}}
 
             <div class="card border-dark mb-5" style="max-width: 40rem;">
                 <div class="card-body">
@@ -34,9 +34,6 @@
                     <p class="card-text">{{this.survey.survey_detail}}</p>
                 </div>
             </div>
-
-            <button class="btn btn-success" type="button" @click="savevote">고고</button>
-            <button class="btn btn-success" type="button" @click="modify">게시물 수정</button>
         </div>
         <!--여기까지 div로 묶고 검사-->
         <div v-else>
@@ -71,7 +68,7 @@
 
             return {
                 flex: true,// 나중에 조건 검사하면 글 작성자==나 일때 false로 바꾸기
-                empID: ""
+                empID: "",
                 // answer: "",
                 // answer1: "",
                 // answer2: "",
@@ -81,7 +78,6 @@
         components: {
             subMenu: SurveySubmenu
         },
-
         props: ["survey"],
         methods: {
             savevote(){
@@ -138,6 +134,17 @@
                         console.log(e);
                     });
             },
+            // writeCheck() {
+            //     // 필요하시면 쓰시고 아니면 지우세요*********************************
+            //     let write_chk = location.href.indexOf("endsurvey");  // endsurvey 가 포함되어 있으면 0 이상의 숫자(마감된 설문), 없으면 -1(진행 설문)
+            //     console.log(write_chk);
+            //     if(write_chk==-1) {
+            //         // 현재 마감된 설문 선택 상태
+            //
+            //     } else {
+            //         this.getEmpInfo(this.empID);    // empID로 사원정보 가져오기 : dep_id만 사용함
+            //     }
+            // }
 
         },
         mounted() {
@@ -148,6 +155,9 @@
             } else {
                 this.$router.push("/");
             }
+        },
+        updated() {
+
         }
     };
 </script>

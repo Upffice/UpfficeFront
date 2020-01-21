@@ -19,6 +19,7 @@ import AddSurvey from "./components/survey/AddSurvey";
 import SurveyList from "./components/survey/SurveyList";
 import Survey from "./components/survey/Survey";
 import DepPostsList from "./components/posts/DepPostsList";
+import EndSurveyList from "./components/survey/EndSurveyList";
 
 Vue.use(Router);
 
@@ -118,6 +119,12 @@ export default new Router({
             name: "SurveyList",
             alias: "/survey",
             component: SurveyList
+        },
+        {
+            path:  "/survey/endsurvey",
+            name: "EndSurveyList",
+            alias: "/endsurvey",
+            component: EndSurveyList
         },
         {
             path: "/survey/SurveyList/:survey_id",

@@ -22,7 +22,7 @@
             </router-link>
 
 
-            <router-link to="/survey">
+            <router-link to="/endsurvey">
 
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
 

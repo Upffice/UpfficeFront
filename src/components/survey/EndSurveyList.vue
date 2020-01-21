@@ -57,7 +57,7 @@
         methods:{
             requestSurvey(){
                 http
-                .get("/survey/allsurvey")
+                .get("/survey/endsurvey")
                 .then(response =>{
                     this.surveylist =response.data;
                     console.log(response.data);
