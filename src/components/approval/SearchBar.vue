@@ -1,98 +1,86 @@
 <template>
-    <!--    <input type="text" v-model="search" placeholder="부서나 이름을 입력해주세요"/>-->
-    <!--    <div v-for="info in infos" class="single-info">-->
-    <!--        <h2>{{info.empName|to-uppercase}}</h2>-->
-    <!--    </div>-->
     <div class="container">
         <h2>test</h2>
-            <input type="text" v-on:keypress="searchMatching" v-model="typing" placeholder="부서나 이름을 입력해주세요" style="width: 300px"/>
-        <div v-for="emp in empArr">
-            <b>{{emp.dep_id}}</b>
-            <b>{{emp.emp_name}}</b>
+        <div class="search">
+            <input type="text" v-on:input="searchMatching($event.target.value)"
+                   placeholder="부서나 이름을 입력해주세요"
+                   style="width: 300px"/>
+            <ul>
+                <li id="empList" v-for="emp in typingArr">
+                    <div>
+                        <b>{{emp.dep_name}}</b>
+                        <b>{{emp.emp_name}}</b>
+                        <b>{{emp.emp_email}}</b>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
     import http from "../../http-common"
-    // import han from "../../hangul"
-
+    import * as Hangul from 'hangul-js';
 
     export default {
         name: "search-bar",
         data() {
             return {
-                typing:"",
-                typingArr:[],
-                cho:"",
-                empInfo: {
-                    emp_id: "",
-                    emp_name: "",
-                    dep_id: ""
-                },
-                depInfo: {
-                    dep_id: "",
-                    dep_name: ""
-                },
-                infoArr: [],
+                search: "",
+                search1: [],
+                typing: "",
+                typingArr: [],
+                dis: [],
+                cho: "",
                 depArr: [],
                 empArr: [],
-                search: ""
             }
-        },
-        computed:{
-          // filteredInfo:function(){
-          //     return this.info.filter((info)=>{
-          //         return info.empName.match(this.search);
-          //     });
-          // }
-            searchMatching:function () {
-
-
-                this.typingArr =  hangul.disassemble(this.typing)
-                this.cho = this.typingArr.reduce(function (prev,elem) {
-                    elem = elem[0] ? elem[0] : elem;
-                    return prev+elem;
-                },"");
-                item.dis
-                console.log("한글분리~");
-                console.log(this.typingArr);
-                return this.typingArr
-            }
-        },
+        },//End of data(){}
+        computed: {},//End of computed : {}
         methods: {
+            searchMatching: function (lang) {
+                /*새변수 = .filter() [새로운 배열로 반환]*/
+                this.typingArr = this.empArr.filter(function (emp) {
+                    /*return [이름,부서] 문자열검색 || 초성검색*/
+                        return emp.emp_name.includes(lang) || emp.dis_emp_name.includes(Hangul.disassemble(lang).join(""))
+                            || emp.dep_name.includes(lang) || emp.dis_dep_name.includes(Hangul.disassemble(lang).join(""));
+                    })
+            },
+            idToName: function () {
+                /*emp,dep table dep_id비교해서 emp에 dep_name bind*/
+                for (var i = 0; i < this.empArr.length; i++) {
+                    for (var j = 0; j < this.depArr.length; j++) {
+                        if (this.empArr[i].dep_id == this.depArr[j].dep_id) {
+                            this.empArr[i].dep_name = this.depArr[j].dep_name;
+                        }
+                    }
+                }
+            },
+            addCho: function () {
+                this.empArr.forEach(function (emp) {
+                    /*empArr에 초성필드 추가{emp_name:"김범준", disassembled:"ㄱㅂㅈ"}*/
+                    var dis = Hangul.disassemble(emp.emp_name, true)
+                    var dis2 = Hangul.disassemble(emp.dep_name, true)
+                    var cho = dis.reduce(function (prev, elem) {
+                        elem = elem[0] ? elem[0] : elem;
+                        return prev + elem;
+                    }, "");
+                    var cho2 = dis2.reduce(function (prev, elem) {
+                        elem = elem[0] ? elem[0] : elem;
+                        return prev + elem;
+                    }, "");
+                    emp.dis_emp_name = cho;
+                    emp.dis_dep_name = cho2;
+                });
+            },
             saveInfo: function () {
                 /*연관검색 데이터 가져오는 메서드(SELECT ALL)*/
-                // var depData = {
-                //     dep_id : this.depInfo.dep_id,
-                //     dep_name : this.depInfo.dep_name
-                // };
-                // var empData = {
-                //     emp_id : this.empInfo.emp_id,
-                //     emp_name : this.empInfo.emp_name,
-                //     dep_name : this.empInfo.dep_name
-                // };
+
                 http
                     .post("/app/search/dep")
                     .then(response => {
-                        // this.depInfo.dep_id= response.data.dep_id;
-                        // this.depInfo.dep_name = response.data.dep_name;
-                        console.log("dep진입");
                         this.depArr = response.data;
-                        console.log("dep가져옴");
-                        console.log(this.depArr.length);
-
-                        for (var i = 0; i < this.empArr.length; i++) {
-                            // console.log("length"+this.empArr.length);
-                            for (var j = 0; j < this.depArr.length; j++) {
-                                // console.log("length"+this.empArr.length);
-                                if (this.empArr[i].dep_id == this.depArr[j].dep_id) {
-                                    // console.log("if문진입")
-                                    this.empArr[i].dep_id = this.depArr[j].dep_name;
-                                }
-                            }
-                        }
-
+                        this.idToName();
                     })
                     .catch(e => {
                         console.log(e)
@@ -101,39 +89,25 @@
                     .post("/app/search/emp")
                     .then(response => {
                         this.empArr = response.data;
-
-                        for (var i = 0; i < this.empArr.length; i++) {
-                            // console.log("length"+this.empArr.length);
-                            for (var j = 0; j < this.depArr.length; j++) {
-                                // console.log("length"+this.empArr.length);
-                                if (this.empArr[i].dep_id == this.depArr[j].dep_id) {
-                                    // console.log("if문진입")
-                                    this.empArr[i].dep_id = this.depArr[j].dep_name;
-                                }
-                            }
-                        }
+                        this.idToName();
+                        this.addCho();
                     })
                     .catch(e => {
                         console.log(e);
                     });
             },
-
-
-        },
+        },//End of method :{}
         mounted() {
             /*db가져와서 info에 넣어주는 로직*/
-
-            // if (sessionStorage.length > 0) {
-            //     this.login_id = sessionStorage.getItem("login_id");
-            //
-            //     this.;(this.login_id);
-            // }else{
-            //     alert("로그인을 해주세요!");
-            //     this.$router.push('/');
-            // }
-
             this.saveInfo();
-        }
+
+        },//End of mounted(){}
+        beforeUpdate() {
+        },
+        updated() {
+
+        }//End of updated(){}
+
     }
 </script>
 
