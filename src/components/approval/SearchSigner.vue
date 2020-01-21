@@ -14,23 +14,26 @@
                     <fieldset>
                         <div>검색</div>
                         <input type="text" v-on:input="searchMatching($event.target.value)"
-                               @keyup.enter="add_signer"
-                               @keyup.up="selectAbove"
-                               @keyup.left="selectAbove"
-                               @keyup.down="selectBelow"
-                               @keyup.right="selectBelow"
+                               @keyup.enter="extractSelected"
+                               @keydown.up="selectAbove"
+                               @keydown.left="selectAbove"
+                               @keydown.down="selectBelow"
+                               @keydown.right="selectBelow"
+                               @keydown.tab="removeAutoComplete"
+                               @blur="removeAutoComplete"
                                class="form-control col-md-12" placeholder="부서나 이름을 입력해주세요"
                                style="width: 400px; float: left; border:2px #95a5a6 solid">
                         <input type="button" class="btn btn-primary" value="추가" style="float: right">
                     </fieldset>
                     <div v-if="showArr.length>0"
                          style="background-color: aliceblue; width: 400px; border: #95a5a6 1.5px solid; border-top: 0px; border-radius: 3px">
-                        <div id="empList" v-for="(emp,index) in showArr" :key="index"  style="text-align: -webkit-left;">
-                            <div v-bind:class="{'selected':isSelected(index)}" ><!--v-if="emp.selected=false"-->
-                                <b style="margin-left: 10px">{{emp.dep_name}}{{emp.emp_name}}{{emp.emp_email}}</b>
+                        <div id="empList" v-for="(emp,index) in showArr" :key="index" style="text-align: -webkit-left;">
+                            <div v-bind:class="{'selected':isSelected(index)}"><!--v-if="emp.selected=false"-->
+                                <router-link to="#" style="margin-left: 10px" @click="extractSelected">
+                                    <b>{{emp.dep_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_email}}</b>
+                                </router-link>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -141,13 +144,16 @@
                 }
             },
             selectAbove() {
-                console.log("selectAbove진입")
-                console.log("keyNum=" + this.keyNum)
-                if (this.keyNum == 0) {
+                /*input 에서 위,왼쪽 눌렀을때 선택된곳 */
+
+                if(this.showArr[this.keyNum].selected == null)
+                    return
+
+                if (this.keyNum == 0) {//맨위
                     this.showArr[this.keyNum].selected = true;
                     this.showArr[this.keyNum + 1].selected = false;
 
-                } else if (this.keyNum == this.showArr.length) {
+                } else if (this.keyNum == this.showArr.length) {//맨아래
                     this.showArr[this.keyNum - 1].selected = true;
                     this.keyNum--
                 } else {
@@ -155,17 +161,17 @@
                     this.showArr[this.keyNum].selected = false;
                     this.keyNum--
                 }
-                console.log("keyNum=" + this.keyNum)
             },
             selectBelow() {
-                console.log("selectBelow진입")
-                console.log("keyNum=" + this.keyNum)
+                /*input 에서 아래,오른쪽 눌렀을때 선택된곳*/
 
+                if(this.showArr[this.keyNum].selected == null)
+                    return//수정해야됨***
 
-                if (this.keyNum == 0) {
+                if (this.keyNum == 0) {//맨위
                     this.showArr[this.keyNum].selected = true;
                     this.keyNum++
-                } else if (this.keyNum == this.showArr.length) {
+                } else if (this.keyNum + 1 == this.showArr.length) {//맨아래
                     this.showArr[this.keyNum - 1].selected = true;
                 } else {
                     this.showArr[this.keyNum].selected = true;
@@ -173,37 +179,45 @@
                     this.keyNum++
                 }
 
-                console.log("keyNum=" + this.keyNum)
-            },  isSelected(index){
-                console.log("진입")
-                if(index==this.keyNum){
-                    console.log("진입2")
-
+            }, isSelected(index) {
+                /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
+                if (index == this.keyNum) {
                     return true
-                }else{
+                } else {
                     return false
                 }
+            },
+            extractSelected(){
+
+                /*채워주거나 지워주는 로직 필요*/
+console.log("진입")
+                if(this.sign1 == ''){
+                this.sign1 = this.showArr[this.keyNum].emp_name
+                }else if(this.sign1 != ''){
+                  this.sign2 = this.showArr[this.keyNum].emp_name
+                }else if(this.sign1 !='' && this.sign2 !='') {
+                    this.sign3 = this.showArr[this.keyNum].emp_name
+                }
+                console.log(this.sign1)
+                /*내일완성*/
+            },
+            removeAutoComplete(){
+                this.showArr.length = 0;
             }
 
 
         },//End of method :{}
-        created() {
-
-        },
         mounted() {
             /*db가져와서 info에 넣어주는 로직*/
             this.saveInfo();
         },//End of mounted(){}
-        updated() {
-            console.log("this.showArr" + this.showArr);
-            console.log(this.showArr);
-        },
 
     }//End of export default
 </script>
 
 <style scoped>
-.selected{
-    background-color: darkslateblue;
-}
+    .selected {
+        background-color: #ECF0F1;
+    }
+
 </style>
