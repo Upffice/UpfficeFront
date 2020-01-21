@@ -16,6 +16,9 @@ import PostsList from "./components/posts/PostsList";
 import Post from "./components/posts/Post";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
+import AddSurvey from "./components/survey/AddSurvey";
+import SurveyList from "./components/survey/SurveyList";
+import Survey from "./components/survey/Survey";
 
 Vue.use(Router);
 
@@ -106,6 +109,28 @@ export default new Router({
             path: "/working/annual",
             name: "annualDetail",
             component: AnnualDetail
-        }
+        },
+        {
+            path:"/survey/addsurvey",
+            name:"addsurvey",
+            // alias: "/survey",
+            component: AddSurvey
+        },
+        {
+            path:  "/survey/allsurvey",
+            name: "SurveyList",
+            alias: "/survey",
+            component: SurveyList
+
+
+        },
+        {
+            path: "/survey/SurveyList/:survey_id",
+            name: "survey-details",
+            component: Survey,
+            props : true
+
+        },
+
     ]
 });

@@ -9,11 +9,7 @@
 <!--        사용자 정보 입력란-->
         <div class="form-group" >
           <input type="text" class="form-control" id="writer" required v-model="post.post_writer" name="writer" placeholder="작성자">
-
         </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="created" required v-model="post.post_created" name="created" placeholder="날짜는 자동으로 기입됩니다.">
-            </div>
         <div class="form-group">
             <input type="text" class="form-control" id="subject" required v-model="post.post_subject" name="subject" placeholder="글 제목">
         </div>
@@ -51,14 +47,14 @@
                 post: {
                     post_id: "",
                     board_name: "",
-                    header: "",
                     post_writer: "",
                     post_subject: "",
                     post_content: "",
                     post_created: "",
                     post_view: ""
                 },
-                submitted: false
+                submitted: false,
+                empID: ""
             };
         },
         components: {
@@ -71,7 +67,7 @@
                 var data = {
                     post_id: this.post.post_id,
                     board_name: this.post.board_name,
-                    header: this.post.header,
+                    post_dep_id: 0,
                     post_writer: this.post.post_writer,
                     post_subject: this.post.post_subject,
                     post_content: this.post.post_content,
@@ -95,6 +91,23 @@
                 this.$router.push({
                     path:'/pst'
                 })
+            },
+            getName(login_id) {
+                /* 사원번호에 해당하는 사원명 가져오는 메소드 */
+                http
+                    .post("/login/name/" + login_id)
+                    .then(response => {
+                        this.post.post_writer = response.data; // survey_writer 에 현재 로그인한 사원명이 들어감.
+                    })
+            } // End - getName()
+        },
+        mounted() {
+            // mounted 될 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.empID = sessionStorage.getItem("login_id"); // 이 컴포넌트에 선언된 empID 변수에 현재 로그인한 사번 넣기
+                this.getName(this.empID);   // empID로 사원명 가져오는 메소드 호출
+            } else {
+                this.$router.push("/");
             }
         }
     };

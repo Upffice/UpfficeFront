@@ -37,7 +37,6 @@
             </table>
 
 
-            <button class="btn btn-primary" type="button" @click="write">글쓰기</button>
         </div>
         <div class="col-md-6">
             <router-view @refreshData="refreshList"></router-view>
@@ -46,10 +45,9 @@
             <input class="form-control mr-sm-2" type="text" placeholder="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
-
+        <button class="btn btn-primary" type="button" @click="write">글쓰기</button>
 
     </div>
-
 
 </template>
 
@@ -107,22 +105,17 @@
                         // eslint-disable-next-line no-console
                         console.log(e);
                     });
-                // eslint-disable-next-line no-console
-                // console.log("눌림");
             },
-            // modify(index){
-            //     this.$router.push({
-            //         name : 'ModifyPosts',
-            //         params : {
-            //             post_id : index
-            //         }
-            //     })
-            // }
+
         },
         mounted() {
-            this.retrieveBoards();
+            // mounted 될 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.retrieveBoards();
+            } else {
+                this.$router.push("/");
+            }
         },
-
 
 
 
