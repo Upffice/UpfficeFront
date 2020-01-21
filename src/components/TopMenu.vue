@@ -16,13 +16,13 @@
                         <router-link class="nav-link" to="/customer">customer</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/pst">Posts</router-link>
+                        <router-link class="nav-link" to="/pst">게시판</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/working">근태관리</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/survey">Survey</router-link>
+                        <router-link class="nav-link" to="/survey">설문</router-link>
                     </li>
                 </ul>
 

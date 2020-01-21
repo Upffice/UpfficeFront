@@ -30,6 +30,14 @@
 
                 </li>
             </router-link>
+            <router-link to="/addsurvey">
+
+                <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+                    설문 등록하기
+
+
+                </li>
+            </router-link>
 
 
         </ul>

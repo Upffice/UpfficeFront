@@ -54,7 +54,8 @@
                     post_view: ""
                 },
                 submitted: false,
-                empID: ""
+                empID: "",
+                post_dep_id: ""
             };
         },
         components: {
@@ -67,7 +68,7 @@
                 var data = {
                     post_id: this.post.post_id,
                     board_name: this.post.board_name,
-                    post_dep_id: 0,
+                    post_dep_id: this.post_dep_id,
                     post_writer: this.post.post_writer,
                     post_subject: this.post.post_subject,
                     post_content: this.post.post_content,
@@ -88,9 +89,7 @@
                 this.submitted = true;
             },
             backlist(){
-                this.$router.push({
-                    path:'/pst'
-                })
+                history.go(-1);
             },
             getName(login_id) {
                 /* 사원번호에 해당하는 사원명 가져오는 메소드 */
@@ -99,7 +98,29 @@
                     .then(response => {
                         this.post.post_writer = response.data; // survey_writer 에 현재 로그인한 사원명이 들어감.
                     })
-            } // End - getName()
+            }, // End - getName()
+            getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
+                http
+                    .post("/mypage/" + id)
+                    .then(response => {
+                        // 응답 데이터를 employee 데이터에 대입하기.
+                        this.post_dep_id = response.data.dep_id;
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                    });
+            },
+            writeCheck() {
+                let write_chk = location.href.indexOf("dep_pst");  // dep_pst 가 포함되어 있으면 0(부서게시판) 이상의 숫자, 없으면 -1(전사게시판)
+                console.log(write_chk);
+                if(write_chk==-1) {
+                    // 현재 전사 게시판 선택 상태
+                    this.post_dep_id = 0;   //  post_dep_id 에 0넣기
+                } else {
+                    this.getEmpInfo(this.empID);    // empID로 사원정보 가져오기 : dep_id만 사용함
+                }
+            }
         },
         mounted() {
             // mounted 될 때 로그인이 되어있는 상태라면
@@ -109,6 +130,9 @@
             } else {
                 this.$router.push("/");
             }
+        },
+        updated() {
+            this.writeCheck();
         }
     };
 </script>

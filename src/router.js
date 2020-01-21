@@ -9,7 +9,6 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
-import EmployeeInfo from "./components/mypage/MypageInfo.vue"
 import MypageInfo from "./components/mypage/MypageInfo";
 import Addposts from "./components/posts/Addposts";
 import PostsList from "./components/posts/PostsList";
@@ -19,6 +18,7 @@ import AnnualDetail from "./components/working/AnnualDetail.vue";
 import AddSurvey from "./components/survey/AddSurvey";
 import SurveyList from "./components/survey/SurveyList";
 import Survey from "./components/survey/Survey";
+import DepPostsList from "./components/posts/DepPostsList";
 
 Vue.use(Router);
 
@@ -89,15 +89,12 @@ export default new Router({
             name: "post",
             alias: "/pst",
             component: PostsList
-
-
         },
         {
             path: "/pst/PostsList/:post_id",
             name: "post-details",
             component: Post,
             props : true
-
         },
         {
             path: "/working/status",
@@ -113,7 +110,7 @@ export default new Router({
         {
             path:"/survey/addsurvey",
             name:"addsurvey",
-            // alias: "/survey",
+            alias: "/addsurvey",
             component: AddSurvey
         },
         {
@@ -121,16 +118,30 @@ export default new Router({
             name: "SurveyList",
             alias: "/survey",
             component: SurveyList
-
-
         },
         {
             path: "/survey/SurveyList/:survey_id",
             name: "survey-details",
             component: Survey,
             props : true
-
         },
+        {
+            path: "/dep_pst/add",
+            name: "dep_add",
+            component: Addposts
+        },
+        {
+            path:  "/dep_pst/posts",
+            name: "dep_post",
+            alias: "/dep_pst",
+            component: DepPostsList
+        },
+        {
+            path: "/dep_pst/PostsList/:post_id",
+            name: "dep_post-details",
+            component: Post,
+            props : true
+        }
 
     ]
 });

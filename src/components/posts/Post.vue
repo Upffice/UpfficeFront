@@ -23,9 +23,10 @@
                     <p class="card-text" >{{this.post.post_content}}</p>
                 </div>
              </div>
-
+              <div v-if="chkWriter()">
             <button class="btn btn-success" type="button" @click="deletePost">게시물 삭제</button>
             <button class="btn btn-success" type="button" @click="modify">게시물 수정</button>
+             </div>
         </div>
         <!--여기까지 div로 묶고 검사-->
 
@@ -55,7 +56,9 @@
         name: "post",
         data() {
             return{
-                 flex: true // 나중에 조건 검사하면 글 작성자==나 일때 false로 바꾸기
+                 flex: true, // 나중에 조건 검사하면 글 작성자==나 일때 false로 바꾸기
+                 emp_id: "",
+                 emp_name:""
             }
         },
         components: {
@@ -76,6 +79,16 @@
                         console.log(e);
                     });
             },
+            chkWriter(){
+                if(this.emp_name == this.post.post_writer){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            },
+
+
             modify() {
                 this.flex=false
             },
@@ -95,9 +108,30 @@
                         console.log(e);
                     });
 
+            },
+            getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
+                http
+                    .post("/mypage/" + id)
+                    .then(response => {
+                        // 응답 데이터를 employee 데이터에 대입하기.
+                        this.emp_name = response.data.emp_name;
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                    });
             }
 
 
+        },
+        mounted() {
+            // mounted 될 때 로그인이 되어있는 상태라면
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.emp_id = sessionStorage.getItem("login_id"); // 이 컴포넌트에 선언된 empID 변수에 현재 로그인한 사번 넣기
+                this.getEmpInfo(this.emp_id);
+            } else {
+                this.$router.push("/");
+            }
         },
 
 
