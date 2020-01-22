@@ -23,13 +23,16 @@
                     </thead>
                     <tbody>
                     <tr v-for="(row, index) in currentCalendarMatrix" :key="index">
-                        <td class="calendarCell" @click="addSchedule(currentYear,currentMonth,day)" v-for="(day, index2) in row" :key="index2">
+                        <td class="calendarCell" v-for="(day, index2) in row" :key="index2">
                         <span v-if="isToday(currentYear, currentMonth, day)" class="rounded">
                           {{day}}
                         </span>
-                            <span v-else>
+
+                        <span v-else>
                           {{day}}
                         </span>
+                        <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기-->
+                        <div v-if="day!==''" class="scrollDiv">가나다가나다가나다<br>가나다가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br></div>
                         </td>
                     </tr>
                     </tbody>
@@ -168,21 +171,11 @@
                 let date = new Date();
                 return year == date.getFullYear() && month == date.getMonth()+1 && day == date.getDate();
             },
-            addSchedule(year, month, day) {
-                if(day==""){ // 달력에 없는 일자일 경우(day 정보가 없는 경우)
-                    return;
-                } else {
-                    this.$modal.show(RegisterPopup, {
-                            registerData : 'data',
-                            modal : this.$modal
-                    },
-                    {
-                            name: 'dynamic-modal',
-                            width:'400px',
-                            height: '600px',
-                            draggable: true
-                    });
-                } // End : if-else
+            showCellDetail(year, month, day) {  // 테이블 cell 클릭 시 상세 정보 모달 띄우기
+                if(day!==""){
+
+                }
+
             }
         },
         mounted() {
@@ -198,7 +191,7 @@
 
 <style>
     .calendar {
-        width: 80%;
+        width: 75%;
         margin-left: 265px;
     }
     .cal_nav {
@@ -222,11 +215,20 @@
     .searchInput {
         width: 300px;
     }
-    .calendarCell:hover{
-        background: lightblue;
-    }
     .calendarCell {
         width: 100px;
-        height: 100px;
+        height: 150px;
+    }
+    .scrollDiv {
+        /*overflow-y:scroll;*/
+        overflow: auto;
+        height:80%;
+        margin-top: 10px;
+        font-size: 11px;
+        -ms-overflow-style: none; /*IE에서 스크롤바 안 보이게 하기*/
+    }
+    .scrollDiv::-webkit-scrollbar {
+        width: 10px;
+        background: transparent;
     }
 </style>

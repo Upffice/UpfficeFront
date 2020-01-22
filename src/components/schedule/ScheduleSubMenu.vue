@@ -1,6 +1,6 @@
 <template>
     <div class="subMenu">
-        <button class="btn  btn-lg btn-link">일정 등록 +</button>
+        <button class="btn btn-lg btn-link" @click="addSchedule()">일정 등록 +</button>
         <div class="category">카테고리별 일정</div>
         카테고리 추가
     </div>
@@ -11,16 +11,17 @@
 
 export default {
     methods : {
-        addSchedule() {
-            this.$modal.show(RegisterPopup,{
-                hot_table : 'data',
-                modal: this.$modal},
-                {
-                    name: 'dynamic-modal',
-                    width: '330px',
-                    height: '130px',
-                    draggable: true
-            })
+        addSchedule() { // 일정 등록 modal 띄우는 메소드
+            this.$modal.show(RegisterPopup, {
+                registerData : 'data',
+                modal : this.$modal
+            },
+            {
+                 name: 'dynamic-modal',
+                 width:'400px',
+                 height: '600px',
+                 draggable: true,
+            });
         }
     }
 };
