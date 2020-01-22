@@ -18,7 +18,7 @@
                 </span>
             </div>
             <div class="row">
-                <modals-container />
+                <modals-container v-on:submit_signer="receiveModalData"/>
             </div>
             <!--------------------------------------------결제선 테이블 시작------------------------------------------------------->
             <div class="sign-line" style="float: right; padding-right: 65px; padding-bottom: 40px;">
@@ -38,7 +38,7 @@
                         <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
 <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
-                        <td style="border: black 2px solid"><b>{{approval.signId1}}<br><br></b></td>
+                        <td style="border: black 2px solid"><b>{{approval.signId1}}장범준<br><br></b></td>
                         <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{approval.signId2}}장범준<br><br></b></td>
                         <td v-if="approval.signId3!=null"style="border: black 2px solid"><b>{{approval.signId3}}강범준<br><br></b></td>
 <!--                        <td style="border: black 2px solid">장범준</td>-->
@@ -171,7 +171,17 @@
             subMenu: ApprovalSubMenu
         },
         methods: {
+            receiveModalData : function(sign1,sign2,sign3){
+                console.log("메서드진입")
 
+                this.approval.signId1 = sign1;
+                this.approval.signId2 = sign2;
+                this.approval.signId3 = sign3;
+                console.log("메서드진입")
+                console.log("this.approval.signId1")
+                console.log(this.approval.signId1)
+                alert("데이터를 받았습니다.")
+            },
             saveDoc: function () {
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
@@ -217,6 +227,14 @@
             search_signer(){
                 /*결제자 누르면 검색창(modal)띄워주는 로직*/
                 this.$modal.show(SearchSigner,{
+                    // handlers: {
+                    //     doSomethingInComponent: (...args) => {
+                    //         //do something
+                    //         //this - is your component where was called modal
+                    //         //args - corrected arguments from modal
+                    //         console.log(args, this);
+                    //     },
+                    //https://github.com/euvl/vue-js-modal/issues/192
                     hot_table : 'data',
                     modal : this.$modal },{
                     name: 'dynamic-modal',
@@ -225,7 +243,6 @@
                     draggable: true
                 })
             },
-
             showsignDoc() {
                 /*결재선(검색 modal)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
                 console.log("showsignDoc_method");
@@ -259,7 +276,6 @@
                         var d = new Date();
                         var currentDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
                         var currentTime = " " + d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-                        // this.approval.date = currentDate;
                         this.cTime = currentDate;
                         this.getDep_Name(this.approval.writerDepId);     // 사원 정보 중 부서 이름 가져오기
                     })
@@ -290,7 +306,15 @@
                 this.$router.push('/');
             }
 
-        }
+        },
+        // computed :{
+        //     dataChanged : function () {
+        //         if(this.approval.signId1 != ''){
+        //             this.receiveModalData();
+        //         }
+        //     }
+        // }
+
     }
 </script>
 

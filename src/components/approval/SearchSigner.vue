@@ -20,16 +20,17 @@
                                @keydown.down="selectBelow"
                                @keydown.right="selectBelow"
                                @keydown.tab="removeAutoComplete"
-                               @blur="removeAutoComplete"
-                               class="form-control col-md-12" placeholder="부서나 이름을 입력해주세요"
+                               class="form-control col-md-12 " placeholder="부서나 이름을 입력해주세요"
+                               v-bind:class="{'is-valid':isValid()}"
                                style="width: 400px; float: left; border:2px #95a5a6 solid">
-                        <input type="button" class="btn btn-primary" value="추가" style="float: right">
+                        <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)">
                     </fieldset>
+
                     <div v-if="showArr.length>0"
                          style="background-color: aliceblue; width: 400px; border: #95a5a6 1.5px solid; border-top: 0px; border-radius: 3px">
                         <div id="empList" v-for="(emp,index) in showArr" :key="index" style="text-align: -webkit-left;">
                             <div v-bind:class="{'selected':isSelected(index)}"><!--v-if="emp.selected=false"-->
-                                <router-link to="#" style="margin-left: 10px" @click="extractSelected">
+                                <router-link to="#" style="margin-left: 10px" @click.native="extractSelected(index)">
                                     <b>{{emp.dep_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_email}}</b>
                                 </router-link>
                             </div>
@@ -38,9 +39,13 @@
 
                 </div>
                 <div class="modal-footer">
-                    <input class="btn btn-primary" @click="close_modal" type="button" value="확인">
+                    <div style="float: left">
+                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 1 :</b>{{sign1}}</button>
+                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 2 :</b>{{sign2}}</button>
+                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 3 :</b>{{sign3}}</button>
+                    </div>
+                    <input class="btn btn-primary" @click="submit_signer" type="button" value="등록">
                     <input class="btn btn-secondary" @click="$emit('close')" type="button" value="취소">
-
                 </div>
             </div>
         </div>
@@ -56,6 +61,7 @@
         name: "SearchSigner",
         data: function () {
             return {
+                show : true,
                 keyNum: 0,
                 sign1: "",
                 sign2: "",
@@ -69,8 +75,9 @@
         }, props: [
             'hot_table',
         ], methods: {
-            close_modal() {
-                this.$emit('close')
+            submit_signer() {
+                this.$emit('receiveModalData',this.sign1,this.sign2,this.sign3);
+                this.$emit('close');
             },
             searchMatching: function (lang) {
                 if (this.showArr.length > 6) {//결과값 6이상이면 함수종료//유효하지않은듯
@@ -186,20 +193,29 @@
                 } else {
                     return false
                 }
+            }, isValid(){
+                if(this.showArr.length>0){
+                    return true
+                } else {
+                    return false
+                }
             },
-            extractSelected(){
-
-                /*채워주거나 지워주는 로직 필요*/
-console.log("진입")
+            extractSelected(index){
+                /*변수에 선택한 결제재 정보 넘겨주는 메서드*/
+                if(index != null){
+                    this.keyNum = index
+                }
                 if(this.sign1 == ''){
                 this.sign1 = this.showArr[this.keyNum].emp_name
-                }else if(this.sign1 != ''){
+                }else if(this.sign1 != '' && this.sign1 == this.showArr[this.keyNum].emp_name){
+                    alert("이미 지정한 결제자입니다!")
+                }else if(this.sign1 != '' && this.sign2 == '' && this.sign1 != this.showArr[this.keyNum].emp_name){
                   this.sign2 = this.showArr[this.keyNum].emp_name
-                }else if(this.sign1 !='' && this.sign2 !='') {
+                }else if(this.sign1 != '' && this.sign2 != '' && (this.sign1 == this.showArr[this.keyNum].emp_name || this.sign2 == this.showArr[this.keyNum].emp_name)){
+                    alert("이미 지정한 결제자입니다!")
+                }else if(this.sign1 !='' && this.sign2 !='' && this.sign1 != this.showArr[this.keyNum].emp_name && this.sign2 != this.showArr[this.keyNum].emp_name) {
                     this.sign3 = this.showArr[this.keyNum].emp_name
                 }
-                console.log(this.sign1)
-                /*내일완성*/
             },
             removeAutoComplete(){
                 this.showArr.length = 0;
