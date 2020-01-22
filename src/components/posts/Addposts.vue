@@ -73,7 +73,8 @@
                     post_subject: this.post.post_subject,
                     post_content: this.post.post_content,
                     post_created: this.post.post_created,
-                    post_view: this.post.post_view
+                    post_view: this.post.post_view,
+                    emp_id:this.emp_id
                 };
                 //입력한 데이터들을 컨트롤러에 보내주는 메서드
                 http

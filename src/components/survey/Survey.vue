@@ -34,6 +34,8 @@
                     <p class="card-text">{{this.survey.survey_detail}}</p>
                 </div>
             </div>
+
+            <button class="btn btn-success" type="button" @click="savevote">확인</button>
         </div>
         <!--여기까지 div로 묶고 검사-->
         <div v-else>
@@ -92,6 +94,7 @@
                     // this.survey.answer =response.data.answer;
                     console.log("들어가는 값?"+response.data.selection);
                     // console.log(this.survey.answer)
+                    history.go(-1);
                 })
             },
             testbutton() {
