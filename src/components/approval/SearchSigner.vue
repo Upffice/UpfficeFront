@@ -14,7 +14,7 @@
                     <fieldset>
                         <div>검색</div>
                         <input type="text" v-on:input="searchMatching($event.target.value)"
-                               @keyup.enter="extractSelected"
+                               @keyup.enter="extractSelected(keyNum)"
                                @keydown.up="selectAbove"
                                @keydown.left="selectAbove"
                                @keydown.down="selectBelow"
@@ -30,7 +30,7 @@
                          style="background-color: aliceblue; width: 400px; border: #95a5a6 1.5px solid; border-top: 0px; border-radius: 3px">
                         <div id="empList" v-for="(emp,index) in showArr" :key="index" style="text-align: -webkit-left;">
                             <div v-bind:class="{'selected':isSelected(index)}"><!--v-if="emp.selected=false"-->
-                                <router-link to="#" style="margin-left: 10px" @click.native="extractSelected(index)">
+                                <router-link to="" style="margin-left: 10px" @click.native="extractSelected(index)">
                                     <b>{{emp.dep_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_name}}</b>&nbsp;&nbsp;&nbsp;<b>{{emp.emp_email}}</b>
                                 </router-link>
                             </div>
@@ -73,10 +73,11 @@
                 empArr: [],
             }
         }, props: [
-            'hot_table',
+            'valueUpdated'
         ], methods: {
+
             submit_signer() {
-                this.$emit('receiveModalData',this.sign1,this.sign2,this.sign3);
+                this.valueUpdated(this.sign1,this.sign2,this.sign3);
                 this.$emit('close');
             },
             searchMatching: function (lang) {
@@ -153,8 +154,12 @@
             selectAbove() {
                 /*input 에서 위,왼쪽 눌렀을때 선택된곳 */
 
-                if(this.showArr[this.keyNum].selected == null)
+                // if(this.showArr[this.keyNum].selected == null)
+                //     return
+
+                if(this.showArr.length == 0){ //from jy..
                     return
+                }
 
                 if (this.keyNum == 0) {//맨위
                     this.showArr[this.keyNum].selected = true;
@@ -172,8 +177,12 @@
             selectBelow() {
                 /*input 에서 아래,오른쪽 눌렀을때 선택된곳*/
 
-                if(this.showArr[this.keyNum].selected == null)
-                    return//수정해야됨***
+                // if(this.showArr[this.keyNum].selected == null)
+                //     return//수정해야됨***
+
+                if(this.showArr.length == 0){ //from jy..
+                    return
+                }
 
                 if (this.keyNum == 0) {//맨위
                     this.showArr[this.keyNum].selected = true;
