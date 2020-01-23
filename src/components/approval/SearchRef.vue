@@ -4,7 +4,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">결재선 지정</h5>
+                    <h5 class="modal-title">참조자 지정</h5>
                     <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
                             @click="$emit('close')">
                         <span aria-hidden="true">&times;</span>
@@ -40,9 +40,9 @@
                 </div>
                 <div class="modal-footer">
                     <div style="float: left">
-                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 1 :</b>{{sign1}}</button>
-                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 2 :</b>{{sign2}}</button>
-                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 3 :</b>{{sign3}}</button>
+                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 1 :</b>{{sign1}}</button>
+                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 2 :</b>{{sign2}}</button>
+                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 3 :</b>{{sign3}}</button>
                     </div>
                     <input class="btn btn-primary" @click="submit_signer" type="button" value="등록">
                     <input class="btn btn-secondary" @click="$emit('close')" type="button" value="취소">
@@ -58,7 +58,7 @@
     import * as Hangul from 'hangul-js';
 
     export default {
-        name: "SearchSigner",
+        name: "SearchRef",
         data: function () {
             return {
                 show : true,
@@ -156,7 +156,6 @@
             add_signer() {
                 alert("추가되었습니다!")
                 if (this.sign1 == null) {
-
                 }
             },
             selectAbove() {
@@ -223,18 +222,21 @@
                     this.keyNum = index
                 }
                 if(this.sign1 == ''){
-                this.sign1 = this.showArr[this.keyNum].emp_name
-                this.sign1id = this.showArr[this.keyNum].emp_id
+                    this.sign1 = this.showArr[this.keyNum].emp_name
+                    this.sign1id = this.showArr[this.keyNum].emp_id
+
                 }else if(this.sign1 != '' && this.sign1 == this.showArr[this.keyNum].emp_name){
-                    alert("이미 지정한 결제자입니다!")
+                    alert("이미 지정한 참조자입니다!")
                 }else if(this.sign1 != '' && this.sign2 == '' && this.sign1 != this.showArr[this.keyNum].emp_name){
-                  this.sign2 = this.showArr[this.keyNum].emp_name
-                  this.sign2id = this.showArr[this.keyNum].emp_id
+                    this.sign2 = this.showArr[this.keyNum].emp_name
+                    this.sign2id = this.showArr[this.keyNum].emp_id
+
                 }else if(this.sign1 != '' && this.sign2 != '' && (this.sign1 == this.showArr[this.keyNum].emp_name || this.sign2 == this.showArr[this.keyNum].emp_name)){
-                    alert("이미 지정한 결제자입니다!")
+                    alert("이미 지정한 참조자입니다!")
                 }else if(this.sign1 !='' && this.sign2 !='' && this.sign1 != this.showArr[this.keyNum].emp_name && this.sign2 != this.showArr[this.keyNum].emp_name) {
                     this.sign3 = this.showArr[this.keyNum].emp_name
                     this.sign3id = this.showArr[this.keyNum].emp_id
+
                 }
             },
             removeAutoComplete(){

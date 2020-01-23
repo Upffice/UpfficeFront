@@ -38,9 +38,9 @@
                         <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
 <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{approval.signId1}}<br><br></b></td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{approval.signId2}}<br><br></b></td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{approval.signId3}}<br><br></b></td>
+                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{signName1}}<br><br></b></td>
+                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b></td>
+                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b></td>
                     </tr>
                     </tbody>
                 </table>
@@ -86,8 +86,8 @@
                                v-model="approval.writerPosition" name="writerPosition" readonly
                                style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="refId">참조자</label></th><!--수정-->
-                    <td><input type="text" class="form-control" id="refId" required v-model="approval.refId"
-                               name="refId" placeholder="참조자를 선택해주세요."></td>
+                    <td><input type="text" class="form-control" id="refId"  :value="refName1+' '+refName2 +' ' +refName3"
+                               name="refId" placeholder="참조자를 선택해주세요." @focus="search_ref" ></td>
                     <!--                    <td><button>추가</button></td>-->
                 </tr>
                 <tr>
@@ -124,6 +124,7 @@
     import ApprovalSubMenu from "./ApprovalSubMenu";
     import http from "../../http-common";
     import SearchSigner from "./SearchSigner";
+    import SearchRef from "./SearchRef";
 
     export default {
         name: "write",
@@ -134,6 +135,13 @@
                 selectedData:"approval",
                 types:["결재","합의","협조"],
                 cTime:"",
+                refIds:"",
+                signName1:"",
+                signName2:"",
+                signName3:"",
+                refName1:"",
+                refName2:"",
+                refName3:"",
                 approval: {
                     docNum: "",
                     type: "결재",
@@ -170,6 +178,9 @@
             saveDoc: function () {
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
+
+                this.approval.statusCheck = "save";
+
                 var data = {
                         app_doc_num: this.approval.docNum,
                         app_type: this.approval.type,
@@ -216,11 +227,14 @@
                 this.$modal.show(SearchSigner,{
                     modal : this.$modal,
                     /*initialValue: this.approval.signId1,*/
-                    valueUpdated:(newValue1,newValue2,newValue3) => {
+                    valueUpdated:(newValue1,newValue2,newValue3,newValue1id,newValue2id,newValue3id) => {
                         /*데이터 이벤트 트리거 역할을 하는 콜백함수*/
-                        this.approval.signId1 = newValue1;
-                        this.approval.signId2 = newValue2;
-                        this.approval.signId3 = newValue3;
+                        this.signName1 = newValue1;
+                        this.signName2 = newValue2;
+                        this.signName3 = newValue3;
+                        this.approval.signId1 = newValue1id;
+                        this.approval.signId2 = newValue2id;
+                        this.approval.signId3 = newValue3id;
                     }},{
                     name: 'dynamic-modal',
                     width : '600px',
@@ -228,19 +242,73 @@
                     draggable: true
                 })
             },
-            showsignDoc() {
-                /*결재선(검색 modal)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
-                /* eslint-disable no-console */
-                console.log("showsignDoc_method");
-                /* eslint-disable no-console */
-
+            search_ref(){
+                /*참조input 누르면 검색창(modal)띄워주는 로직*/
+                this.$modal.show(SearchRef,{
+                    modal : this.$modal,
+                    /*initialValue: this.approval.signId1,*/
+                    valueUpdated:(newValue1,newValue2,newValue3,newValue1id,newValue2id,newValue3id) => {
+                        /*데이터 이벤트 트리거 역할을 하는 콜백함수*/
+                        this.refName1 = newValue1;
+                        this.refName2 = newValue2;
+                        this.refName3 = newValue3;
+                        this.approval.refId1 = newValue1id;
+                        this.approval.refId2 = newValue2id;
+                        this.approval.refId3 = newValue3id;
+                    }},{
+                    name: 'dynamic-modal',
+                    width : '600px',
+                    height : '600px',
+                    draggable: true
+                })
             },
             tempsaveDoc() {
                 /*임시저장, 임시저장함으로 보내고, 임시저장함으로 이동하는 로직*/
                 /* eslint-disable no-console */
                 console.log("tempsaveDoc_method");
                 /* eslint-disable no-console */
+                this.approval.statusCheck = "temp";
 
+                var data = {
+                    app_doc_num: this.approval.docNum,
+                    app_type: this.approval.type,
+                    app_doc_title: this.approval.title,
+                    app_writer_id: this.approval.writerId,
+                    app_date: this.approval.date,
+                    app_comment: this.approval.comment,
+                    app_ref_id1: this.approval.refId1,
+                    app_ref_id2: this.approval.refId2,
+                    app_ref_id3: this.approval.refId3,
+                    app_ref_file: this.approval.refFile,
+                    app_content: this.approval.content,
+                    app_sign_id1: this.approval.signId1,
+                    app_sign_id2: this.approval.signId2,
+                    app_sign_id3: this.approval.signId3,
+                    app_sign_date1: this.approval.signDate1,
+                    app_sign_date2: this.approval.signDate2,
+                    app_sign_date3: this.approval.signDate3,
+                    app_status_check: this.approval.statusCheck,
+                    app_status1: this.approval.status1,
+                    app_status2: this.approval.status2,
+                    app_status3: this.approval.status3,
+                    app_writer_name: this.approval.writerName,
+                    app_writer_position: this.approval.writerPosition,
+                    app_writer_depid: this.approval.writerDepId,
+                    app_writer_depname: this.approval.writerDepName
+                };
+                http
+                    .post("/app/doc/write", data)
+                    .then(response => {
+                        this.approval = response.data;
+                        alert("DB에 저장되었습니다.");
+                        this.$router.push('/app/');
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                        /* eslint-disable no-console */
+
+                    });
             },
             cancelDoc() {
                 /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/

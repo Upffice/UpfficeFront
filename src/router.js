@@ -19,8 +19,6 @@ import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
 import DocWrite from "./components/approval/DocWrite";
 import SignWaitDetails from "./components/approval/SignWaitDetails";
-import AppModal from "./components/approval/AppModal";
-import SearchBar from "./components/approval/SearchBar";
 
 Vue.use(Router);
 
@@ -117,16 +115,6 @@ export default new Router({
             name: "wait-details",
             component : SignWaitDetails
         },
-        {
-            path: "/app/modal",
-            name:"appmodal",
-            component:AppModal
 
-        },
-        {
-            path:"/app/search",
-            name:"search-bar",
-            component:SearchBar
-        }
     ]
 });
