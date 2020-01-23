@@ -40,7 +40,7 @@
 
                         <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{approval.signId1}}<br><br></b></td>
                         <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{approval.signId2}}<br><br></b></td>
-                        <td v-if="approval.signId3!=null"style="border: black 2px solid"><b>{{approval.signId3}}<br><br></b></td>
+                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{approval.signId3}}<br><br></b></td>
                     </tr>
                     </tbody>
                 </table>
@@ -56,7 +56,7 @@
                 <td scope="row" style="border: aliceblue;">
 
                     <select id="type" name="type" required v-model="approval.type" style="width: 80px; height: 25px; float: left;">
-                        <option v-for="type in types">{{type}}</option>
+                        <option v-for="(type,index) in types" :key="index">{{type}}</option>
 
                 </select>
                 </td>
@@ -205,7 +205,10 @@
                         this.$router.push('/app/');
                     })
                     .catch(e => {
+                        /* eslint-disable no-console */
                         console.log(e);
+                        /* eslint-disable no-console */
+
                     });
             },
             search_signer(){
@@ -227,15 +230,23 @@
             },
             showsignDoc() {
                 /*결재선(검색 modal)띄우고 선택한 것 비동기로 문서에 표시해주는 로직*/
+                /* eslint-disable no-console */
                 console.log("showsignDoc_method");
+                /* eslint-disable no-console */
+
             },
             tempsaveDoc() {
                 /*임시저장, 임시저장함으로 보내고, 임시저장함으로 이동하는 로직*/
+                /* eslint-disable no-console */
                 console.log("tempsaveDoc_method");
+                /* eslint-disable no-console */
+
             },
             cancelDoc() {
                 /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/
+                /* eslint-disable no-console */
                 console.log("cancelDoc_method");
+                /* eslint-disable no-console */
 
                 var result = confirm("입력을 취소하시겠습니까?");
                 if(result) {
@@ -257,12 +268,14 @@
 
                         var d = new Date();
                         var currentDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-                        var currentTime = " " + d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                        // var currentTime = " " + d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
                         this.cTime = currentDate;
                         this.getDep_Name(this.approval.writerDepId);     // 사원 정보 중 부서 이름 가져오기
                     })
                     .catch(e => {
+                        /* eslint-disable no-console */
                         console.log(e);
+                        /* eslint-disable no-console */
                     });
             }, // End - getEmpInfo : 사원 정보 가져오기, mounted()일 때 실행 됨.
             getDep_Name(dep_id) {
@@ -272,7 +285,10 @@
                         this.approval.writerDepName =  response.data;
                     })
                     .catch(e => {
+                        /* eslint-disable no-console */
                         console.log(e);
+                        /* eslint-disable no-console */
+
                     });
             }
         },

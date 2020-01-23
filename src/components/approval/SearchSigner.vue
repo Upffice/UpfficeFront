@@ -131,7 +131,10 @@
                         this.addCho();
                     })
                     .catch(e => {
+                        /* eslint-disable no-console */
                         console.log(e)
+                        /* eslint-disable no-console */
+
                     });
 
                 http
@@ -142,7 +145,9 @@
                         this.addCho();
                     })
                     .catch(e => {
+                        /* eslint-disable no-console */
                         console.log(e);
+                        /* eslint-disable no-console */
                     });
             },
             add_signer() {
