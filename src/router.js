@@ -19,6 +19,10 @@ import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
 import DocWrite from "./components/approval/DocWrite";
 import SignWaitDetails from "./components/approval/SignWaitDetails";
+import DocTemp from "./components/approval/DocTemp";
+import SignIng from "./components/approval/SignIng";
+import SignIngDetails from "./components/approval/SignIngDetails";
+import DocModify from "./components/approval/DocModify";
 
 Vue.use(Router);
 
@@ -92,16 +96,16 @@ export default new Router({
         },
 
         {
-            path: "/app/sign",
+            path: "/app",
             name: "approval",
-            alias : "/app",
-            component :Approval
+            component : Approval
         },
 
         {
             path: "/app/sign/wait",
             name: "wait",
-            component :SignWait
+            alias : "/app/sign",
+            component : SignWait
         },
         {
             path : "/app/doc/write",
@@ -111,10 +115,32 @@ export default new Router({
 
         },
         {
-            path : "/app/sign/wait",
+            path : "/app/sign/wait/:id",
             name: "wait-details",
-            component : SignWaitDetails
+            component : SignWaitDetails,
+            props : true
         },
-
+        {
+            path:"/app/doc/temp",
+            name:"temp",
+            component: DocTemp
+        },
+        {
+            path: "/app/sign/ing",
+            name: "ing",
+            component : SignIng
+        },
+        {
+            path : "/app/sign/ing/:id",
+            name: "ing-details",
+            component : SignIngDetails,
+            props : true
+        },
+        {
+            path : "/app/doc/temp/:id",
+            name: "DocModify",
+            component : DocModify,
+            props : true
+        }
     ]
 });

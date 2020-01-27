@@ -1,7 +1,8 @@
 <template>
 
     <div class="container">
-        <h2 style="float: left; margin-left: 200px">메인화면</h2>
+
+        <h2 style="float: left; margin-left: 200px">임시저장함</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -22,21 +23,21 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="approvals[index].app_status_check == 'save'" class="table-light" v-for="(app, index) in approvals" :key="index">
-                    <td>{{approvals.length-index}}</td>
-                    <td>{{app.app_writer_depname}}</td>
-                    <td>{{app.app_doc_num}}</td>
-                    <td>{{app.app_type}}</td>
-                    <td>
-                        <router-link :to="{
-                        name : 'wait-details',
+            <tr v-if="approvals[index].app_status_check == 'temp'" class="table-light" v-for="(app, index) in approvals" :key="index">
+                <td>{{approvals.length-index}}</td>
+                <td>{{app.app_writer_depname}}</td>
+                <td>{{app.app_doc_num}}</td>
+                <td>{{app.app_type}}</td>
+                <td>
+                    <router-link :to="{
+                        name : 'DocModify',
                         params:{appProps : app, id : app.app_doc_num}
                     }">
-                            {{app.app_doc_title}}
-                        </router-link>
-                    </td>
-                    <td>{{app.app_writer_name}}</td>
-                    <td>{{app.app_date}}</td>
+                        {{app.app_doc_title}}
+                    </router-link>
+                </td>
+                <td>{{app.app_writer_name}}</td>
+                <td>{{app.app_date}}</td>
 
             </tr>
             </tbody>
@@ -53,7 +54,7 @@
     // import {EventBus} from "../../event-bus";
 
     export default {
-        name: "approval",
+        name: "DocTemp",
         data: function () {
             return {
                 login_id: "",
@@ -90,6 +91,7 @@
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
             }
+
         }
     }
 </script>

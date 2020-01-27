@@ -7,15 +7,15 @@
         </div>
         <div class="card-header">
             <div class="top" style="font-size: 30px">
-                <span class="title"><b>결재문서</b></span>
+                <span class="title"><b>기안문수정</b></span>
                 <span class="button-group">
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="yesDoc">결재</button>
+                            v-on:click="search_signer">결재선</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="noDoc" @click="noDoc">반려</button>
-                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="holdDoc"
-                            @click="submitFiles">보류</button>
-                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="listDoc">목록</button>
+                            v-on:click="tempsaveDoc" @click="submitFiles">임시저장</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc"
+                            @click="submitFiles">상신</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
                 </span>
             </div>
             <div class="row">
@@ -28,29 +28,22 @@
                     <tr>
                         <th class="sign-th table-light" rowspan="2" style="width:90px"></th>
                         <th class="table-light" style="border: black 2px solid">기안</th>
-                        <th v-if="approval.signId1!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId2!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId3!=null" class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="table-light" style="border: black 2px solid">결재</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인
-                            <hr>
-                            {{approval.date.substring(5,10)}}
+                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
+                        <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
+
+                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{signName1}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid; padding-top: 0px;"><b>{{signName1}}<br><br></b>{{this.approval.status1}}
-                            <hr>
-                            {{approval.signDate1.substring(5,10)}}
+                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>{{this.approval.status2}}
-                            <hr>
-                            {{approval.signDate2.substring(5,10)}}
-                        </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>{{this.approval.status3}}
-                            <hr>
-                            {{approval.signDate3.substring(5,10)}}
+                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>
                         </td>
                     </tr>
                     </tbody>
@@ -69,7 +62,7 @@
 
                     <select id="type" name="type" required v-model="approval.type"
                             style="width: 80px; height: 25px; float: left;">
-                        <option v-for="(type,index) in types" :key="index" disabled>{{type}}</option>
+                        <option v-for="(type,index) in types" :key="index">{{type}}</option>
 
                     </select>
                 </td>
@@ -77,7 +70,7 @@
                 <tr>
                     <th scope="row" class="table-light"><label for="docNum">문서번호</label></th>
                     <td><input type="text" class="form-control" id="docNum" required v-model="approval.docNum"
-                               name="docNum" readonly style="background-color: aliceblue"></td>
+                               name="docNum" readonly placeholder="자동기입" style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="date">기안일자</label></th>
                     <td><input type="text" class="form-control" id="date" required v-model="approval.date" name="type"
                                style="background-color: aliceblue" :placeholder="cTime" readonly>
@@ -86,7 +79,7 @@
                 <tr>
                     <th scope="row" class="table-light"><label for="writerName">기안자</label></th>
                     <td><input type="text" class="form-control" id="writerName" required v-model="approval.writerName"
-                               name="writerName" readonly
+                               name="writerName" value="this.writer_info.writer_name" readonly
                                style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="writerDepName">기안부서</label></th>
                     <td><input type="text" class="form-control" id="writerDepName" required
@@ -100,49 +93,45 @@
                                style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="refId">참조자</label></th><!--수정-->
                     <td><input type="text" class="form-control" id="refId" :value="refName1+' '+refName2 +' ' +refName3"
-                               name="refId" placeholder="참조자를 선택해주세요." style="background-color: aliceblue" readonly>
-                    </td>
+                               name="refId" placeholder="참조자를 선택해주세요." @focus="search_ref"></td>
+                    <!--                    <td><button>추가</button></td>-->
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="comment">의견</label></th>
                     <td colspan="3"><input type="text" class="form-control" id="comment" required
-                                           q v-model="approval.comment" name="comment" readonly
-                                           placeholder="간단한 의견을 적어주세요.(100byte 이내)" style="background-color: aliceblue">
-                    </td>
+                                           q v-model="approval.comment" name="comment"
+                                           placeholder="간단한 의견을 적어주세요.(100byte 이내)"></td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="title">문서제목</label></th>
                     <td colspan="3"><input type="text" class="form-control" id="title" required v-model="approval.title"
-                                           name="title" placeholder="기안문의 제목을 적어주세요.(100byte 이내)" readonly
-                                           style="background-color: aliceblue">
-                    </td>
+                                           name="title" placeholder="기안문의 제목을 적어주세요.(100byte 이내)"></td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="refFile">참조</label></th><!--수정-->
                     <td colspan="3">
                         <input type="text" class="form-control" id="refFile" required
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
-                               style="width: 500px;float: left; background-color: aliceblue;" readonly>
+                               style="width: 500px;float: left">
                         <div class="container">
                             <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
-                            <!--style="width: 200px"--><!--서버에서 파일 다운로드 정보 가져와서 띄우기 구현해야됨-->
-                            <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
-                                 readonly>
-                                <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span
+                            <!--style="width: 200px"-->
+                            <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
+                                <div v-for="(file, key) in files" :key="key" class="file-listing">{{ file.name }} <span
                                         class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
                             </div>
 
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="addFiles()">Download Files</button>
+                                <button v-on:click="addFiles()">Add Files</button>
                             </div>
 
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" rowspan="10" style="height: 500px">
-                        <textarea class="form-control" id="appContnt" required v-model="approval.content"
-                                  placeholder="양식을 입력해주세요." style="background-color: aliceblue" readonly/>
+                    <td colspan="3" rowspan="10" style="height: 500px"><textarea class="form-control" id="appContnt"
+                                                                                 required v-model="approval.content"
+                                                                                 placeholder="양식을 입력해주세요."/>
                     </td>
                 </tr>
             </table>
@@ -162,7 +151,7 @@
 
 
     export default {
-        name: "wait-details",
+        name: "DocModify",
         props: ["appProps", "id"],
         data: function () {
             return {
@@ -216,7 +205,7 @@
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
 
-                this.approval.statusCheck = "ing";
+                this.approval.statusCheck = "save";
 
                 var data = {
                     app_doc_num: this.approval.docNum,
@@ -246,10 +235,11 @@
                     app_writer_depname: this.approval.writerDepName
                 };
                 http
-                    .post("/app/doc/write", data)/*put으로 바꾸기*/
+                    .post("/app/doc/write", data)
                     .then(response => {
                         this.approval = response.data;
-                        this.$router.push('/app/sign/wait')
+                        alert("DB에 저장되었습니다.");
+                        this.$router.push('/app/');
                     })
                     .catch(e => {
                         /* eslint-disable no-console */
@@ -305,7 +295,67 @@
                     draggable: true
                 })
             },
+            tempsaveDoc() {
+                /*임시저장, 임시저장함으로 보내고, 임시저장함으로 이동하는 로직*/
+                /* eslint-disable no-console */
+                console.log("tempsaveDoc_method");
+                /* eslint-disable no-console */
+                this.approval.statusCheck = "temp";
 
+                var data = {
+                    app_doc_num: this.approval.docNum,
+                    app_type: this.approval.type,
+                    app_doc_title: this.approval.title,
+                    app_writer_id: this.approval.writerId,
+                    app_date: this.approval.date,
+                    app_comment: this.approval.comment,
+                    app_ref_id1: this.approval.refId1,
+                    app_ref_id2: this.approval.refId2,
+                    app_ref_id3: this.approval.refId3,
+                    app_ref_file: this.approval.refFile,
+                    app_content: this.approval.content,
+                    app_sign_id1: this.approval.signId1,
+                    app_sign_id2: this.approval.signId2,
+                    app_sign_id3: this.approval.signId3,
+                    app_sign_date1: this.approval.signDate1,
+                    app_sign_date2: this.approval.signDate2,
+                    app_sign_date3: this.approval.signDate3,
+                    app_status_check: this.approval.statusCheck,
+                    app_status1: this.approval.status1,
+                    app_status2: this.approval.status2,
+                    app_status3: this.approval.status3,
+                    app_writer_name: this.approval.writerName,
+                    app_writer_position: this.approval.writerPosition,
+                    app_writer_depid: this.approval.writerDepId,
+                    app_writer_depname: this.approval.writerDepName
+                };
+                http
+                    .post("/app/doc/write", data)
+                    .then(response => {
+                        this.approval = response.data;
+                        alert("DB에 저장되었습니다.");
+                        this.$router.push('/app/');
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                        /* eslint-disable no-console */
+
+                    });
+            },
+            cancelDoc() {
+                /*취소경고, 문서작성취소, 문서함메인으로 돌려주는 로직*/
+                /* eslint-disable no-console */
+                console.log("cancelDoc_method");
+                /* eslint-disable no-console */
+
+                var result = confirm("입력을 취소하시겠습니까?");
+                if (result) {
+                    alert("입력이 취소되었습니다!");
+                    this.$router.push('/app');
+                }
+
+            },
             getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
                 http
                     .post("/mypage/" + id)
@@ -488,44 +538,6 @@
                     });
 
             },
-            yesDoc() {
-                if (this.approval.signId1 == this.login_id) {
-                    this.approval.status1 = "true";
-                } else if (this.approval.signId2 == this.login_id) {
-                    this.approval.status2 = "true";
-                } else if (this.approval.signId3 == this.login_id) {
-                    this.approval.status3 = "true";
-                }
-                this.saveDoc();
-                alert("결재되었습니다!");
-            },
-            noDoc() {
-                if (this.approval.signId1 == this.login_id) {
-                    this.approval.status1 = "false";
-                } else if (this.approval.signId2 == this.login_id) {
-                    this.approval.status2 = "false";
-                } else if (this.approval.signId3 == this.login_id) {
-                    this.approval.status3 = "false";
-                }
-                this.approval.statusCheck = "reject";
-                this.saveDoc();
-                alert("반려되었습니다.");
-            },
-            holdDoc() {
-                if (this.approval.signId1 == this.login_id) {
-                    this.approval.status1 = "hold";
-                } else if (this.approval.signId2 == this.login_id) {
-                    this.approval.status2 = "hold";
-                } else if (this.approval.signId3 == this.login_id) {
-                    this.approval.status3 = "hold";
-                }
-                this.saveDoc();
-                alert("보류되었습니다.");
-            },
-            listDoc() {
-                this.$router.push('/app/sign/wait')
-            }
-
         },
         mounted() {
             /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
@@ -538,14 +550,10 @@
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
             }
-
-            // console.log("this.appProps.app_doc_num");
-            // console.log(this.appProps.app_doc_num);
             this.opening();
 
-            // console.log("this.approval");
-            // console.log(this.approval);
-        },
+        }
+
     }
 </script>
 
@@ -639,9 +647,5 @@
         color: red;
         cursor: pointer;
         float: right;
-    }
-
-    hr {
-        margin: 0px;
     }
 </style>

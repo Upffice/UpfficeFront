@@ -30,7 +30,9 @@
              <router-link to="/app/sign/reject"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반려 문서함
              </li></router-link>
-
+             <router-link to="/app/sign/hold"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;보류 문서함
+             </li></router-link>
              <router-link to="/app/ref">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  참조/열람
              </li></router-link>

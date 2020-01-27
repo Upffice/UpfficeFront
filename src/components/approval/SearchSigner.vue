@@ -76,10 +76,12 @@
                 empArr: [],
             }
         }, props: [
+            /*2.props에서 내려보낸 함수 등록해줌*/
             'valueUpdated'
         ], methods: {
 
             submit_signer() {
+                /*3.닫기전 submit등에 연결된 메서드에 props등록한 함수로 데이터 넘겨줌*/
                 this.valueUpdated(this.sign1,this.sign2,this.sign3,this.sign1id,this.sign2id,this.sign3id);
                 this.$emit('close');
             },
