@@ -31,8 +31,14 @@
                         <span v-else>
                           {{day}}
                         </span>
-                        <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기-->
-                        <div v-if="day!==''" class="scrollDiv">가나다가나다가나다<br>가나다가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br>가나다<br></div>
+                        <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
+                        <div v-if="day!==''" class="scrollDiv">
+                            {{getSchedule(currentYear, currentMonth, day)}}
+<!--                        <div v-if="day!==''" class="scrollDiv" v-for="(schedule, index3) in scheduleList" :key="index3">-->
+                            <span v-for="(schedule, index3) in scheduleList" :key="index3">a{{schedule.sche_name}}</span>
+                            <!--,schedule.sche_name-->
+                        </div> <!--여기에 isToday(a,b,c) 처럼 내용 부분에 오늘 날짜에 해당하는 일정가져오는 메소드 호출?-->
+<!--                        <div v-if="day!==''" class="scrollDiv">ㅋㅋㅋ<br></div> &lt;!&ndash;여기에 isToday(a,b,c) 처럼 내용 부분에 오늘 날짜에 해당하는 일정가져오는 메소드 호출?&ndash;&gt;-->
                         </td>
                     </tr>
                     </tbody>
@@ -45,7 +51,8 @@
 
 <script>
     import ScheduleSubMenu from "./ScheduleSubMenu";
-    import RegisterPopup from "./RegisterPopup";
+    import http from "../../http-common";
+
     export default {
         name: 'Calendar',
         components: {
@@ -63,7 +70,8 @@
                 currentCalendarMatrix: [],
                 endOfDay: null,
                 memoData: [],
-                emp_id: ""
+                emp_id: "",
+                scheduleList: []    // 모든 schedule 리스트를 담을 배열
             }
         },
         methods: {
@@ -176,12 +184,69 @@
 
                 }
 
-            }
+            },
+            getAllSchedules(sche_date) { // 모든 스케줄 가져오기
+                http
+                    .get("/schedule/all/" + this.emp_id, sche_date)
+                    .then(response=> {
+                        /* eslint-disable no-console */
+                        console.log("getAllSchedules" + response.data);
+                        this.scheduleList = response.data;
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                    });
+            },
+            getSchedule(year, month, day){
+                // 한 자릿 수일 때 0추가
+                if(month < 10)  month = "0" + month;
+                if(day < 10) day = "0" + day;
+
+                // 해당 년, 월, 일
+                let sche_date  = year + "-" + month + "-" + day;
+
+                if (sessionStorage.getItem("calendar") !== null) { // 선택한 calendar_id 배열 가져오기
+                    let selected_cal = sessionStorage.getItem("calendar");
+
+                    if(selected_cal.includes('0')) { // selected_cal 에 0이 포함되어 있다면 전체 일정이 check 되어 있으므로 전체 일정만 불러오기 위해 selected_cal 에 0만 넣는다.
+                        // this.getAllSchedules(sche_date); //  전체 일정 불러오기
+                        console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + selected_cal+"/ "+ sche_date)
+                        http
+                            .get("/schedule/all/" + this.emp_id, sche_date)
+                            .then(response=> {
+                                /* eslint-disable no-console */
+                                console.log("getAllSchedules" + response.data);
+                                this.scheduleList = response.data;
+                            })
+                            .catch(e => {
+                                /* eslint-disable no-console */
+                                console.log(e);
+                            });
+                    } else {
+                        console.log("/schedule/list/ 이 실행되어야하는디..?")
+                        http
+                            .get("/schedule/list/" + this.emp_id, selected_cal, sche_date)
+                            .then(response=> {
+                                /* eslint-disable no-console */
+                                console.log("getSchedule"+response.data);
+                                this.scheduleList = response.data;
+                            })
+                            .catch(e => {
+                                /* eslint-disable no-console */
+                                console.log(e);
+                            });
+                    }
+
+                } // End : if-else
+
+            },
         },
         mounted() {
             if (sessionStorage.length > 0) {
                 this.emp_id = sessionStorage.getItem("login_id");
                 this.init();
+                // this.getAllSchedules();  // 모든 schedule 가져오는 메소드 호출
             } else {
                 this.$router.push("/");
             }
@@ -220,15 +285,18 @@
         height: 150px;
     }
     .scrollDiv {
-        /*overflow-y:scroll;*/
         overflow: auto;
-        height:80%;
-        margin-top: 10px;
+        width: 100px;
+        height:100px;
+        margin: 15px auto;  /*top 10px*/
         font-size: 11px;
-        -ms-overflow-style: none; /*IE에서 스크롤바 안 보이게 하기*/
+        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
+        white-space: nowrap; /*말 줄임표 위한 설정*/
+        overflow-x: hidden; /*가로 스크롤바 없애기*/
+        -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
     }
-    .scrollDiv::-webkit-scrollbar {
-        width: 10px;
+    .scrollDiv::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
+        width: 1px;
         background: transparent;
     }
 </style>
