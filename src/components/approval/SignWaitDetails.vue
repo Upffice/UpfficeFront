@@ -8,13 +8,13 @@
         <div class="card-header">
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>결재문서</b></span>
-                <span class="button-group">
+                <span class="button-group" style="float: right; margin-right: 35px">
                     <button type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="yesDoc">결재</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="noDoc" @click="noDoc">반려</button>
+                            v-on:click="noDoc">반려</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="holdDoc"
-                            @click="submitFiles">보류</button>
+                    >보류</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="listDoc">목록</button>
                 </span>
             </div>
@@ -216,7 +216,6 @@
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
 
-                this.approval.statusCheck = "ing";
 
                 var data = {
                     app_doc_num: this.approval.docNum,
@@ -491,10 +490,16 @@
             yesDoc() {
                 if (this.approval.signId1 == this.login_id) {
                     this.approval.status1 = "true";
+                    this.approval.statusCheck = "ing";
+
                 } else if (this.approval.signId2 == this.login_id) {
                     this.approval.status2 = "true";
+                    this.approval.statusCheck = "ing";
+
                 } else if (this.approval.signId3 == this.login_id) {
                     this.approval.status3 = "true";
+                    this.approval.statusCheck = "complete";
+
                 }
                 this.saveDoc();
                 alert("결재되었습니다!");
@@ -519,6 +524,8 @@
                 } else if (this.approval.signId3 == this.login_id) {
                     this.approval.status3 = "hold";
                 }
+                this.approval.statusCheck = "hold";
+
                 this.saveDoc();
                 alert("보류되었습니다.");
             },

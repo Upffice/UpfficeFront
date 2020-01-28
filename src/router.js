@@ -23,6 +23,12 @@ import DocTemp from "./components/approval/DocTemp";
 import SignIng from "./components/approval/SignIng";
 import SignIngDetails from "./components/approval/SignIngDetails";
 import DocModify from "./components/approval/DocModify";
+import SignComplete from "./components/approval/SignComplete";
+import SignCompleteDetails from "./components/approval/SignCompleteDetails";
+import SignReject from "./components/approval/SignReject";
+import SignRejectDetails from "./components/approval/SignRejectDetails";
+import SignHold from "./components/approval/SignHold";
+import SignHoldDetails from "./components/approval/SignHoldDetails";
 
 Vue.use(Router);
 
@@ -95,52 +101,90 @@ export default new Router({
             component: AnnualDetail
         },
 
+
         {
             path: "/app",
             name: "approval",
-            component : Approval
+            component: Approval
+        },
+        {
+            path: "/app/doc/write",
+            name: "write",
+            alias: "/app/doc",
+            component: DocWrite
+
+        },
+        {
+            path: "/app/doc/temp",
+            name: "temp",
+            component: DocTemp
+        },
+        {
+            path: "/app/doc/temp/:id",
+            name: "DocModify",
+            component: DocModify,
+            props: true
         },
 
         {
             path: "/app/sign/wait",
             name: "wait",
-            alias : "/app/sign",
-            component : SignWait
+            alias: "/app/sign",
+            component: SignWait
         },
         {
-            path : "/app/doc/write",
-            name: "write",
-            alias: "/app/doc",
-            component : DocWrite
-
-        },
-        {
-            path : "/app/sign/wait/:id",
+            path: "/app/sign/wait/:id",
             name: "wait-details",
-            component : SignWaitDetails,
-            props : true
+            component: SignWaitDetails,
+            props: true
         },
-        {
-            path:"/app/doc/temp",
-            name:"temp",
-            component: DocTemp
-        },
+
         {
             path: "/app/sign/ing",
             name: "ing",
-            component : SignIng
+            component: SignIng
         },
         {
-            path : "/app/sign/ing/:id",
+            path: "/app/sign/ing/:id",
             name: "ing-details",
-            component : SignIngDetails,
-            props : true
+            component: SignIngDetails,
+            props: true
+        },
+
+        {
+            path: "/app/sign/complete",
+            name: "complete",
+            component: SignComplete
         },
         {
-            path : "/app/doc/temp/:id",
-            name: "DocModify",
-            component : DocModify,
-            props : true
-        }
+            path: "/app/sign/ing/:id",
+            name: "complete-details",
+            component: SignCompleteDetails,
+            props: true
+        },
+
+        {
+            path: "/app/sign/reject",
+            name: "reject",
+            component: SignReject
+        },
+        {
+            path: "/app/sign/reject/:id",
+            name: "reject-details",
+            component: SignRejectDetails,
+            props: true
+        },
+
+        {
+            path: "/app/sign/hold",
+            name: "hold",
+            component: SignHold
+        },
+        {
+            path: "/app/sign/hold/:id",
+            name: "hold-details",
+            component: SignHoldDetails,
+            props: true
+        },
     ]
 });

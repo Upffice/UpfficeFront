@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재대기함</h2>
+        <h2 style="float: left; margin-left: 200px">결재완료함</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -23,14 +23,15 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="(approvals[index].app_status_check=='ing')&&((approvals[index].app_sign_id1 == login_id && approvals[index].app_status1 != 'true')|| (approvals[index].app_sign_id2 == login_id&& approvals[index].app_status2 != 'true') || (approvals[index].app_sign_id3 == login_id&& approvals[index].app_status3 != 'true'))" class="table-light" v-for="(app, index) in approvals" :key="index">
+            <tr v-if="approvals[index].app_status_check == 'hold' &&approvals[index].app_writer_id==login_id"
+                class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
                 <td>
                     <router-link :to="{
-                        name : 'wait-details',
+                        name : 'hold-details',
                         params:{appProps : app, id : app.app_doc_num}
                     }">
                         {{app.app_doc_title}}
@@ -54,7 +55,7 @@
     // import {EventBus} from "../../event-bus";
 
     export default {
-        name: "SignWait",
+        name: "hold",
         data: function () {
             return {
                 login_id: "",

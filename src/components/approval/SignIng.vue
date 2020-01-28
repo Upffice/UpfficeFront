@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재대기함</h2>
+        <h2 style="float: left; margin-left: 200px">결재진행함</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -23,7 +23,9 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="approvals[index].app_status_check == 'save'" class="table-light" v-for="(app, index) in approvals" :key="index">
+            <tr v-if="(approvals[index].app_status_check == 'ing' &&approvals[index].app_status3 != 'true')
+            &&approvals[index].app_writer_id==login_id"
+                class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>

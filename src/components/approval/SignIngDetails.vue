@@ -7,9 +7,9 @@
         </div>
         <div class="card-header">
             <div class="top" style="font-size: 30px">
-                <span class="title"><b>기안문작성</b></span>
-                <span class="button-group">
-                    <button v-if="approval.status1 == null && approval.status2 == null && approval.status3 == null" type="button" class="btn btn-secondary disabled buttons"
+                <span class="title"><b>기안문 확인</b></span>
+                <span class="button-group" style="float: right; margin-right: 35px">
+                    <button v-if="approval.status1 == '' && approval.status2 == '' && approval.status3 == ''" type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="modiDoc">기안문 수정</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
                             @click="listDoc">목록</button>
@@ -34,14 +34,21 @@
                     <tbody>
                     <tr>
                         <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
-                        <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
-
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{signName1}}<br><br></b>
+                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인
+                            <hr>
+                            {{approval.date.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>
+                        <td v-if="approval.signId1!=null" style="border: black 2px solid; padding-top: 0px;"><b>{{signName1}}<br><br></b>{{this.approval.status1}}
+                            <hr>
+                            {{approval.signDate1.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>
+                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>{{this.approval.status2}}
+                            <hr>
+                            {{approval.signDate2.substring(5,10)}}
+                        </td>
+                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>{{this.approval.status3}}
+                            <hr>
+                            {{approval.signDate3.substring(5,10)}}
                         </td>
                     </tr>
                     </tbody>
@@ -60,7 +67,7 @@
 
                     <select id="type" name="type" required v-model="approval.type"
                             style="width: 80px; height: 25px; float: left;">
-                        <option v-for="(type,index) in types" :key="index">{{type}}</option>
+                        <option v-for="(type,index) in types" :key="index" disabled>{{type}}</option>
 
                     </select>
                 </td>
@@ -91,20 +98,21 @@
                                style="background-color: aliceblue"></td>
                     <th scope="row" class="table-light"><label for="refId">참조자</label></th><!--수정-->
                     <td><input type="text" class="form-control" id="refId" :value="refName1+' '+refName2 +' ' +refName3"
-                               name="refId" placeholder="참조자를 선택해주세요." @focus="search_ref"></td>
-                    <!--                    <td><button>추가</button></td>-->
+                               name="refId" placeholder="참조자를 선택해주세요." style="background-color: aliceblue" readonly>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="comment">의견</label></th>
                     <td colspan="3"><input type="text" class="form-control" id="comment" required
-                                           q v-model="approval.comment" name="comment"
-                                           placeholder="간단한 의견을 적어주세요.(100byte 이내)">
+                                           q v-model="approval.comment" name="comment" readonly
+                                           placeholder="간단한 의견을 적어주세요.(100byte 이내)" style="background-color: aliceblue">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="table-light"><label for="title">문서제목</label></th>
                     <td colspan="3"><input type="text" class="form-control" id="title" required v-model="approval.title"
-                                           name="title" placeholder="기안문의 제목을 적어주세요.(100byte 이내)">
+                                           name="title" placeholder="기안문의 제목을 적어주세요.(100byte 이내)" readonly
+                                           style="background-color: aliceblue">
                     </td>
                 </tr>
                 <tr>
@@ -112,17 +120,18 @@
                     <td colspan="3">
                         <input type="text" class="form-control" id="refFile" required
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
-                               style="width: 500px;float: left">
+                               style="width: 500px;float: left; background-color: aliceblue;" readonly>
                         <div class="container">
                             <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
                             <!--style="width: 200px"--><!--서버에서 파일 다운로드 정보 가져와서 띄우기 구현해야됨-->
-                            <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
+                            <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
+                                 readonly>
                                 <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span
                                         class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
                             </div>
 
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="addFiles()">Add Files</button>
+                                <button v-on:click="addFiles()">Download Files</button>
                             </div>
 
                         </div>
@@ -130,8 +139,8 @@
                 </tr>
                 <tr>
                     <td colspan="3" rowspan="10" style="height: 500px">
-                        <textarea class="form-control" id="appContnt" required v-model="approval.content"
-                                  placeholder="양식을 입력해주세요."/>
+                        <textarea class="form-control" id="appContent" required v-model="approval.content"
+                                  placeholder="양식을 입력해주세요." style="background-color: aliceblue" readonly/>
                     </td>
                 </tr>
             </table>
@@ -270,9 +279,6 @@
                     height: '600px',
                     draggable: true
                 })
-                this.approval.status1 = false;
-                this.approval.status2 = false;
-                this.approval.status3 = false;
             },
             search_ref() {
                 /*참조input 누르면 검색창(modal)띄워주는 로직*/
@@ -569,7 +575,8 @@
 
             },
             modiDoc(){
-                this.$router.push('/app/sign/wait')
+                this.approval.statusCheck = 'temp';
+                this.$router.push('/app/doc/temp/'+this.approval.docNum);
             },
             listDoc(){
                 this.$router.push('/app/sign/ing')
