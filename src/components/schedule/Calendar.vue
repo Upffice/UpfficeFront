@@ -33,13 +33,12 @@
                         <span v-else>
                           {{day}}
                         </span>
-<!--                                <span v-for="(schedule, index3) in scheduleList" :key="index3">a{{schedule.sche_name}}</span>-->
                             </div>
                         <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
-<!--                        <div v-if="day!==''" class="scrollDiv">-->
+                        <div v-if="day!==''" class="scrollDiv">
+                            일정:{{}}
 <!--                            <span v-for="(schedule, index3) in scheduleList" :key="index3">a{{schedule.sche_name}}</span>-->
-<!--                            &lt;!&ndash;,schedule.sche_name&ndash;&gt;-->
-<!--                        </div> &lt;!&ndash;여기에 isToday(a,b,c) 처럼 내용 부분에 오늘 날짜에 해당하는 일정가져오는 메소드 호출?&ndash;&gt;-->
+                        </div>
                         </td>
                     </tr>
                     </tbody>
@@ -73,7 +72,10 @@
                 endOfDay: null,
                 memoData: [],
                 emp_id: "",
-                scheduleList: []    // 모든 schedule 리스트를 담을 배열
+                scheduleList: [],    // 모든 schedule 리스트를 담을 배열
+                sche_name: "",
+                sche_date: "",
+                schedule: []
             }
         },
         methods: {
@@ -187,19 +189,19 @@
                 }
 
             },
-            getAllSchedules(sche_date) { // 모든 스케줄 가져오기
-                http
-                    .get("/schedule/all/" + this.emp_id, sche_date)
-                    .then(response=> {
-                        /* eslint-disable no-console */
-                        console.log("getAllSchedules" + response.data);
-                        this.scheduleList = response.data;
-                    })
-                    .catch(e => {
-                        /* eslint-disable no-console */
-                        console.log(e);
-                    });
-            },
+            // getAllSchedules(sche_date) { // 모든 스케줄 가져오기
+            //     http
+            //         .get("/schedule/all/" + this.emp_id, sche_date)
+            //         .then(response=> {
+            //             /* eslint-disable no-console */
+            //             console.log("getAllSchedules" + response.data);
+            //             this.scheduleList = response.data;
+            //         })
+            //         .catch(e => {
+            //             /* eslint-disable no-console */
+            //             console.log(e);
+            //         });
+            // },
             getSchedule(year, month, day){
                 // 한 자릿 수일 때 0추가
                 if(month < 10)  month = "0" + month;
@@ -216,26 +218,14 @@
                         console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + selected_cal+"/ "+ sche_date)
                         http
                             .post("/schedule/all/" + this.emp_id, sche_date)
-                            .then(
-                                response=> {
-                                            /* eslint-disable no-console */
-                                            console.log("getAllSchedules" + response.data);
-                                            // this.scheduleList = response.data;
-                                    }
-                                // function (response){
-                                //     // 성공시 콜백처리 함수내용
-                                //     console.log("getAllSchedules" + response.data);
-                                //     this.scheduleList = response.data;
-                                // }, function (response) {
-                                //     // 오류시 콜백처리 함수내용
-                                //     console.log("getAllSchedules 오류났다!!");
-                                // }
-                            //     response=> {
-                            //         /* eslint-disable no-console */
-                            //         console.log("getAllSchedules" + response.data);
-                            //         this.scheduleList = response.data;
-                            // }
-                            )
+                            .then(response=> {
+                                 /* eslint-disable no-console */
+                                 this.scheduleList = response.data;
+                                for(let i=0; i<this.scheduleList.length; i++) {
+                                    this.sche_name = this.scheduleList[i].sche_name;
+                                    console.log("sche_name : " + this.sche_name);
+                                }
+                            })
                             .catch(e => {
                                 /* eslint-disable no-console */
                                 console.log(e);
@@ -258,7 +248,20 @@
 
                 } // End : if-else
 
-            }
+            },
+            // getSche_name() {
+            //     if(this.scheduleList.length >0){
+            //         this.schedule = this.scheduleList[i];
+            //         console.log("aaa"+this.schedule[0].sche_name);
+            //         // for(let i=0; i<this.scheduleList.length; i++) {
+            //         //     // this.sche_name = this.scheduleList[i].sche_name;
+            //         //     this.schedule = this.scheduleList[i];
+            //         //     console.log("aaa"+this.schedule.sche_name);
+            //         // }
+            //     }
+            //
+            //     return "";
+            // }
         },
         mounted() {
             if (sessionStorage.length > 0) {
@@ -267,7 +270,8 @@
             } else {
                 this.$router.push("/");
             }
-        }
+        },
+
     }
 </script>
 
