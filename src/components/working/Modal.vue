@@ -1,14 +1,22 @@
 <template>
-    <div class="container">
-        <div class="input-group col-md-12">
-            연차를 신청할 날짜를 선택해주세요.
-            <input type="date" :min="min" :max="max" v-model="applyDate" class="form-control col-md-12">
+        <div class="modal-dialog modalMagin" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">연차 신청</h5>
+                    <button type="button" class="close" v-on:click="$emit('close')" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    연차를 신청할 날짜를 선택해주세요.
+                    <input type="date" :min="min" :max="max" v-model="applyDate" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="applyAnnual()">신청</button>
+                    <button type="button" class="btn btn-secondary" @click="$emit('close')">닫기</button>
+                </div>
+            </div>
         </div>
-        <div class="row col-md-12">
-            <button type="button" class="btn btn-success" @click="applyAnnual()" value="삭제">신청</button>
-            <button type="button" class="btn btn-warning" @click="$emit('close')" value="취소">닫기</button>
-        </div>
-    </div>
 </template>
 <script>
     import http from "../../http-common";
@@ -20,7 +28,7 @@
                 applyDate: '',
                 min: '',
                 max: '',
-                empId:''
+                empId: ''
             }
         }, props: [
             'hot_table',
@@ -28,9 +36,9 @@
             /* eslint-disable no-console */
             applyAnnual() {// 연차 신청 처리를 하는 메소드
                 http
-                    .get("/working/applyAnnual/" + this.empId+"?date="+this.applyDate)
+                    .get("/working/applyAnnual/" + this.empId + "?date=" + this.applyDate)
                     .then(response => {
-                        alert(this.applyDate+" 연차 신청 완료");
+                        alert(this.applyDate + " 연차 신청 완료");
                         location.reload();
                     })
                     .catch(e => {
@@ -52,3 +60,8 @@
         }// End - mounted()
     };// End - export default
 </script>
+<style>
+    .modalMagin{
+        margin: 1px;
+    }
+</style>

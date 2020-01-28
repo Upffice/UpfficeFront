@@ -94,8 +94,8 @@
                     modal : this.$modal },{
                     name: 'dynamic-modal',
                     width : '300px',
-                    height : '130px',
-                    draggable: true,
+                    height : '225px',
+                    draggable: false,
                 })
             }// End - showModal()
             /* eslint-enable no-console */
