@@ -11,12 +11,17 @@ import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
 import MainEmployAddress from "./components/address/employees/MainEmployAddress";
 import Employees from "./components/address/employees/Employees";
-import SearchEmployees from "./components/address/employees/SearchEmployees";
-import EmployeesList from "./components/address/employees/EmployeesList";
 import OutAddressMain from "./components/address/outaddress/OutAddressMain";
 import MypageInfo from "./components/mypage/MypageInfo";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
+import ManagerMain from "./components/managerpage/ManagerMain";
+import EmployeesManagement from "./components/managerpage/EmployeesManagement";
+import EmployeesMgmDetail from "./components/managerpage/EmployeesMgmDetail";
+import AddEmployees from "./components/managerpage/AddEmployees";
+import OutManagement from "./components/managerpage/OutManagement";
+import AddOutAddress from "./components/managerpage/AddOutAddress";
+import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 
 Vue.use(Router);
 
@@ -78,7 +83,7 @@ export default new Router({
                                                                 /*--addressRouter*/
         {
             path: "/mainEmployAddress",
-            name: "MainEmployAddress",
+            name: "main-employAddress",
             component: MainEmployAddress,
             children: [
                 {
@@ -96,17 +101,52 @@ export default new Router({
             component: Employees,
             props: true
         },
-        {
-            path: "/searchEmployees",
-            name: "searchEmployees",
-            component: SearchEmployees
-        },
+
         {
             path: "/mainOutAddress",
-            name: "outAddressMain",
+            name: "outAddress-main",
             component: OutAddressMain
         },
 
+                                                                /*--ManagerRouter*/
+        {
+            path: "/manager",
+            name: "manager-main",
+            component: ManagerMain
+        },
+        {
+            path: "/manager/employees",
+            name: "employees-mgm",
+            component: EmployeesManagement,
+
+        },
+        {
+            path: "/manager/employees/:emp_id",
+            name: "EmployeesMgmDetail",
+            component: EmployeesMgmDetail,
+            props: true
+        },
+        {
+            path: "/manager/add-employees",
+            name: "AddEmployees",
+            component: AddEmployees
+        },
+        {
+            path: "/manager/out-address",
+            name: "outManagement",
+            component: OutManagement
+        },
+        {
+            path: "/manager/out-address/:out_id",
+            name: "OutMgmDetail",
+            component: OutMgmDetail,
+            props: true
+        },
+        {
+            path: "/manager/add-out-address",
+            name: "AddOutAddress",
+            component: AddOutAddress
+        },
        /*---------------------------------------------- */
 
 

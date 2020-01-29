@@ -22,10 +22,6 @@
         text-align: center;
     }
 
-    .libgclr {
-        background: #EBF0F0;
-    }
-
     .subMenu {
         background: #EBF0F0;
         width: 15%;

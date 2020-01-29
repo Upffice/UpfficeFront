@@ -1,13 +1,19 @@
 <template>                                                                  <!--외부주소록 메인-->
     <div class="list row">
-        <AddressSubMenu></AddressSubMenu>
+
         <div class="col-md-6">
-            <h4>외부 주소록</h4>
+            <h2>외부 주소록</h2>
+
+
+
+
+            <button v-on:click="addOutAddress">직원 추가</button>
             <hr>
             <div class="searchform">
                 <div class="form-group">                                            <!--성명,회사명으로 검색-->
 
-                    <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress" placeholder="성명, 회사명 입력"  id="nameAndCompany"
+                    <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress"
+                           placeholder="검색(성명, 회사명)" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany">
 
                 </div>
@@ -16,32 +22,38 @@
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
                 </div>
             </div>
-           <br> <hr>
+            <br>
+            <hr>
 
             <table boder="2" class="table table-hover">                                 <!--출력-->
-                <thead class="table-primary">
-                <td >이름</td>
+                <thead class="table-secondary">
+                <td>이름</td>
                 <td>휴대폰</td>
                 <td>이메일</td>
                 <td>회사</td>
-                <td>부서 전화번호</td>
+                <td>회사번호</td>
 
                 </thead>
+                <tbody>
                 <tr v-for="(outAddress,index) in outaddress" :key="index">
                     <td>
-
-                        {{outAddress.outName}}
-
+                        <router-link :to="{
+                            name: 'OutMgmDetail',
+                            params: { outAddress: outAddress, out_id: outAddress.out_id }
+                        }">
+                            {{outAddress.outName}}
+                        </router-link>
                     </td>
                     <td>{{outAddress.out_mobile}}</td>
                     <td>{{outAddress.out_email}}</td>
                     <td>{{outAddress.outCompany}}</td>
                     <td>{{outAddress.out_dep_phone}}</td>
-
-
                 </tr>
-
+                </tbody>
             </table>
+            <div class="col-md-6">
+                <router-view @refreshData="refreshList"></router-view>
+            </div>
         </div>
     </div>
 
@@ -50,18 +62,20 @@
 
 
 <script>
-    import http from "../../../http-common";
-    import AddressSubMenu from "../AddressSubMenu";
+    import http from "../../http-common";
 
     export default {
-        name: "outAddressMain",
-        data(){
-            return{
-                nameAndCompany:"",
-                outaddress:[]
-            }
+        name: "outManagement",
+        data() {
+            return {
+                outaddress: [],
+                nameAndCompany: "",
+                out_id: "",
+                showMenu: false
+            };
         },
-        methods:{
+
+        methods: {
             retrieveOutAddress() {
                 http
                     .get("/outaddress/outaddress")
@@ -75,13 +89,13 @@
             },
             refreshList() {
                 this.retrieveOutAddress();
-                this.nameAndCompany="";
+                this.nameAndCompany = "";
             },
 
-            searchOutAddress(){                                                         /*회사명, 성명으로 출력*/
-                if(this.nameAndCompany=="") return;
+            searchOutAddress() {                                                         /*회사명, 성명으로 출력*/
+                if (this.nameAndCompany == "") return;
                 http
-                    .get("/outaddress/outaddress/nameAndCompany/"+ this.nameAndCompany)
+                    .get("/outaddress/outaddress/nameAndCompany/" + this.nameAndCompany)
                     .then(response => {
                         this.outaddress = response.data, // JSON are parsed automatically.
                             console.log(response.data);
@@ -89,14 +103,21 @@
                     .catch(e => {
                         console.log(e);
                     });
+            },
+            addOutAddress() {
+                this.$router.push('/manager/add-out-address')
+            },
+            toggleShow() {
+                this.showMenu = !this.showMenu;
+
+            },
+            itemClicked(item) {
+                this.toggleShow();
+                this.onClick(item);
             }
         },
         mounted() {
             this.retrieveOutAddress();
-        },
-        components: {
-            AddressSubMenu
-
         },
 
     }
@@ -107,10 +128,7 @@
         max-width: 300px;
         margin: auto;
     }
-    .search-result {
-        margin-top: 20px;
-        text-align: left;
-    }
+
 
     .list {
         text-align: center;
@@ -119,5 +137,12 @@
         margin-left: 15%;
     }
 
+    #nameAndCompany {
+        width: 200px;
+    }
+
+    .form-group, btn-group {
+        float: right;
+    }
 
 </style>

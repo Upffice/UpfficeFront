@@ -128,7 +128,7 @@
     };// End - export default
 </script>
 
-<style>
+<style scoped>
     .btn-working {
         align: center;
     }
