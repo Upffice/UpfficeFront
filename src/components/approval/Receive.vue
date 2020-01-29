@@ -23,9 +23,7 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="(approvals[index].app_status_check != 'temp')
-             && ((getEmpInfo(approvals[index].app_sign_id1,index) /*|| getEmpInfo(approvals[index].app_sign_id2,index) || getEmpInfo(approvals[index].app_sign_id3,index)*/))"
-                class="table-light" v-for="(app, index) in approvals" :key="index">
+            <tr v-if="(approvals[index].app_status_check != 'temp')" class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
@@ -71,13 +69,12 @@
         },
         methods: {
 
-            getApprovals(id) {
+            getApprovals(dep_id) {
                 http
-                    .get("/app/" + id)
+                    .get("/app/depfind/" + dep_id)
                     .then(response => {
                         this.approvals = response.data;
-                        console.log("this.approvals");
-                        console.log(this.approvals);
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -86,21 +83,13 @@
             /*  refreshList(id) {
                   this.getApprovals(id);
               },*/
-            getEmpInfo(id, index) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
+            getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
                 http
                     .post("/mypage/" + id)
                         .then(response => {
                         // 응답 데이터를 employee 데이터에 대입하기.
                         this.signer_dep_id = response.data.dep_id;
-                        /*console.log("this.signer_dep_id");
-                        console.log(this.signer_dep_id);
-                        console.log("this.approvals.app_writer_depid");
-                        console.log(this.approvals[index].app_writer_depid);*/
-                        if (this.approvals[index].app_writer_depid == this.signer_dep_id /*|| this.approvals[index].app_writer_depid === this.signer_dep_id*/) {
-                            this.check = true;
-                        } else if (this.approvals[index].app_writer_depid != this.signer_dep_id /*|| this.approvals[index].app_writer_depid !== this.signer_dep_id*/) {
-                            this.check = false;
-                        }
+                        this.getApprovals(this.signer_dep_id);
 
                     })
 
@@ -115,7 +104,8 @@
         created() {
             if (sessionStorage.length > 0) {
                 this.login_id = sessionStorage.getItem("login_id");
-                this.getApprovals(this.login_id);
+                this.getEmpInfo(this.login_id);
+
 
             } else {
                 alert("로그인을 해주세요!");

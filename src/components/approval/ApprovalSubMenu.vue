@@ -36,14 +36,14 @@
              <router-link to="/app/ref">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  참조/열람
              </li></router-link>
-             <router-link to="/app/ref"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+             <router-link to="/app/ref/ref"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조/열람문서함
              </li></router-link>
 
              <router-link to="/app/rcv">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  수신
              </li></router-link>
-             <router-link to="/app/rcv"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+             <router-link to="/app/rcv/rcv"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부서 수신함
              </li></router-link>
 

@@ -23,7 +23,7 @@
                                class="form-control col-md-12 " placeholder="부서나 이름을 입력해주세요"
                                v-bind:class="{'is-valid':isValid()}"
                                style="width: 400px; float: left; border:2px #95a5a6 solid">
-                        <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)">
+                        <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)" v-on:click="selectBelow">
                     </fieldset>
 
                     <div v-if="showArr.length>0"
