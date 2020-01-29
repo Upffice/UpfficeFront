@@ -28,6 +28,6 @@
         height: 100%;
         left: 15px;
         top: 70px;
-        position: fixed;
+        position: absolute;
     }
 </style>

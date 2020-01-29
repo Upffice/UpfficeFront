@@ -2,7 +2,7 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-12">
-            <h4>연차</h4>
+            <h4>연차</h4><button v-on:click="showModal()" class="btn btn-outline-success btn-lg">연차신청</button>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -35,12 +35,14 @@
                 </tr>
             </table>
         </div>
+        <modals-container />
     </div>
 </template>
 
 <script>
     import http from "../../http-common";
     import WorkingSubMenu from "./WorkingSubMenu";
+    import Modal from "./Modal.vue";
 
     export default {
         name: "annual-detail",
@@ -55,7 +57,8 @@
             };
         },
         components: {
-            subMenu: WorkingSubMenu
+            subMenu: WorkingSubMenu,
+            Modal: Modal
         },
         methods: {
             /* eslint-disable no-console */
@@ -81,28 +84,34 @@
                         console.log(e);
                     });
             },// End - readTotalAnnual()
-            countAnnual() {//총 사용 연차를 받아오는 메소드
-                http
-                    .get("/working/annuals/count" + this.empId)
-                    .then(response => {
-                        this.usedAnnual = response.data; // JSON are parsed automatically.
-                        console.log(response.data);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            }// End - countAnnual()
+            setLeftAnnual(){//사용한 연차와 남은 연차 계산
+                this.usedAnnual=this.annuals.length;
+                this.leftAnnual=this.totalAnnual-this.usedAnnual;
+            },// End - setLeftAnnual()
+            showModal() {// 모달 제어를 위한 메소드
+                this.$modal.show(Modal,{
+                    hot_table : 'data',
+                    modal : this.$modal },{
+                    name: 'dynamic-modal',
+                    width : '300px',
+                    height : '225px',
+                    draggable: false,
+                })
+            }// End - showModal()
             /* eslint-enable no-console */
         },// End - methods
         mounted() {
             // mounted 될 때 로그인이 되어있는 상태라면
             if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
                 this.empId = sessionStorage.getItem("login_id");
-                this.readAnnuals();
                 this.readTotalAnnual();
+                this.readAnnuals();
             } else {
                 this.$router.push("/");
             }
+        },
+        updated(){
+            this.setLeftAnnual();
         }
     };
 </script>
