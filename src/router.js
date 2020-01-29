@@ -29,6 +29,10 @@ import SignReject from "./components/approval/SignReject";
 import SignRejectDetails from "./components/approval/SignRejectDetails";
 import SignHold from "./components/approval/SignHold";
 import SignHoldDetails from "./components/approval/SignHoldDetails";
+import Reference from "./components/approval/Reference";
+import ReferenceDetails from "./components/approval/ReferenceDetails";
+import Receive from "./components/approval/Receive";
+import ReceiveDetails from "./components/approval/ReceiveDetails";
 
 Vue.use(Router);
 
@@ -184,6 +188,32 @@ export default new Router({
             path: "/app/sign/hold/:id",
             name: "hold-details",
             component: SignHoldDetails,
+            props: true
+        },
+
+        {
+            path: "/app/ref/ref",
+            name: "ref",
+            alias:"/app/ref",
+            component: Reference
+        },
+        {
+            path: "/app/ref/:id",
+            name: "ref-details",
+            component: ReferenceDetails,
+            props: true
+        },
+
+        {
+            path: "/app/rcv/rcv",
+            name: "rcv",
+            alias:"/app/rcv",
+            component: Receive
+        },
+        {
+            path: "/app/rcv/:id",
+            name: "rcv-details",
+            component: ReceiveDetails,
             props: true
         },
     ]

@@ -70,7 +70,7 @@
 
             getApprovals(id) {
                 http
-                    .get("/app/" + id)
+                    .get("/app/writer/" + id)
                     .then(response => {
                         this.approvals = response.data;
                     })

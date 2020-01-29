@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재완료함</h2>
+        <h2 style="float: left; margin-left: 200px">보류문서함</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -70,7 +70,7 @@
 
             getApprovals(id) {
                 http
-                    .get("/app/" + id)
+                    .get("/app/writer/" + id)
                     .then(response => {
                         this.approvals = response.data;
                     })

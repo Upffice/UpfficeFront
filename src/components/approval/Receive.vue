@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재진행함</h2>
+        <h2 style="float: left; margin-left: 200px">부서수신함</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -23,8 +23,8 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="(approvals[index].app_status_check == 'ing' &&approvals[index].app_status3 != 'true')
-            &&approvals[index].app_writer_id==login_id"
+            <tr v-if="(approvals[index].app_status_check != 'temp')
+             && ((getEmpInfo(approvals[index].app_sign_id1,index) /*|| getEmpInfo(approvals[index].app_sign_id2,index) || getEmpInfo(approvals[index].app_sign_id3,index)*/))"
                 class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
@@ -32,7 +32,7 @@
                 <td>{{app.app_type}}</td>
                 <td>
                     <router-link :to="{
-                        name : 'ing-details',
+                        name : 'rcv-details',
                         params:{appProps : app, id : app.app_doc_num}
                     }">
                         {{app.app_doc_title}}
@@ -56,9 +56,11 @@
     // import {EventBus} from "../../event-bus";
 
     export default {
-        name: "SignIng",
+        name: "receive",
         data: function () {
             return {
+                check: false,
+                signer_dep_id: "",
                 login_id: "",
                 approvals: [],
                 a: 0
@@ -71,28 +73,58 @@
 
             getApprovals(id) {
                 http
-                    .get("/app/writer/" + id)
+                    .get("/app/" + id)
                     .then(response => {
                         this.approvals = response.data;
+                        console.log("this.approvals");
+                        console.log(this.approvals);
                     })
                     .catch(e => {
                         console.log(e);
                     });
             },
-            refreshList(id) {
-                this.getApprovals(id);
+            /*  refreshList(id) {
+                  this.getApprovals(id);
+              },*/
+            getEmpInfo(id, index) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
+                http
+                    .post("/mypage/" + id)
+                        .then(response => {
+                        // 응답 데이터를 employee 데이터에 대입하기.
+                        this.signer_dep_id = response.data.dep_id;
+                        /*console.log("this.signer_dep_id");
+                        console.log(this.signer_dep_id);
+                        console.log("this.approvals.app_writer_depid");
+                        console.log(this.approvals[index].app_writer_depid);*/
+                        if (this.approvals[index].app_writer_depid == this.signer_dep_id /*|| this.approvals[index].app_writer_depid === this.signer_dep_id*/) {
+                            this.check = true;
+                        } else if (this.approvals[index].app_writer_depid != this.signer_dep_id /*|| this.approvals[index].app_writer_depid !== this.signer_dep_id*/) {
+                            this.check = false;
+                        }
+
+                    })
+
+                // console.log("check")
+                // console.log(check)
+                //
+                // console.log("check: "+this.check);
+                // return this.check;
+            }, // End - getEmpInfo : 사원 정보 가져오기, mounted()일 때 실행 됨.
+
+        },
+        created() {
+            if (sessionStorage.length > 0) {
+                this.login_id = sessionStorage.getItem("login_id");
+                this.getApprovals(this.login_id);
+
+            } else {
+                alert("로그인을 해주세요!");
+                this.$router.push('/');
             }
         },
         mounted() {
             /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
 
-            if (sessionStorage.length > 0) {
-                this.login_id = sessionStorage.getItem("login_id");
-                this.getApprovals(this.login_id);
-            } else {
-                alert("로그인을 해주세요!");
-                this.$router.push('/');
-            }
 
         }
     }
@@ -105,7 +137,8 @@
         max-width: 450px;
         margin: auto;
     }
-    .table{
+
+    .table {
 
         margin: auto auto auto 150px;
         width: 1000px;

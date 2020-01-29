@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재진행함</h2>
+        <h2 style="float: left; margin-left: 200px">참조/열람</h2>
 
         <div class="list row">
             <subMenu></subMenu>
@@ -23,8 +23,8 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="(approvals[index].app_status_check == 'ing' &&approvals[index].app_status3 != 'true')
-            &&approvals[index].app_writer_id==login_id"
+            <tr v-if="((approvals[index].app_status_check == 'ing' || approvals[index].app_status_check == 'complete')
+             && (approvals[index].app_ref_id1 == login_id || approvals[index].app_ref_id2 == login_id ||approvals[index].app_ref_id3 == login_id))"
                 class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
@@ -32,7 +32,7 @@
                 <td>{{app.app_type}}</td>
                 <td>
                     <router-link :to="{
-                        name : 'ing-details',
+                        name : 'ref-details',
                         params:{appProps : app, id : app.app_doc_num}
                     }">
                         {{app.app_doc_title}}
@@ -56,7 +56,7 @@
     // import {EventBus} from "../../event-bus";
 
     export default {
-        name: "SignIng",
+        name: "reference",
         data: function () {
             return {
                 login_id: "",
@@ -71,7 +71,7 @@
 
             getApprovals(id) {
                 http
-                    .get("/app/writer/" + id)
+                    .get("/app/all")
                     .then(response => {
                         this.approvals = response.data;
                     })

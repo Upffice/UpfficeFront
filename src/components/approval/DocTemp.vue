@@ -23,7 +23,7 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="approvals[index].app_status_check == 'temp'" class="table-light" v-for="(app, index) in approvals" :key="index">
+            <tr v-if="approvals[index].app_status_check == 'temp' && approvals[index].app_writer_id==login_id" class="table-light" v-for="(app, index) in approvals" :key="index">
                 <td>{{approvals.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
