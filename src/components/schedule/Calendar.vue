@@ -24,14 +24,14 @@
                     <tbody>
                     <tr v-for="(row, index) in currentCalendarMatrix" :key="index">
                         <td class="calendarCell" v-for="(day, index2) in row" :key="index2">
-                            <div v-if="day!==''">
-                                {{getSchedule(currentYear, currentMonth, day)}}
-                        <span v-if="isToday(currentYear, currentMonth, day)" class="rounded">
-                          {{day}}
-                        </span>
+                         <div v-if="day!==''">
+                            {{getSchedule(currentYear, currentMonth, day)}}
+                            <span v-if="isToday(currentYear, currentMonth, day)" class="rounded">
+                              {{day}}
+                            </span>
 
-                        <span v-else>
-                          {{day}}
+                            <span v-else>
+                              {{day}}
                         </span>
                             </div>
                         <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
