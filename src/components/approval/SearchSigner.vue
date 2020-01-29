@@ -40,9 +40,9 @@
                 </div>
                 <div class="modal-footer">
                     <div style="float: left">
-                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 1 :</b>{{sign1}}</button>
-                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 2 :</b>{{sign2}}</button>
-                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"><b>결재 3 :</b>{{sign3}}</button>
+                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm" @click="sign1=''"><b>결재 1 :</b>{{sign1}}</button>
+                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"  @click="sign2=''"><b>결재 2 :</b>{{sign2}}</button>
+                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"  @click="sign3=''"><b>결재 3 :</b>{{sign3}}</button>
                     </div>
                     <input class="btn btn-primary" @click="submit_signer" type="button" value="등록">
                     <input class="btn btn-secondary" @click="$emit('close')" type="button" value="취소">

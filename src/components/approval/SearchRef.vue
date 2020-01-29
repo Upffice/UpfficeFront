@@ -23,7 +23,7 @@
                                class="form-control col-md-12 " placeholder="부서나 이름을 입력해주세요"
                                v-bind:class="{'is-valid':isValid()}"
                                style="width: 400px; float: left; border:2px #95a5a6 solid">
-                        <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)">
+                        <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)" v-on:click="selectBelow">
                     </fieldset>
 
                     <div v-if="showArr.length>0"
@@ -40,9 +40,9 @@
                 </div>
                 <div class="modal-footer">
                     <div style="float: left">
-                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 1 :</b>{{sign1}}</button>
-                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 2 :</b>{{sign2}}</button>
-                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm"><b>참조 3 :</b>{{sign3}}</button>
+                        <button v-if="sign1 != ''" type="button" class="btn btn-outline-success btn-sm" @click="sign1=''"><b>참조 1 :</b>{{sign1}}</button>
+                        <button v-if="sign2 != ''" type="button" class="btn btn-outline-success btn-sm" @click="sign2=''"><b>참조 2 :</b>{{sign2}}</button>
+                        <button v-if="sign3 != ''" type="button" class="btn btn-outline-success btn-sm" @click="sign3=''"><b>참조 3 :</b>{{sign3}}</button>
                     </div>
                     <input class="btn btn-primary" @click="submit_signer" type="button" value="등록">
                     <input class="btn btn-secondary" @click="$emit('close')" type="button" value="취소">

@@ -26,7 +26,7 @@
             <tr v-if="((approvals[index].app_status_check == 'ing' || approvals[index].app_status_check == 'complete')
              && (approvals[index].app_ref_id1 == login_id || approvals[index].app_ref_id2 == login_id ||approvals[index].app_ref_id3 == login_id))"
                 class="table-light" v-for="(app, index) in approvals" :key="index">
-                <td>{{approvals.length-index}}</td>
+                <td>{{approvalFilter.length--}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -61,7 +61,8 @@
             return {
                 login_id: "",
                 approvals: [],
-                a: 0
+                a: 0,
+                approvalFilter: []
             };
         },
         components: {
@@ -74,6 +75,8 @@
                     .get("/app/all")
                     .then(response => {
                         this.approvals = response.data;
+                        this.re(this.approvals);
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -81,6 +84,16 @@
             },
             refreshList(id) {
                 this.getApprovals(id);
+            },
+            re(app) {
+                let idx = 0;
+                for (var i = 0; i < this.approvals.length; i++) {
+
+                    if ((app[i].app_status_check == 'ing' || app[i].app_status_check == 'complete')
+                        && (app[i].app_ref_id1 == this.login_id || app[i].app_ref_id2 == this.login_id ||app[i].app_ref_id3 == this.login_id)) {
+                        this.approvalFilter[idx++] = app[i];
+                    }
+                }
             }
         },
         mounted() {

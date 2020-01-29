@@ -23,8 +23,9 @@
             <tbody>
 
             <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="(approvals[index].app_status_check=='ing')&&((approvals[index].app_sign_id1 == login_id && approvals[index].app_status1 != 'true')|| (approvals[index].app_sign_id2 == login_id&& approvals[index].app_status2 != 'true') || (approvals[index].app_sign_id3 == login_id&& approvals[index].app_status3 != 'true'))" class="table-light" v-for="(app, index) in approvals" :key="index">
-                <td>{{approvals.length-index}}</td>
+            <tr v-if="(approvals[index].app_status_check=='ing')&&((approvals[index].app_sign_id1 == login_id && approvals[index].app_status1 != 'true')|| (approvals[index].app_sign_id2 == login_id&& approvals[index].app_status2 != 'true') || (approvals[index].app_sign_id3 == login_id&& approvals[index].app_status3 != 'true'))"
+                class="table-light" v-for="(app, index) in approvals" :key="index" ref="test">
+                <td>{{approvalFilter.length--}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -38,8 +39,8 @@
                 </td>
                 <td>{{app.app_writer_name}}</td>
                 <td>{{app.app_date}}</td>
-
             </tr>
+
             </tbody>
         </table>
 
@@ -59,7 +60,8 @@
             return {
                 login_id: "",
                 approvals: [],
-                a: 0
+                a: 0,
+                approvalFilter: []
             };
         },
         components: {
@@ -72,6 +74,7 @@
                     .get("/app/" + id)
                     .then(response => {
                         this.approvals = response.data;
+                        this.re(this.approvals);
                     })
                     .catch(e => {
                         console.log(e);
@@ -79,6 +82,18 @@
             },
             refreshList(id) {
                 this.getApprovals(id);
+            },
+            setIndex() {
+                this.cc = this.idx + 1;
+            },
+            re(app) {
+                let idx = 0;
+                for (var i = 0; i < this.approvals.length; i++) {
+
+                    if ((app[i].app_status_check == 'ing') && ((app[i].app_sign_id1 == this.login_id && app[i].app_status1 != 'true') || (app[i].app_sign_id2 == this.login_id && app[i].app_status2 != 'true') || (app[i].app_sign_id3 == this.login_id && app[i].app_status3 != 'true'))) {
+                        this.approvalFilter[idx++] = app[i];
+                    }
+                }
             }
         },
         mounted() {
@@ -103,7 +118,8 @@
         max-width: 450px;
         margin: auto;
     }
-    .table{
+
+    .table {
 
         margin: auto auto auto 150px;
         width: 1000px;

@@ -133,7 +133,7 @@
                             </div>
 
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="addFiles()">Download Files</button>
+                                <button v-on:click="onClick">Download Files</button>
                             </div>
 
                         </div>
@@ -531,8 +531,23 @@
             },
             listDoc() {
                 this.$router.push('/app/sign/wait')
-            }
+            },
+            onClick() {
+                axios({
+                    url: 'http://localhost:4200/my.pdf',
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                    var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
 
+                    fileLink.href = fileURL;
+                    fileLink.setAttribute('download', 'file.pdf');
+                    document.body.appendChild(fileLink);
+
+                    fileLink.click();
+                });
+            }
         },
         mounted() {
             /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/

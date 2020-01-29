@@ -24,7 +24,7 @@
 
             <!--로그인 정보에서 받아올 부분-->
             <tr v-if="(approvals[index].app_status_check != 'temp')" class="table-light" v-for="(app, index) in approvals" :key="index">
-                <td>{{approvals.length-index}}</td>
+                <td>{{approvalFilter.length--}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -61,7 +61,8 @@
                 signer_dep_id: "",
                 login_id: "",
                 approvals: [],
-                a: 0
+                a: 0,
+                approvalFilter: []
             };
         },
         components: {
@@ -74,6 +75,8 @@
                     .get("/app/depfind/" + dep_id)
                     .then(response => {
                         this.approvals = response.data;
+                        this.re(this.approvals);
+
 
                     })
                     .catch(e => {
@@ -92,14 +95,16 @@
                         this.getApprovals(this.signer_dep_id);
 
                     })
-
-                // console.log("check")
-                // console.log(check)
-                //
-                // console.log("check: "+this.check);
-                // return this.check;
             }, // End - getEmpInfo : 사원 정보 가져오기, mounted()일 때 실행 됨.
+        re(app) {
+            let idx = 0;
+            for (var i = 0; i < this.approvals.length; i++) {
 
+                if (app[i].app_status_check != 'temp') {
+                    this.approvalFilter[idx++] = app[i];
+                }
+            }
+        }
         },
         created() {
             if (sessionStorage.length > 0) {
