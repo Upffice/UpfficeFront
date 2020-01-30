@@ -115,7 +115,12 @@
             }
         },/*END-OF-methods*/
         mounted() {
-            this.retrieveEmployees();
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.retrieveEmployees();
+            } else {
+                this.$router.push("/");
+            }
+
         },
 
     }

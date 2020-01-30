@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div  > <!--v-if="manager==false" class="topMenu"-->
+        <div v-if="manager==false" class="topMenu">
             <div>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                     <router-link class="navbar-brand" to="/">upffice</router-link>
@@ -49,7 +49,7 @@
             </div>
             <br/>
         </div>
-       <!-- <div > &lt;!&ndash;v-else class="topMenu"&ndash;&gt;
+        <div v-else class="topMenu">
             <div>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                     <router-link class="navbar-brand" to="/">upffice</router-link>
@@ -66,10 +66,27 @@
                                 <router-link class="nav-link" to="/manager/out-address">외부주소록관리</router-link>
                             </li>
                         </ul>
+                        <!-- 로그인 안 한 상태 => v-if : loginInfo.login_status 사용함으로써 로그인이 필요한 상태인지 구분 -->
+                        <form v-if="!loginInfo.login_status" class="form-inline my-2 my-lg-0">
+                            <span style="color: white">로그인이 필요합니다</span>
+                        </form>
+
+                        <!-- 로그인 한 상태 => v-else : 로그인 된 후 top menu 오른쪽에 이름을 띄우며, 이름 클릭 시 마이페이지로 이동 -->
+                        <form v-else class="form-inline my-2 my-lg-0">
+                            <div class="img_div">
+                                <img v-bind:src="emp_img_url"><br>
+                            </div>
+                            <router-link :to="{ name: 'mypage'}"> <!-- name이 mypage인 컴포넌트를 router에서 자동 매핑해준다-->
+                                <span style="color: white">{{login_name}}({{loginInfo.login_id}}) 님</span>
+                                <!-- 이름 : mounted() 일 때, 로그인 성공 상태이면 getName()으로 가져옴 -->
+                            </router-link>&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-secondary my-2 my-sm-0" v-on:click="logout">Logout</button>
+                            <!-- 로그아웃 버튼 -->
+                        </form>
                     </div>
                 </nav>
             </div>
-        </div>-->
+        </div>
     </div>
 </template>
 

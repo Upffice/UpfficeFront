@@ -52,6 +52,7 @@
                     for (let i = 0; i < 1; i++) {
                         location.reload();// 로그인 시 한 번만 새로고침
                     }
+
                     console.log(this.loginInfo.loginStatus);
 
                 } else {

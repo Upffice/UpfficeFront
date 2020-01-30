@@ -65,12 +65,10 @@
     export default {
         name: "outManagement",
 
-        ready: function()
-        {
+        ready: function () {
             var self = this
-            window.addEventListener('click', function(e){
-                if (! e.target.parentNode.classList.contains('menu__link--toggle'))
-                {
+            window.addEventListener('click', function (e) {
+                if (!e.target.parentNode.classList.contains('menu__link--toggle')) {
                     self.close()
                 }
             }, false)
@@ -81,8 +79,8 @@
                 nameAndCompany: "",
                 out_id: "",
                 showMenu: false,
-                dropDowns:{
-                    ranking:{open:false}
+                dropDowns: {
+                    ranking: {open: false}
                 }
             };
         },
@@ -120,22 +118,23 @@
                 this.$router.push('/manager/add-out-address')
             },
 
-            toggle:function (dropdownName)  {
+            toggle: function (dropdownName) {
                 //alert(dropdownName)
                 this.dropDowns[dropdownName].open = !this.dropDowns[dropdownName].open;
             },
-            close: function()
-            {
-                for (dd in this.dropDowns)
-                {
+            close: function () {
+                for (dd in this.dropDowns) {
                     this.dropDowns[dd].open = false;
                 }
             },
         },
         mounted() {
-            this.retrieveOutAddress();
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.retrieveOutAddress();
+            } else {
+                this.$router.push("/");
+            }
         },
-
     }
 </script>
 

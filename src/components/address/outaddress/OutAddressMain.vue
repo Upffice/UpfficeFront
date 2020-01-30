@@ -50,8 +50,8 @@
                     <li class="page-item">
                         <button class="page-link" @click="prev()"><</button>
                     </li>
-                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item active">
-                        <button class="page-link" @click="changePage(pageNum)">{{pageNum}}</button>
+                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item" :class="{'active':isSelected(index)}" >
+                        <button class="page-link"  @click="changePage(pageNum)">{{pageNum}}</button>
                     </li>
                     <li class="page-item">
                         <button class="page-link" @click="next()">></button>
@@ -166,7 +166,7 @@
                 http
                     .get("/outaddress/outaddress/nameAndCompany/"+ this.nameAndCompany)
                     .then(response => {
-                        this.outaddress = response.data, // JSON are parsed automatically.
+                        this.currentPosts = response.data, // JSON are parsed automatically.
                             console.log(response.data);
                     })
                     .catch(e => {
@@ -177,6 +177,14 @@
                 this.page = pageNum;
                 this.setCurrentPosts();
                 console.log(this.page)
+            },
+            isSelected(index) { //<< >>버튼 메서드, 눌렀을때 색깔 바뀌는거
+                /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
+                if (index == (this.page-1)%this.countPage) {
+                    return true
+                } else {
+                    return false
+                }
             },
             prev() {
                 if(this.startPage != 1) {
@@ -219,10 +227,15 @@
                 }
             },
             gotoStart() {
-                location.reload();
+                // location.reload();
+                this.changePage(1);
+                this.setPagination()
             },
             gotoEnd() {
-
+                let pack = Math.ceil(this.totalPage/this.countPage)//몇덩이인지(페이지묶음수)
+                for(let i=0; i<pack; i++)
+                    this.next()
+                this.changePage(this.totalPage);
             }
 
         },
