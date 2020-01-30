@@ -5,8 +5,6 @@
             <h2>외부 주소록</h2>
 
 
-
-
             <button v-on:click="addOutAddress">직원 추가</button>
             <hr>
             <div class="searchform">
@@ -66,12 +64,26 @@
 
     export default {
         name: "outManagement",
+
+        ready: function()
+        {
+            var self = this
+            window.addEventListener('click', function(e){
+                if (! e.target.parentNode.classList.contains('menu__link--toggle'))
+                {
+                    self.close()
+                }
+            }, false)
+        },
         data() {
             return {
                 outaddress: [],
                 nameAndCompany: "",
                 out_id: "",
-                showMenu: false
+                showMenu: false,
+                dropDowns:{
+                    ranking:{open:false}
+                }
             };
         },
 
@@ -107,14 +119,18 @@
             addOutAddress() {
                 this.$router.push('/manager/add-out-address')
             },
-            toggleShow() {
-                this.showMenu = !this.showMenu;
 
+            toggle:function (dropdownName)  {
+                //alert(dropdownName)
+                this.dropDowns[dropdownName].open = !this.dropDowns[dropdownName].open;
             },
-            itemClicked(item) {
-                this.toggleShow();
-                this.onClick(item);
-            }
+            close: function()
+            {
+                for (dd in this.dropDowns)
+                {
+                    this.dropDowns[dd].open = false;
+                }
+            },
         },
         mounted() {
             this.retrieveOutAddress();

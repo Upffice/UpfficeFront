@@ -1,48 +1,75 @@
 <template>
-    <div class="topMenu">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <router-link class="navbar-brand" to="/">upffice</router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
-                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <div>
+        <div  > <!--v-if="manager==false" class="topMenu"-->
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <router-link class="navbar-brand" to="/">upffice</router-link>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/bbs">board</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/customer">customer</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/mainEmployAddress">주소록</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/working">근태관리</router-link>
-                    </li>
+                    <div class="collapse navbar-collapse" id="navbarColor01">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/bbs">board</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/customer">customer</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/mainEmployAddress">주소록</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/working">근태관리</router-link>
+                            </li>
 
-                </ul>
+                        </ul>
 
-                <!-- 로그인 안 한 상태 => v-if : loginInfo.login_status 사용함으로써 로그인이 필요한 상태인지 구분 -->
-                <form v-if="!loginInfo.login_status" class="form-inline my-2 my-lg-0">
-                    <span style="color: white">로그인이 필요합니다</span>
-                </form>
+                        <!-- 로그인 안 한 상태 => v-if : loginInfo.login_status 사용함으로써 로그인이 필요한 상태인지 구분 -->
+                        <form v-if="!loginInfo.login_status" class="form-inline my-2 my-lg-0">
+                            <span style="color: white">로그인이 필요합니다</span>
+                        </form>
 
-                <!-- 로그인 한 상태 => v-else : 로그인 된 후 top menu 오른쪽에 이름을 띄우며, 이름 클릭 시 마이페이지로 이동 -->
-                <form v-else class="form-inline my-2 my-lg-0">
-                    <div class="img_div">
-                        <img v-bind:src="emp_img_url"><br>
+                        <!-- 로그인 한 상태 => v-else : 로그인 된 후 top menu 오른쪽에 이름을 띄우며, 이름 클릭 시 마이페이지로 이동 -->
+                        <form v-else class="form-inline my-2 my-lg-0">
+                            <div class="img_div">
+                                <img v-bind:src="emp_img_url"><br>
+                            </div>
+                            <router-link :to="{ name: 'mypage'}"> <!-- name이 mypage인 컴포넌트를 router에서 자동 매핑해준다-->
+                                <span style="color: white">{{login_name}}({{loginInfo.login_id}}) 님</span>
+                                <!-- 이름 : mounted() 일 때, 로그인 성공 상태이면 getName()으로 가져옴 -->
+                            </router-link>&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-secondary my-2 my-sm-0" v-on:click="logout">Logout</button>
+                            <!-- 로그아웃 버튼 -->
+                        </form>
+
                     </div>
-                    <router-link :to="{ name: 'mypage'}"> <!-- name이 mypage인 컴포넌트를 router에서 자동 매핑해준다-->
-                        <span style="color: white">{{login_name}}({{loginInfo.login_id}}) 님</span> <!-- 이름 : mounted() 일 때, 로그인 성공 상태이면 getName()으로 가져옴 -->
-                    </router-link>&nbsp;&nbsp;&nbsp;
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="logout">Logout</button> <!-- 로그아웃 버튼 -->
-                </form>
-
+                </nav>
             </div>
-        </nav>
-        <br/>
+            <br/>
+        </div>
+       <!-- <div > &lt;!&ndash;v-else class="topMenu"&ndash;&gt;
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <router-link class="navbar-brand" to="/">upffice</router-link>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" >
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/manager">직원관리</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/manager/out-address">외부주소록관리</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>-->
     </div>
 </template>
 
@@ -55,11 +82,12 @@
                 customers: [],
                 loginInfo: {
                     login_status: "",
-                    login_id: ""
+                    login_id: "",
+                    manager:false
                 },
-                cnt:0,
+                cnt: 0,
                 login_name: "",
-                emp_img_url : "" // 사원 사진 경로
+                emp_img_url: "" // 사원 사진 경로
             };
         },
         methods: {
@@ -71,10 +99,10 @@
             getName() {
                 /* 사원번호에 해당하는 사원명 가져오는 메소드 */
                 http
-                .post("/login/name/" + this.loginInfo.login_id)
-                .then(response => {
-                    this.login_name = response.data;
-                })
+                    .post("/login/name/" + this.loginInfo.login_id)
+                    .then(response => {
+                        this.login_name = response.data;
+                    })
             } // End - getName()
         },
         mounted() {
@@ -88,7 +116,7 @@
 
                 // 사원 이미지 경로 설정
                 // 밑의 경로에 사번.jpg에 해당하는 이미지 파일을 넣어두고 사용하면 됨
-                this.emp_img_url = require('../assets/emp_img/'+ this.loginInfo.login_id + '.jpg');
+                this.emp_img_url = require('../assets/emp_img/' + this.loginInfo.login_id + '.jpg');
             }
         }
 
@@ -99,9 +127,11 @@
     .topMenu {
         text-align: center;
     }
+
     .btn-secondary {
         margin-right: 5px;
     }
+
     .img_div {
         width: 30px;
         height: 30px;
@@ -109,6 +139,7 @@
         overflow: hidden;
         margin-right: 10px;
     }
+
     img {
         width: 100%;
         height: 100%;
