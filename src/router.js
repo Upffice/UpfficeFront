@@ -15,13 +15,13 @@ import OutAddressMain from "./components/address/outaddress/OutAddressMain";
 import MypageInfo from "./components/mypage/MypageInfo";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
-import ManagerMain from "./components/managerpage/ManagerMain";
 import EmployeesManagement from "./components/managerpage/EmployeesManagement";
 import EmployeesMgmDetail from "./components/managerpage/EmployeesMgmDetail";
 import AddEmployees from "./components/managerpage/AddEmployees";
 import OutManagement from "./components/managerpage/OutManagement";
 import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
+import FormManagement from "./components/managerpage/FormManagement";
 
 Vue.use(Router);
 
@@ -109,11 +109,7 @@ export default new Router({
         },
 
                                                                 /*--ManagerRouter*/
-        {
-            path: "/manager",
-            name: "manager-main",
-            component: ManagerMain
-        },
+
         {
             path: "/manager/employees",
             name: "employees-mgm",
@@ -147,6 +143,12 @@ export default new Router({
             name: "AddOutAddress",
             component: AddOutAddress
         },
+        {
+            path: "/manager/form-management",
+            name: "formManagement",
+            component: FormManagement
+        },
+
        /*---------------------------------------------- */
 
 

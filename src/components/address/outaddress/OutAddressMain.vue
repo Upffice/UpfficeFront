@@ -4,21 +4,19 @@
         <div class="col-md-6">
             <h4>외부 주소록</h4>
             <hr>
-            <div class="searchform">
-                <div class="form-group">                                            <!--성명,회사명으로 검색-->
-
+            <div  class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
+                                                       <!--성명,회사명으로 검색-->
+                <fieldset >
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress" placeholder="성명, 회사명 입력"  id="nameAndCompany"
-                           required v-model="nameAndCompany" name="nameAndCompany">
+                           required v-model="nameAndCompany" name="nameAndCompany"/>
 
-                </div>
-                <div class="btn-group">
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="searchOutAddress">검색</button>
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
-                </div>
+                </fieldset>
             </div>
-           <br> <hr>
 
-            <table boder="2" class="table table-hover">                                 <!--출력-->
+
+            <table boder="2" class="table table-hover" style="margin-top: 70px">                                 <!--출력-->
                 <thead class="table-primary">
                 <td >이름</td>
                 <td>휴대폰</td>
@@ -42,6 +40,7 @@
                 </tr>
 
             </table>
+
             <div>
                 <ul class="pagination">
                     <li class="page-item">
@@ -95,10 +94,8 @@
                 this.count = this.outaddress.length;
                 console.log(this.outaddress.length + "길이 찍어보기")
                 this.totalPage = this.count / this.countList; // 총 페이지 개수
-                console.log(this.totalPage+"페이지 개수");
                 if(this.count % this.countList > 0){
-                    Math.ceil(this.totalPage);
-                    console.log( Math.ceil(this.totalPage)+"math.ceil얍얍")
+                    this.totalPage = Math.ceil(this.totalPage);
                 }
                 if(this.totalPage < this.page){
                     this.page=this.totalPage;
@@ -258,21 +255,16 @@
 </script>
 
 <style scoped>
-    .searchform {
-        max-width: 300px;
-        margin: auto;
-    }
-    .search-result {
-        margin-top: 20px;
-        text-align: left;
-    }
-
     .list {
         text-align: center;
         max-width: 90%;
         /*  margin: auto;*/
         margin-left: 15%;
     }
-
+    .table {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+    }
 
 </style>

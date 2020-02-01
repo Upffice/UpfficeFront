@@ -3,27 +3,35 @@
 
         <div class="col-md-6">
             <h2>외부 주소록</h2>
-
-
-            <button v-on:click="addOutAddress">직원 추가</button>
             <hr>
-            <div class="searchform">
-                <div class="form-group">                                            <!--성명,회사명으로 검색-->
+            <!--전체, 회사별 정렬하기 위한 dropdown-->
+            <form class="btn-group" role="group" style="margin-bottom: 10px; float: left">
+                <select v-model="selectedNum" type="button" class="btn btn-primary"
+                        style="width: 90px; margin-right: 10px;  margin-top: 20px;">
+                    <option class="dropdown-menu show" value="" disabled="">분류</option>
+                    <option class="dropdown-item" value="1" v-on:click="sort">전체</option>
+                    <option class="dropdown-item" value="2" v-on:click="sort">회사별</option>
+                </select>
+            </form>
+            <p>{{selectedNum}}</p>
 
+            <!--직원추가-->
+            <div style="float: left">
+                <button v-on:click="addOutAddress">직원 추가</button>
+            </div>
+            <div class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
+                <!--성명,회사명으로 검색-->
+                <fieldset>
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress"
                            placeholder="검색(성명, 회사명)" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany">
-
-                </div>
-                <div class="btn-group">
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="searchOutAddress">검색</button>
                     <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
-                </div>
+                </fieldset>
             </div>
-            <br>
-            <hr>
 
-            <table boder="2" class="table table-hover">                                 <!--출력-->
+
+            <table class="table table-hover" style="margin-top: 20px">                                 <!--출력-->
                 <thead class="table-secondary">
                 <td>이름</td>
                 <td>휴대폰</td>
@@ -65,23 +73,12 @@
     export default {
         name: "outManagement",
 
-        ready: function () {
-            var self = this
-            window.addEventListener('click', function (e) {
-                if (!e.target.parentNode.classList.contains('menu__link--toggle')) {
-                    self.close()
-                }
-            }, false)
-        },
         data() {
             return {
                 outaddress: [],
                 nameAndCompany: "",
                 out_id: "",
-                showMenu: false,
-                dropDowns: {
-                    ranking: {open: false}
-                }
+                selectedNum: "",
             };
         },
 
@@ -89,6 +86,17 @@
             retrieveOutAddress() {
                 http
                     .get("/outaddress/outaddress")
+                    .then(response => {
+                        this.outaddress = response.data; // JSON are parsed automatically.
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            SortOfOutCompany() {
+                http
+                    .get("/outaddress/outaddress/outCompany")
                     .then(response => {
                         this.outaddress = response.data; // JSON are parsed automatically.
                         console.log(response.data);
@@ -117,16 +125,14 @@
             addOutAddress() {
                 this.$router.push('/manager/add-out-address')
             },
-
-            toggle: function (dropdownName) {
-                //alert(dropdownName)
-                this.dropDowns[dropdownName].open = !this.dropDowns[dropdownName].open;
-            },
-            close: function () {
-                for (dd in this.dropDowns) {
-                    this.dropDowns[dd].open = false;
+            sort() {
+                if (this.selectedNum === 1) {
+                    this.retrieveOutAddress();
+                } else if (this.selectedNum === 2) {
+                    this.SortOfOutCompany();
                 }
             },
+
         },
         mounted() {
             if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
@@ -148,8 +154,7 @@
     .list {
         text-align: center;
         max-width: 90%;
-        /*  margin: auto;*/
-        margin-left: 15%;
+        margin: auto;
     }
 
     #nameAndCompany {

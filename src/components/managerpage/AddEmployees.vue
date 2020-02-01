@@ -2,9 +2,26 @@
     <div>
         <div><h3>직원 등록</h3></div>
 
+        <form>
+            <fieldset>
+                <div class="form-group">
+                    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                </div>
+            </fieldset>
+        </form>
+
 
         <div v-if="!added">
             <table>
+                <tr>
+                    <td>
+
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
                 <tr>
                     <th for="emp_id">사원 아이디</th>
                     <td><input type="text" id="emp_id" required v-model="employee.emp_id" value={this.emp_id}></td>
@@ -104,7 +121,7 @@
             },
             newEmployees() {
                 this.added = false;
-                this.employee={};
+                this.employee = {};
             },
 
         }

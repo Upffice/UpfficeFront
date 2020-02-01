@@ -4,25 +4,25 @@
         <div class="col-md-6">
             <h4>내부 주소록</h4>
             <hr>
-            <div class="searchform">
-                <div class="form-group">                                         <!--이름,직책 으로 검색-->
+            <div  class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
+                <fieldset>
+                <!--이름,직책 으로 검색-->
                     <input type="text" v-on:keypress="searchNameAndPosition" placeholder="이름, 직책 입력"
                            class="form-control mr-sm-2" id="nameAndPosition"
-                           required v-model="nameAndPosition" name="nameAndPosition">
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="searchNameAndPosition">검색</button>
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
-                </div>
+                           style="margin-right: 0px !important;  margin-top: 10px; "
+                           required v-model="nameAndPosition" name="nameAndPosition"/>
+
+                    <button class="btn btn-secondary my-2 my-sm-0"  type="submit" style="margin-left: 0px;  margin-top: 10px !important; " v-on:click="searchNameAndPosition">검색</button>
+                    <button class="btn btn-secondary my-2 my-sm-0"  type="submit" style="margin-left: 0px;  margin-top: 10px !important; " v-on:click="refreshList">취소</button>
+                </fieldset>
             </div>
-            <br>
-            <hr>
 
-            <table boder="2" class="table table-hover">                             <!--출력부분-->
+
+            <table boder="2" class="table table-hover" style="margin-top: 70px" >                             <!--출력부분-->
                 <thead class="table-secondary"><tr>
-                    <th colspan="2">경영전략실</th>
+                    <th colspan="2">경영부</th>
                 </tr></thead>
-                <tr v-if="employee.dep_id==0" v-for="(employee, index) in employees" :key="index">
+                <tr v-if="employee.dep_id==1000" v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
                    name : 'employees-details',
@@ -34,8 +34,8 @@
 
                     <td>{{employee.position}}</td>
                 </tr>
-                <thead class="table-primary"><tr><th colspan="2">개발팀</th></tr></thead>
-                <tr v-if="employee.dep_id==1" v-for="(employee, index) in employees" :key="index">
+                <thead class="table-primary"><tr><th colspan="2">인사부</th></tr></thead>
+                <tr v-if="employee.dep_id==1100" v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
                    name : 'employees-details',
@@ -47,8 +47,8 @@
 
                     <td>{{employee.position}}</td>
                 </tr>
-                <thead class="table-primary"><tr><th colspan="2">인사팀</th></tr></thead>
-                <tr v-if="employee.dep_id==2" v-for="(employee, index) in employees" :key="index">
+                <thead class="table-primary"><tr><th colspan="2">홍보부</th></tr></thead>
+                <tr v-if="employee.dep_id==1200" v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
                    name : 'employees-details',
@@ -60,8 +60,8 @@
 
                     <td>{{employee.position}}</td>
                 </tr>
-                <thead class="table-primary"><tr><th colspan="2">홍보마케팅팀</th></tr></thead>
-                <tr v-if="employee.dep_id==3" v-for="(employee, index) in employees" :key="index">
+                <thead class="table-primary"><tr><th colspan="2">영업부</th></tr></thead>
+                <tr v-if="employee.dep_id==1300" v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
                    name : 'employees-details',
@@ -73,8 +73,8 @@
 
                     <td>{{employee.position}}</td>
                 </tr>
-                <thead class="table-primary"><tr><th colspan="2">영업팀</th></tr></thead>
-                <tr v-if="employee.dep_id==4" v-for="(employee, index) in employees" :key="index">
+                <thead class="table-primary"><tr><th colspan="2">기술부</th></tr></thead>
+                <tr v-if="employee.dep_id==1400" v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
                    name : 'employees-details',
