@@ -9,25 +9,27 @@
             <button class="btn btn-lg btn-link addBtn" @click="addCategory()">+</button>
         </div>
 
-        <div class="form-check">
+        <div v-if="modi_flag" class="form-check">
             캘린더 목록
-            <label class="form-check-label category" v-if="true">
-                <input class="form-check-input" type="checkbox" :value="0" v-model="checkedCalendars">
-                내 일정
-            </label>
-             <label class="form-check-label category" v-if="true" v-for="(calendar, index) in calendarList" :key="index">
-                 <input class="form-check-input" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars">
+             <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">
+                 <input class="form-check-input" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars" checked="calendar_chk">
                  {{calendar.calendar_name}}
-             </label><br><br>
-            checkedCalendars: {{checkedCalendars}}
-            <button class="btn btn-info btn-sm pushCalBtn" @click="pushCalendarList()">확인</button>
-            <!--삭제 버튼도 만들기-->
+             </label><br>
+            <span style="font-size: 12px">checkedCalendars: {{checkedCalendars}}</span><br>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="modi_flag=false">수정</button>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
         </div>
-<!--        <div class="category">캘린더 목록<br>-->
-<!--            &lt;!&ndash;조건검사해서 수정 버튼 누르면 input 버튼 나오게 하기&ndash;&gt;-->
-<!--            <span v-if="true" v-for="(calendar, index) in calendarList" :key="index">{{calendar.calendar_name}}<br></span>-->
-<!--            <input v-else class="form-control form-control-sm" v-for="(calendar, index) in calendarList" :key="index" type="text" :value="calendar.calendar_name">-->
-<!--        </div>-->
+
+        <div v-else class="form-check">
+            캘린더 목록
+             <label class="form-check-label " v-for="(calendar, index) in calendarList" :key="index">
+                 <input v-if="checkedCalendars.includes(calendar.calendar_id)" class="form-control form-control-sm modi_cal_intput" type="text"
+                        required v-model="modi_cal_input[index]" :placeholder="calendar.calendar_name">
+                 <input v-else class="form-control form-control-sm modi_cal_intput" type="text" :value="calendar.calendar_name" readonly>
+             </label><br><br>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendarList()">확인</button>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="modi_flag=true">취소</button>
+        </div>
 
     </div>
 </template>
@@ -42,46 +44,15 @@ export default {
             emp_id: "",         // 사번
             calendarInput : {   // 추가할 캘린더 Input
               cal_name: "",
-              cal_color: ""
+              cal_color: "#ffffff"
             },
             calendarList: [],         // 모든 캘린더 목록
             checkedCalendars : [],    // 체크된 캘린더 목록
-            // sche_Input : {
-            //     calendar_id : "",
-            //     sche_name: "",
-            //     sche_start_date: "",
-            //     sche_start_time: "",
-            //     sche_end_date: "",
-            //     sche_end_time: "",
-            //     sche_place: "",
-            //     sche_detail: "",
-            // }
+            modi_flag : true,         // 캘린더 목록 수정 여부 검사할 flag
+            modi_cal_input : []
         }
     },
     methods : {
-     /*   setSchedule() {
-            let sche_data = {
-                calendar_id : this.sche_Input.calendar_id,
-                sche_name: this.sche_Input.sche_name,
-                sche_start_date: this.sche_Input.sche_start_date,
-                sche_start_time: this.sche_Input.sche_start_time,
-                sche_end_date: this.sche_Input.sche_end_date,
-                sche_end_time: this.sche_Input.sche_end_time,
-                sche_place: this.sche_Input.sche_place,
-                sche_detail: this.sche_Input.sche_detail,
-            }
-            http
-                .post("/schedule/add/" + this.emp_id, sche_data)
-                .then(response=> {
-                    console.log(response.data);
-                    this.calendarList = response.data;
-                })
-                .catch(e => {
-                    /!* eslint-disable no-console *!/
-                    console.log(e);
-                });
-
-        },*/
         addSchedule() { // 일정 등록 modal 띄우는 메소드
             this.$modal.show(RegisterPopup, {
                 registerData : 'data',
@@ -128,17 +99,44 @@ export default {
                     console.log(e);
                 });
         },
-        pushCalendarList() {    // 체크 박스에 체크한 캘린더 목록 sessionStorage 에 넣고 새로고침 : Calendar.vue 와 연동됨
-            if(this.checkedCalendars == "") {
-                sessionStorage.removeItem("calendar");
-                for(let i=0; i<1; i++) {
-                    location.reload();
-                }// 한 번만 새로고침 하기
-            } else {
-                sessionStorage.setItem("calendar", this.checkedCalendars);
-                for(let i=0; i<1; i++) {
-                    location.reload();
-                }// 한 번만 새로고침 하기
+        modifyCalendarList() {
+            let data =[];
+            let j=0;
+
+            for(let i=0; i<this.modi_cal_input.length; i++) {
+                if(this.modi_cal_input[i] !== undefined) {
+                    data[j] = this.checkedCalendars[j] + "," + this.modi_cal_input[i];
+                    j++;
+                }
+            }
+
+            http
+                .put("/calendar/update/" + this.emp_id, data) // UpfficeBack의 MyPageController로 매핑 된다.
+                .then(response => {
+                    console.log("수정 성공 " + response.data);
+                    this.getCalendarList();
+                    this.modi_flag = true;
+                    this.checkedCalendars = []; // 체크 박스 해제
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        },
+        deleteCalendarList() {
+            if(this.checkedCalendars.length !=0) {
+                http
+                    .delete("/calendar/list/" + this.emp_id +"?calendar_id=" + this.checkedCalendars)
+                    .then(response=> {
+                        /* eslint-disable no-console */
+                        console.log("캘린더 " + response.data + " 개 delete 됨");
+                        this.getCalendarList();
+                        this.checkedCalendars = []; // 체크 박스 해제
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                        console.log(this.emp_id +"/err " + this.checkedCalendars)
+                    });
             }
         }
     },
@@ -185,5 +183,9 @@ export default {
     }
     .pushCalBtn {
         width: 50px;
+    }
+    .modi_cal_intput {
+        width: 80%;
+        margin-top: 5px;
     }
 </style>
