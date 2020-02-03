@@ -25,9 +25,9 @@
 
 
 
-                    <!--  <input type="text" v-model="file.name" placeholder=""/>
+                      <input type="text" v-model="file.name" placeholder=""/>
                                <input type="text" v-model="file.num" placeholder=""/>
-                               <button v-on:click="add">추가</button> 얘는 혹시 파일 추가 가능할까해서..-->
+                               <button v-on:click="add">추가</button> 얘는 혹시 파일 추가 가능할까해서..
 
 
 
@@ -60,10 +60,10 @@
             }
         },
         methods: {
-            /* add () {
+             add () {
                  this.files.push(this.file);
                  this.file = {};
-             }*/
+             }
 
         }
     }

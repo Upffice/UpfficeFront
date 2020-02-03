@@ -49,7 +49,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <tr v-for="(employee, index) in employees" :key="index">
                     <td>
                         <router-link :to="{
