@@ -67,6 +67,7 @@
             <h5>{{this.employee.name}}님의 정보가 입력되었습니다.</h5>
 
             <button v-on:click="newEmployees">다른 직원 정보 추가</button>
+            <button v-on:click="goBack">돌아가기</button>
 
         </div>
     </div>
@@ -123,6 +124,9 @@
                 this.added = false;
                 this.employee = {};
             },
+            goBack() {
+                history.go(-1);
+            }
 
         }
     }

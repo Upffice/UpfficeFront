@@ -14,6 +14,7 @@
                 </select>
             </form>
 
+
             <!--직원추가-->
             <div style="float: left">
                 <button v-on:click="addOutAddress">직원 추가</button>
@@ -185,6 +186,8 @@
                     .then(response => {
                         this.outaddress = response.data;
                         console.log(response.data);
+                        this.setPagination();
+                        this.setCurrentPosts();
                     })
                     .catch(e => {
                         console.log(e);
@@ -195,7 +198,9 @@
                     .get("/outaddress/outaddress/outName")
                     .then(response => {
                         this.outaddress = response.data;
-                        console.log(response.data);
+                        console.log("SortOfOutName "+response.data);
+                        this.setPagination();
+                        this.setCurrentPosts();
                     })
                     .catch(e => {
                         console.log(e);
@@ -223,7 +228,7 @@
                 this.$router.push('/manager/add-out-address')
             },
             sort() {
-                console.log(this.selected);
+                console.log("selected"+this.selected);
                 if (this.selected === '1') {
                     this.retrieveOutAddress();
                 } else if (this.selected === '2') {

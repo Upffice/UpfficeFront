@@ -8,7 +8,8 @@
                 <label for="exampleInputFile">File input</label>
                 <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                 <small id="fileHelp" class="form-text text-muted">
-                    This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.
+                    This is some placeholder block-level help text for the above input. It's a bit lighter and easily
+                    wraps to a new line.
                 </small>
             </div>
 
@@ -34,6 +35,7 @@
                 </fieldset>
             </div>
 
+            {{$route.params}}
             <table id="go-to-detail" class="table table-hover" style="margin-top: 20px">
                 <!--출력부분-->
                 <thead class="table-secondary">
@@ -49,14 +51,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(employee, index) in employees" :key="index">
+                <tr v-for="(employee, index) in employees" :key="index" v-on:click="emp_modi_del">
                     <td>
-                        <router-link :to="{
-                            name: 'EmployeesMgmDetail',
-                            params: { employee: employee, emp_id: employee.emp_id }
-                        }">
-                            {{employee.emp_id}}
-                        </router-link>
+                        <!-- <router-link :to="{
+                             name: 'EmployeesMgmDetail',
+                             params: { employee: employee, emp_id: employee.emp_id }
+                         }">-->
+                        {{employee.emp_id}}
+                        <!-- </router-link>-->
                     </td>
                     <td>{{employee.name}}</td>
                     <td>{{employee.emp_email}}</td>
@@ -69,16 +71,19 @@
 
                 </tbody>
             </table>
+
         </div>
         <div class="col-md-6">
             <router-view @refreshData="refreshList"></router-view>
         </div>
-
+        <!--modal 컴포넌트 포함 시키기 위한 div-->
+        <modals-container/>
     </div>
 </template>
 
 <script>
     import http from "../../http-common";
+    import employeesPopup from "./employeesPopup";
 
     export default {
         name: "employeesManagement",
@@ -107,14 +112,15 @@
                 this.retrieveEmployees();
                 this.nameAndPosition = "";
             },
-            /*  goToDetail(id) {
-                   console.log("디테일로 갑니까?"),
-                  this.$router.push('EmployeesMgmDetail',{
-                      params : {employee:this.employee, id: this.employee.emp_id},
-
-                  })
-                      console.log(emp_id)
-              }*/
+            goToDetail(emp,emp_id) {
+                // window.open("/manager/employees/" + emp_id);
+                console.log("디테일로 갑니까?");
+                    this.$router.push({
+                        name: 'EmployeesMgmDetail',
+                        params: {employee: emp, id: emp_id}
+                    })
+                console.log(emp_id)
+            },
 
             addEmployees() {
                 this.$router.push('/manager/add-employees')
@@ -129,7 +135,19 @@
                     .catch(e => {
                         console.log(e);
                     });
-            }
+            },
+            emp_modi_del() { // 일정 등록 modal 띄우는 메소드
+                this.$modal.show(employeesPopup, {
+                        registerData : 'data',
+                        modal : this.$modal,
+                    },
+                    {
+                        name: 'dynamic-modal',
+                        width:'400px',
+                        height: '600px',
+                        draggable: true,
+                    });
+            },
         },/*END-OF-methods*/
         mounted() {
             if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)

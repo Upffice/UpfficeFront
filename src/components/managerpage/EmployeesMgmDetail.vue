@@ -69,28 +69,7 @@
         },
         watch:{'$route':'getEmpInfo'},  //라우터 변경되면 메소드 다시 호출
         methods:{
-           /* getEmpInfo(id) {    // 매개변수 id는 this.employee.emp_id 이다. : mounted()때 호출되는 메소드.
-                http
-                    .post("/employees/detail/" + id)
-                    .then(response => {
-                        // 응답 데이터를 employee 데이터에 대입하기.
-                        console.log("아니getEMPinfo에는 들어오니?")
-                        this.employees.emp_pw = response.data.emp_pw;
-                        this.employees.name = response.data.name;
-                        this.employees.emp_email = response.data.emp_email;
-                        this.employees.position = response.data.position;
-                        this.employees.hire_date = response.data.hire_date;
-                        this.employees.extension_number = response.data.extension_number;
-                        this.employees.phone_number = response.data.phone_number;
-                        this.employees.dep_id = response.data.dep_id;
 
-                        this.getDep_Name(this.employee.dep_id);     // 사원 정보 중 부서 이름 가져오기
-                        this.emp_img_url = require('../../assets/emp_img/'+ this.employee.emp_id + '.jpg');  // 사원 이미지 경로 설정
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            }, // End - getEmpInfo : 사원 정보 가져오기, mounted()일 때 실행 됨.*/
             getDep_Name(dep_id) {
                 http
                     .post("/dep/" + dep_id)
