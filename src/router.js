@@ -20,6 +20,10 @@ import SurveyList from "./components/survey/SurveyList";
 import Survey from "./components/survey/Survey";
 import DepPostsList from "./components/posts/DepPostsList";
 import EndSurveyList from "./components/survey/EndSurveyList";
+import DepBoard from "./components/posts/DepBoard";
+import DepPage from "./components/posts/DepPage";
+import PostSubmenu from "./components/posts/PostSubmenu";
+import EndSurvey from "./components/survey/EndSurvey";
 
 Vue.use(Router);
 
@@ -133,6 +137,12 @@ export default new Router({
             props : true
         },
         {
+            path: "/survey/EndSurveyList/:survey_id",
+            name: "end-survey-details",
+            component: EndSurvey,
+            props : true
+        },
+        {
             path: "/dep_pst/add",
             name: "dep_add",
             component: Addposts
@@ -148,7 +158,22 @@ export default new Router({
             name: "dep_post-details",
             component: Post,
             props : true
-        }
+        },
+        {
+            path:"/dep_pst/newBoard",
+            name:"board",
+            component: DepBoard
+        },
+        {
+            path:"/dep_pst/DepPage/:board_name",
+            name: "DepPage",
+            component:DepPage,
+
+        },
+
+
+
+
 
     ]
 });

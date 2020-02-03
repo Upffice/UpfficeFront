@@ -11,9 +11,6 @@
 
         <hr style="width: 80%; margin: 60px 60px 20px 75px;">
         <!--여기부터-->
-<!--            <div>-->
-<!--                <label>작성자: </label> {{this.survey.survey_writer}}-->
-<!--            </div>-->
         <div class="subjectbox_survey" style="font-weight: bold">
             <label >작성자 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_writer}}
         </div>
@@ -23,39 +20,25 @@
         <div class="subjectbox_survey" style="font-weight: bold">
             <label >종료일 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{time(this.survey.end_date)}}
         </div>
-<!--            <div>-->
-<!--                <label>제목: </label> {{this.survey.survey_subject}}-->
-<!--            </div>-->
 
         <hr  style="width: 80%; margin-bottom: 50px;">
-<!--        <div class="subjectbox_survey" style="font-weight: bold">-->
-<!--            <label >설문 제목 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_subject}}-->
-<!--        </div>-->
             <div class="qstbox">
-<!--                <label for="one">질문: {{this.survey.answer1}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="one" name="a" :value="1" v-model="survey.answer"><br>&ndash;&gt;-->
-
-<!--                <label for="two">질문: {{this.survey.answer2}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="two" name="a" :value="2" v-model="survey.answer"><br>&ndash;&gt;-->
-
-<!--                <label for="three">질문: {{this.survey.answer3}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="three" name="a" :value="3" v-model="survey.answer"><br>&ndash;&gt;-->
                 <label style="font-weight: bold; font-size: 30px;">  &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_subject}}</label>
             </div>
 
         <div class="progressbox">
-            1번 :   {{this.survey.answer1 }}({{width1}}%)&nbsp;&nbsp;<input v-if="!flag" type="radio" id="one" name="a" :value="1" v-model="survey.answer">
-            <div class="progress">                                  <!--:style="{ color: activeColor, 'font-size': fontSize + 'px' }"-->
+            1번 :   {{this.survey.answer1 }}({{Math.round(width1)}}%)
+            <div class="progress">
                 <div class="progress-bar bg-info" role="progressbar" :style="{width: width1+'%'}"></div>
             </div><br>
 
-          2번 :  {{this.survey.answer2 }}({{width2}}%) &nbsp;&nbsp; <input v-if="!flag" type="radio" id="two" name="a" :value="2" v-model="survey.answer"><br>
+          2번 :  {{this.survey.answer2 }}({{Math.round(width2)}}%) &nbsp;
 
             <div class="progress">
                 <div class="progress-bar bg-warning" role="progressbar" :style="{width: width2+'%'}"></div>
             </div><br>
 
-           3번 :  {{this.survey.answer3 }}({{width3}}%)&nbsp;&nbsp; <input v-if="!flag" type="radio" id="three" name="a" :value="3" v-model="survey.answer"><br>
+           3번 :  {{this.survey.answer3 }}({{Math.round(width3)}}%)
 
             <div class="progress">
                 <div class="progress-bar bg-danger" role="progressbar" :style="{width: width3+'%'}"></div>
@@ -66,21 +49,12 @@
         </div>
             총 참여자 수 : {{this.choice.length}} 명<br>
 <!--            총 참여자 수 : {{this.emp_id}} 명<br>-->
-<!--            <li v-for="(choice, index) in choice" :key="index" class="page-item active" >-->
-<!--                {{choice.emp_id}}-->
-<!--            </li>-->
-<!--        투표한 사람 {{this.emp_id}}-->
-<!--        로그인 번호 {{this.empID}}-->
-<!--            <div v-if="flag">-->
-<!--                ok 투표한 사람 {{this.emp_id}}<br>-->
-<!--                ok 로그인 번호 {{this.empID}}-->
-<!--            </div>-->
-<!--            <div v-else>-->
-<!--                노노-->
-<!--            </div>-->
-            <br><br>
-            <button v-if="!flag" class="btn btn-success" type="button" @click="savevote">투표하기</button>
-            <button v-else class="btn btn-success" type="button" @click="goBack">돌아가기</button>
+            <li v-for="(choice, index) in choice" :key="index" class="page-item active" >
+                {{choice.emp_id}}
+            </li>
+        투표한 사람 {{this.emp_id}}
+        로그인 번호 {{this.empID}}<br>
+            <button class="btn btn-success" type="button" @click="goBack">돌아가기</button>
 
             <button v-if="empID==10002"class="btn btn-primary" type="button" @click="deletePost">설문삭제</button>
         </div>
@@ -135,38 +109,17 @@
         },
         props: ["survey"],
         methods: {
+            //원하는 시간 형식으로 바꿔서 출력해주는 메서드
             time(date){
                 var moment=require("moment");
 
                 return moment(date).format("YYYY년 MM월 DD일");
             },
-
             goBack(){
                   history.go(-1);
             },
-            //사용자가 선택한 문항의 번호를 저장해주는 메서드 문항은 0,1,2 로 되어있다.
-            savevote(){
-                var vote ={
-                    selection:this.survey.answer,
-                    emp_id: this.empID,
-                    survey_id: this.survey.survey_id
-                };
-                http
-                .put("/survey/vote",vote)
-                .then(response => {
-                    // this.survey.answer =response.data.answer;
-                    console.log("들어가는 값?"+response.data.selection);
-                    console.log(vote+"selection")
-                    // console.log(this.survey.answer)
-                    alert("설문을 완료하셨습니다.")
-                    history.go(-1);
-
-
-                })
-
-            },
-
             //2020-01-23 등록 메서드
+            //저장된 설문들을 다 가져오는 메서드 해당 survey_id에 emp_id(투표한 사원) , selection(몇번을 선택했는지),
             getvote(){
                 console.log("설문 아이디 : " + this.survey.survey_id)
                 http
@@ -182,8 +135,6 @@
                         this.emp_id[i]=this.choice[i].emp_id;
                         console.log("넣어주는 emp>>>>>>>>>>>>>>"+this.emp_id);
                     }
-
-                   this.checkVoter();
 
                     for(let i=0; i<this.choice.length;i++){
                         console.log(this.choice[i].selection + "selection");
@@ -203,14 +154,6 @@
                     this.width3=this.s3/this.choice.length * 100;
                 })
 
-            },
-            checkVoter(){
-                for(let i=0; i<this.emp_id.length; i++) {
-                    if(this.empID == this.emp_id[i]) {
-                        this.flag = true;// 투표한 사람과 현재 로그인 한 사람의 사번이 일치하면 flag에 true 대입
-                        alert("이미 투표하신 설문입니다 !")
-                    }
-                }
             },
             deletePost() {
                 http
@@ -234,9 +177,6 @@
                 this.$router.push("/");
             }
         },
-        updated() {
-
-        }
     };
 </script>
 <style>
@@ -250,6 +190,7 @@
         left: 400px;
         height: 400px;
     }
+
     .progress {
         width: 60%;
         margin-left: 20%;

@@ -1,65 +1,62 @@
 <template>
-    <div class="root"><h4>설문조사 등록</h4>
+    <div>
+    <h3 style="margin: 20px; font-weight: bold">설문 등록하기</h3>
+    <div class="root">
         <div class="submitform">
-           <subMenu></subMenu>
+            <div>
+                <subMenu></subMenu>
+            </div>
 
             <div v-if="!submitted"  class="ppo">
-                <div class="form-group">
+
+                <div class="form-group form-inline " >
+                    <label for="writer" class="labelfont">작성자</label>
+                    <input type="text" class="form-control col-sm-9" id="writer" required v-model="survey.survey_writer" name="writer" placeholder="작성자" readonly>
                 </div>
 
-                <div class="form-group" >
-
-                    <input type="text" class="form-control" id="writer" required v-model="survey.survey_writer" name="writer" placeholder="작성자" readonly>
-
+                <div class="form-group form-inline">
+                    <label for="start_date" class="labelfont">시작일</label>
+                    <input type="date" class="form-control col-sm-9" id="start_date" required v-model="survey.start_date" name="start_date" placeholder="설문 시작일">
+                </div>
+                <div class="form-group form-inline">
+                    <label for="end_date" class="labelfont">종료일</label>
+                    <input type="date" class="form-control col-sm-9" id="end_date" required v-model="survey.end_date" name="end_date" placeholder="설문 종료일">
                 </div>
 
-                <div class="form-group">
-
-                    <input type="date" class="form-control" id="start_date" required v-model="survey.start_date" name="start_date" placeholder="설문 시작일">
+                <div class="form-group form-inline">
+                    <label for="subject" class="labelfont">글제목</label>
+                    <input type="text" class="form-control col-sm-9" id="subject" required v-model="survey.survey_subject" name="subject" placeholder="글 제목">
                 </div>
-                <div class="form-group">
-
-                    <input type="date" class="form-control" id="end_date" required v-model="survey.end_date" name="end_date" placeholder="설문 종료일">
+                <div class="form-group form-inline">
+                    <label for="question" class="labelfont">제&nbsp;&nbsp;&nbsp; 목</label>
+                    <input type="text" class="form-control col-sm-9" id="question" required v-model="survey.survey_question" name="question" placeholder="설문 제목 ">
                 </div>
-
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="subject" required v-model="survey.survey_subject" name="subject" placeholder="글 제목">
-                </div>
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="question" required v-model="survey.survey_question" name="question" placeholder="설문 제목 ">
-                </div>
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="answer1" required v-model="survey.answer1" name="answer1" placeholder="설문 항목1">
+                <div class="form-group form-inline">
+                    <label for="answer1" class="labelfont">질문 1</label>
+                    <input type="text" class="form-control col-sm-9" id="answer1" required v-model="survey.answer1" name="answer1" placeholder="설문 항목1">
                 </div>
 
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="answer2" required v-model="survey.answer2" name="answer2" placeholder="설문 항목2">
+                <div class="form-group form-inline">
+                    <label for="answer2" class="labelfont">질문 2</label>
+                    <input type="text" class="form-control col-sm-9" id="answer2" required v-model="survey.answer2" name="answer2" placeholder="설문 항목2">
                 </div>
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="answer3" required v-model="survey.answer3" name="answer3" placeholder="설문 항목3">
+                <div class="form-group form-inline">
+                    <label for="answer3" class="labelfont">질문 3</label>
+                    <input type="text" class="form-control col-sm-9" id="answer3" required v-model="survey.answer3" name="answer3" placeholder="설문 항목3">
                 </div>
 
-                <div class="form-group1">
-
-                    <textarea class="form-control" id="exampleTextarea" rows="10" required v-model="survey.survey_detail" name="content" placeholder="1000자 내로 입력하세요"></textarea>
+                <div class="form-group1 form-inline">
+                    <label for="content" class="labelfont">설문 내용</label>
+                    <textarea class="form-control col-sm-10" id="content" rows="10" required v-model="survey.survey_detail" name="content" placeholder="1000자 내로 입력하세요"></textarea>
                 </div>
                 <br>
 
-                <button v-on:click="saveSurvey" class="btn btn-success">등록</button>
-            </div>
-
-            <div v-else>
-                <h4>게시물이 등록 되었습니다 !!</h4>
-                <button class="btn btn-success" @click="backlist">돌아가기</button>
+                <button v-on:click="saveSurvey" class="btn btn-success">설문 등록</button>
+                <button v-on:click="cnlth" class="btn btn-success">취소하기</button>
             </div>
         </div>
     </div>
-
+    </div>
 </template>
 
 <script>
@@ -94,7 +91,14 @@
         },
 
         methods: {
+            //작성을 취소하고 리스트로 되돌아가는 메서드
+            cnlth(){
+                this.$router.push({
+                    path:'/survey/'
+                })
+            },
             /* eslint-disable no-console */
+            //입력 form에 작성한 녀석들을 변수 data 에 저장하여 controller 에 보내주는 메서드
             saveSurvey() {
                 var data = {
                     survey_id: this.survey.survey_id,
@@ -118,6 +122,10 @@
                         console.log(e);
                     });
                 this.submitted = true;
+                alert("설문을 성공적으로 등록하였습니다 !");
+                this.$router.push({
+                    path:'/survey'
+                })
             },
             backlist(){
                 this.$router.push({
@@ -145,12 +153,15 @@
     };
 </script>
 
-<style>
+<style scoped>
     .submitform{
-        max-width: 800px;
-        margin: auto;
-        border: solid lightgray 1px ;
+         max-width: 800px;
+         margin: auto;
+         border: solid lightgray 0px ;
 
+     }
+    .form-group{
+        width: 700px !important;
     }
     .sidelist {
         width: 15%;
@@ -158,19 +169,26 @@
     }
     .ppo{
         text-align: center;
-        max-width: 550px;
+        max-width: 650px;
         width: 100%;
         margin: 0 auto;
 
     }
-    .form-group{
-        width: 280px
-    }
     .root{
-        width: 1200px;
+        width: 800px;
+        border: silver solid 1px;
+        margin: 10px;
+        padding: 20px 0 50px 0;
+        position: absolute;
+        left: 24%;
 
     }
     .btn btn-success{
         display: none;
     }
+    .labelfont{
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
 </style>

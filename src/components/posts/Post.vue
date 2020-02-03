@@ -1,20 +1,22 @@
 <template>
-
+    <div class="root2">
     <div v-if="this.post">
         <div>
             <subMenu></subMenu>
         </div>
-            <h4>전사 게시판</h4>
+            <h4 style="margin: 20px; font-weight: bold">-{{this.post.board_name}} 게시판-</h4>
+        <hr style="margin: 60px">
         <!--여기부터-->
         <div v-if="flex">
-            <div>
-                <label>user_name: </label> {{this.post.post_writer}}
+            <div class="subjectbox" style="font-weight: bold">
+                <label >작성일 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.post.created}}
             </div>
-            <div>
-                <label>subject: </label> {{this.post.post_subject}}
+            <div class="subjectbox" style="font-weight: bold">
+                <label >작성자 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.post.post_writer}}
             </div>
-            <div>
-                <label> view: </label> {{this.post.post_view}}
+
+            <div class="subjectbox" style="font-weight: bold">
+                <label >제&nbsp;&nbsp;&nbsp;&nbsp;목 :</label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.post.post_subject}}
             </div>
 
             <div class="card border-dark mb-5" style="max-width: 40rem;">
@@ -30,7 +32,7 @@
         </div>
         <!--여기까지 div로 묶고 검사-->
 
-        <div v-else>
+        <div v-else class>
          <label>제목</label>
             <input type="text" class="form-control" id="subject"
                    required v-model="post.post_subject" name="subject">
@@ -45,10 +47,11 @@
         <br/>
         <p>Please click on a Board...</p>
     </div>
-
+    </div>
 </template>
 
 <script>
+
     import http from "../../http-common";
     import PostSubmenu from "./PostSubmenu";
 
@@ -67,6 +70,7 @@
         props: ["post"],
         methods: {
 
+            //게시된 게시글을 삭제하는 메서드
             deletePost() {
                 http
                     .delete("/pst/delete/" + this.post.post_id)
@@ -92,11 +96,12 @@
             modify() {
                 this.flex=false
             },
+            //게시글을 수정하는 메서드
             updatePost() {
                 let postData = {
                     post_subject : this.post.post_subject,
                     post_content : this.post.post_content,
-                }
+                };
                 http
                     .put("/pst/update/"+this.post.post_id, postData)
                     .then(response => {
@@ -151,6 +156,27 @@
     .form-control {
         width: 60%;
         margin : auto;
+    }
+    .root2{
+        width: 800px;
+        border: silver solid 0px;
+        margin: 10px;
+        padding: 20px 0 50px 0;
+        position: absolute;
+        background-color: rgba(239,239,239,0.2);
+        left: 24%;
+    }
+    .card{
+        margin: 40px auto;
+        left: 0;
+        width: 80%;
+    }
+    .subjectbox{
+        margin: 10px auto;
+        left: 0;
+        width: 80%;
+        border: silver solid 0px;
+        text-align: left;
     }
 
 </style>

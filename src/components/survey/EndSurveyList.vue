@@ -16,25 +16,42 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr id="text-over" v-for="(survey, index) in surveylist" :key="index">
+                <tr id="text-over" v-for="(survey, index) in currentPosts" :key="index">
                     <td>{{survey.survey_id}}</td>
                     <td>{{survey.survey_writer}}</td>
                     <td class="maljul"><router-link :to="{
-                            name: 'survey-details',
-                            params: { survey: survey, survey_id: survey.survey_id }
+                            name: 'end-survey-details',
+                            params: { survey: survey, survey_id: survey.survey_id}
                         }">
 
                         {{survey.survey_subject}}
                     </router-link></td>
                     <td>{{time(survey.start_date)}}</td>
                     <td>{{time(survey.end_date) }}</td>
-
                 </tr>
-
                 </tbody>
-
             </table>
+            <div>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" @click="gotoStart()">&laquo;</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="prev()"><</button>
+                    </li>
+                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item" :class="{'active':isSelected(index)}" >
+                        <button class="page-link"  @click="changePage(pageNum)">{{pageNum}}</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="next()">></button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="gotoEnd()">&raquo;</button>
+                    </li>
+                </ul>
+            </div>
         </div>
+
 
     </div>
 </template>
@@ -47,7 +64,18 @@
         data(){
             return{
                 surveylist:[],
-                keyword: ""
+                keyword: "",
+                currentPosts: [],
+                empID: [],
+                count: 0,
+                countList:5,
+                totalPage:1,
+                page:1,
+                countPage:5,
+                startPage:1,
+                endPage:0,
+                totalPages: [],
+                currentPages: [],
             };
         },
         components: {
@@ -55,22 +83,126 @@
         },
 
         methods:{
+            //설문기간이 종료된 설문들을 불러오는 메서드
             requestSurvey(){
                 http
                 .get("/survey/endsurvey")
                 .then(response =>{
                     this.surveylist =response.data;
-                    console.log(response.data);
+                    this.setCurrentPosts();
+                    this.setPagination();
                 })
                 .catch(e =>{
                     console.log(e);
                 })
+            },
+            setCurrentPosts() {
+                this.currentPosts = [];
+                let j = (this.page-1) * this.countList;
+                for(let i=0; i<this.countList && j < this.surveylist.length; i++) {
+                    this.currentPosts[i] = this.surveylist[j];
+                    j++;
+                }
+            },
+            setPagination() {
+                this.count = this.surveylist.length;
+
+                this.totalPage = this.count / this.countList; // 총 페이지 개수
+
+                if(this.count % this.countList > 0){
+                    this.totalPage= Math.floor(this.totalPage);
+                    this.totalPage++; // 나머지가 있으면 totalPage 하나 더 추가
+                }
+                if(this.totalPage < this.page){
+                    this.page=this.totalPage;
+                }
+                for(let i=0; i<this.totalPage; i++) {
+                    this.totalPages[i] = i+1;
+                }
+                this.startPage = ((this.page -1)/this.countPage) * this.countPage +1; // 시작 페이지
+                if(this.totalPage < 5) {
+                    this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                } else {
+                    this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                }
+                this.currentPages = [];
+                let j = this.startPage-1;
+                for(let i=0; i<=(this.endPage-this.startPage) && j <
+                this.totalPage; i++) {
+                    this.currentPages[i] = this.totalPages[j];
+                    j++;
+                }
+
+
+            },
+            changePage(pageNum) {
+                this.page = pageNum;
+                this.setCurrentPosts();
+            },
+            prev() {
+                if(this.startPage != 1) {
+                    this.startPage = this.startPage -5;
+                    this.page = this.startPage;
+                    if(this.totalPage < 5) {
+                        this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                    } else {
+                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                    }
+
+                    this.currentPages = [];
+                    let j = this.startPage-1;
+                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                        this.currentPages[i] = this.totalPages[j];
+                        j++;
+                    }
+                    this.setCurrentPosts();
+                }
+            },
+            next() {
+                if(this.endPage < this.totalPage) {
+                    this.startPage = this.endPage +1;
+                    this.page = this.startPage;
+                    if(this.totalPage < 5) {
+                        this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                    } else {
+                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                    }
+
+                    this.currentPages = [];
+                    let j = this.startPage-1;
+                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                        this.currentPages[i] = this.totalPages[j];
+                        j++;
+                    }
+                    this.setCurrentPosts();
+                }
+
+            },
+            gotoStart() {
+                this.changePage(1);
+                this.setPagination()
+            },
+            gotoEnd() {
+                let pack = Math.ceil(this.totalPage/this.countPage) // 몇덩이인지(페이지묶음수)
+                for(let i=0; i<pack && pack>0; i++){
+                    this.next()
+                    this.changePage(this.totalPage);
+                }
+            },
+            isSelected(index) {
+                /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
+                if (index == (this.page-1)%this.countPage) {
+                    return true
+                } else {
+                    return false
+                }
             },
             time(date){
                 var moment=require("moment");
 
                 return moment(date).format("YYYY년 MM월 DD일");
             }
+
         },
         mounted() {
             // mounted 될 때 로그인이 되어있는 상태라면
