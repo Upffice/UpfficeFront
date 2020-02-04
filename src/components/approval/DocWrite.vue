@@ -26,24 +26,24 @@
                 <table class="sign-table" style="border: black 2px solid">
                     <thead>
                     <tr>
-                        <th class="sign-th table-light" rowspan="2" style="width:90px"></th>
-                        <th class="table-light" style="border: black 2px solid">기안</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="sign-th table-light" rowspan="2" style="width:45px !important;"></th>
+                        <th class="table-light" style="border: black 2px solid; width:70px">기안</th>
+                        <th v-if="approval.signId1!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId2!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId3!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
+                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;" ><b>{{approval.writerName}}</b><br><img v-bind:src="sign_url_1"><br>{{cTime}}</td>
                         <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{signName1}}<br><br></b>
+                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>
+                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>
+                        <td v-if="approval.signId3!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}<br><br></b>
                         </td>
                     </tr>
                     </tbody>
@@ -194,6 +194,12 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
+                // emp_sign_url:['','','','']
+                sign_url_1:"",
+                sign_url_2:"",
+                sign_url_3:"",
+                sign_url_4:""
+
             }
         },
         components: {
@@ -268,6 +274,24 @@
                         this.approval.signId1 = newValue1id;
                         this.approval.signId2 = newValue2id;
                         this.approval.signId3 = newValue3id;
+
+
+                        /*if(require('../../assets/sign_img/'+ this.approval.signId1 +'sign'+'.png') != undefined)
+                            this.sign_url_2 = require('../../assets/sign_img/'+ this.approval.signId1 +'sign'+'.png');
+                        else
+                            this.sign_url_2 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
+
+                        if(require('../../assets/sign_img/'+ this.approval.signId2 +'sign'+'.png') != undefined)
+                            this.sign_url_3 = require('../../assets/sign_img/'+ this.approval.signId2 +'sign'+'.png');
+                        else
+                            this.sign_url_3 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
+
+                        if(require('../../assets/sign_img/'+ this.approval.signId3 +'sign'+'.png') != undefined)
+                            this.sign_url_4 = require('../../assets/sign_img/'+ this.approval.signId3 +'sign'+'.png');
+                        else
+                            this.sign_url_4 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');*/
+
+
                     }
                 }, {
                     name: 'dynamic-modal',
@@ -403,6 +427,8 @@
                 for (var i = 0; i < uploadedFiles.length; i++) {
                     this.files.push(uploadedFiles[i]);
                 }
+                console.log("uploadedFiles")
+                console.log(uploadedFiles)
             },
             removeFile(key) {
                 this.files.splice(key, 1);
@@ -415,15 +441,26 @@
 
                     let file = this.files[i];
                     formData.append('files[' + i + ']', file);
+                    // console.log("file");
+                    // console.log(file);
                 }
-                axios.post('/multiple-files',
-                    formData,
+                // console.log(formData[0].get("files[0]"));
+                console.log("formData")
+                // console.log(formData)
+                formData.forEach((value, key) => {
+                    console.log("key %s: value %s", key, value);
+                })
+                http.post('/app/multiple-files',
+                    formData).then(r => {
+                        var message = r.data
+                    console.log('SUCCESS!!');
+                    console.log(message)
+                    /*,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
-                    }).then(function () {
-                    console.log('SUCCESS!!');
+                    }*/
                 }).catch(function () {
                     console.log('FAILURE!!');
                 });
@@ -441,8 +478,14 @@
 
             if (sessionStorage.length > 0) {
                 this.login_id = sessionStorage.getItem("login_id");
-
                 this.getEmpInfo(this.login_id);
+
+                if(require('../../assets/sign_img/'+ this.login_id +'sign'+'.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/'+ this.login_id +'sign'+'.png');
+                else
+                    this.sign_url_1 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
+
+
             } else {
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
@@ -543,4 +586,12 @@
         cursor: pointer;
         float: right;
     }
+
+    img {
+        width: 40px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+
 </style>

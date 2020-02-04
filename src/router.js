@@ -22,7 +22,7 @@ import SignWaitDetails from "./components/approval/SignWaitDetails";
 import DocTemp from "./components/approval/DocTemp";
 import SignIng from "./components/approval/SignIng";
 import SignIngDetails from "./components/approval/SignIngDetails";
-import DocModify from "./components/approval/DocModify";
+import DocTempDetails from "./components/approval/DocTempDetails";
 import SignComplete from "./components/approval/SignComplete";
 import SignCompleteDetails from "./components/approval/SignCompleteDetails";
 import SignReject from "./components/approval/SignReject";
@@ -125,8 +125,8 @@ export default new Router({
         },
         {
             path: "/app/doc/temp/:id",
-            name: "DocModify",
-            component: DocModify,
+            name: "DocTempDetails",
+            component: DocTempDetails,
             props: true
         },
 

@@ -15,7 +15,7 @@
                             v-on:click="tempsaveDoc" @click="submitFiles">임시저장</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc"
                             @click="submitFiles">상신</button>
-                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
+                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">삭제</button>
                 </span>
             </div>
             <div class="row">
@@ -23,27 +23,29 @@
             </div>
             <!--------------------------------------------결제선 테이블 시작------------------------------------------------------->
             <div class="sign-line" style="float: right; padding-right: 65px; padding-bottom: 40px;">
-                <table class="sign-table" style="border: black 2px solid">
+                <table class="sign-table" style="border: black 2px solid; ">
                     <thead>
                     <tr>
-                        <th class="sign-th table-light" rowspan="2" style="width:90px"></th>
-                        <th class="table-light" style="border: black 2px solid">기안</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
-                        <th class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="sign-th table-light" rowspan="2" style="width:45px !important;"></th>
+                        <th class="table-light" style="border: black 2px solid; width:70px">기안</th>
+                        <th v-if="approval.signId1!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId2!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId3!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인<br>{{cTime}}</td>
+                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{approval.writerName}}</b><img
+                                v-bind:src="sign_url_1"><br>{{cTime}}
+                        </td>
                         <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid"><b>{{signName1}}<br><br></b>
+                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>
+                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>
+                        <td v-if="approval.signId3!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}<br><br></b>
                         </td>
                     </tr>
                     </tbody>
@@ -151,7 +153,7 @@
 
 
     export default {
-        name: "DocModify",
+        name: "DocTempDetails",
         props: ["appProps", "id"],
         data: function () {
             return {
@@ -195,6 +197,10 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
+                sign_url_1: "",
+                sign_url_2: "",
+                sign_url_3: "",
+                sign_url_4: ""
             }
         },
         components: {
@@ -205,7 +211,7 @@
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
 
-                this.approval.statusCheck = "save";
+                this.approval.statusCheck = "temp";
 
                 var data = {
                     app_doc_num: this.approval.docNum,
@@ -263,6 +269,8 @@
                         this.approval.signId1 = newValue1id;
                         this.approval.signId2 = newValue2id;
                         this.approval.signId3 = newValue3id;
+
+                        this.signerCheck();
                     }
                 }, {
                     name: 'dynamic-modal',
@@ -349,10 +357,18 @@
                 console.log("cancelDoc_method");
                 /* eslint-disable no-console */
 
-                var result = confirm("입력을 취소하시겠습니까?");
+                var result = confirm("삭제하시겠습니까?");
                 if (result) {
-                    alert("입력이 취소되었습니다!");
-                    this.$router.push('/app');
+                    http
+                    .delete("/app/doc/delete/"+this.approval.docNum)
+                    .then(r=>{
+                        console.log(r)
+                        alert("삭제되었습니다!");
+                        this.$router.push('/app/doc/temp');
+                    })
+
+                }else{
+                    location.reload();
                 }
 
             },
@@ -499,6 +515,7 @@
                         this.refIdToNames(data.app_ref_id1);
                         this.refIdToNames(data.app_ref_id2);
                         this.refIdToNames(data.app_ref_id3);
+                        this.signerCheck();
 
                     })
                     .catch(e => {
@@ -538,6 +555,69 @@
                     });
 
             },
+            /*signerCheck() {
+
+                if (this.approval.signId1 != '') {
+                    if (require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png') != undefined)
+                        this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
+                    else
+                        this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }
+                if (this.approval.signId2 != '') {
+                    if (require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png') != undefined)
+                        this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
+                    else
+                        this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }
+                if (this.approval.signId3 != '') {
+                    if (require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png') != undefined)
+                        this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
+                    else
+                        this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }
+            }*/
+            signerCheck() {
+
+                if (require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png');
+
+                else
+                    this.sign_url_1 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+
+                if (this.approval.signId1 != '' && this.approval.status1 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png') != undefined)
+                        this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
+                    else
+                        this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'false'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'hold'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId2 != '' && this.approval.status2 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png') != undefined)
+                        this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
+                    else
+                        this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'false'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'no'+ '.png');
+
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'hold'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId3 != '' && this.approval.status3 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png') != undefined)
+                        this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
+                    else
+                        this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'false'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'hold'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+            }
         },
         mounted() {
             /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/
@@ -546,6 +626,13 @@
                 this.login_id = sessionStorage.getItem("login_id");
 
                 this.getEmpInfo(this.login_id);
+
+                if (require('../../assets/sign_img/' + this.login_id + 'sign' + '.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/' + this.login_id + 'sign' + '.png');
+                else
+                    this.sign_url_1 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+
+
             } else {
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
@@ -647,5 +734,11 @@
         color: red;
         cursor: pointer;
         float: right;
+    }
+
+    img {
+        width: 100%;
+        height: 40%;
+        object-fit: cover;
     }
 </style>

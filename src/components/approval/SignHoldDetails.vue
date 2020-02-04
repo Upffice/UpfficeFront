@@ -9,12 +9,7 @@
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문 확인</b></span>
                 <span class="button-group" style="float: right; margin-right: 35px">
-                    <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="yesDoc">결재</button>
-                    <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="noDoc">반려</button>
-                    <button type="button" class="btn btn-secondary disabled buttons" v-on:click="holdDoc"
-                    >보류</button>
+
                     <button type="button" class="btn btn-secondary disabled buttons"
                             @click="listDoc">목록</button>
 
@@ -25,33 +20,39 @@
             </div>
             <!--------------------------------------------결제선 테이블 시작------------------------------------------------------->
             <div class="sign-line" style="float: right; padding-right: 65px; padding-bottom: 40px;">
-                <table class="sign-table" style="border: black 2px solid">
+                <table class="sign-table" style="border: black 2px solid;">
                     <thead>
                     <tr>
-                        <th class="sign-th table-light" rowspan="2" style="width:90px"></th>
-                        <th class="table-light" style="border: black 2px solid">기안</th>
-                        <th v-if="approval.signId1!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId2!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId3!=null" class="table-light" style="border: black 2px solid">결재</th>
+                        <th class="sign-th table-light" rowspan="2" style="width:45px !important;"></th>
+                        <th class="table-light" style="border: black 2px solid; width:70px">기안</th>
+                        <th v-if="approval.signId1!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId2!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId3!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인
-                            <hr>
+                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{approval.writerName}}</b>
+                            <img v-bind:src="sign_url_1">
                             {{approval.date.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid; padding-top: 0px;"><b>{{signName1}}<br><br></b>{{this.approval.status1}}
-                            <hr>
+                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}</b>
+                            <img v-if="approval.status1!=''" v-bind:src="sign_url_2">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate1.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>{{this.approval.status2}}
-                            <hr>
+                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}</b>
+                            <img v-if="approval.status2!=''" v-bind:src="sign_url_3">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate2.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>{{this.approval.status3}}
-                            <hr>
+                        <td v-if="approval.signId3!=''" style="border: black 2px solid;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}</b>
+                            <img v-if="approval.status3!=''" v-bind:src="sign_url_4">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate3.substring(5,10)}}
                         </td>
                     </tr>
@@ -208,6 +209,10 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
+                sign_url_1: "",
+                sign_url_2: "",
+                sign_url_3: "",
+                sign_url_4: ""
             }
         },
         components: {
@@ -440,34 +445,6 @@
             },
             opening() {
                 /*props로 받은 객체 옮겨닮는과정*/
-                /*{
-                    this.approval.docNum = this.appProps.app_doc_num;
-                    this.approval.type = this.appProps.app_type;
-                    this.approval.title = this.appProps.app_doc_title;
-                    this.approval.writerId = this.appProps.app_writer_id;
-                    this.approval.date = this.appProps.app_date;
-                    this.approval.comment = this.appProps.app_comment;
-                    this.approval.refId1 = this.appProps.app_ref_id1;
-                    this.approval.refId2 = this.appProps.app_ref_id2;
-                    this.approval.refId3 = this.appProps.app_ref_id3;
-                    this.approval.refFile = this.appProps.app_ref_file;
-                    this.approval.content = this.appProps.app_content;
-                    this.approval.signId1 = this.appProps.app_sign_id1;
-                    this.approval.signId2 = this.appProps.app_sign_id2;
-                    this.approval.signId3 = this.appProps.app_sign_id3;
-                    this.approval.signDate1 = this.appProps.app_sign_date1;
-                    this.approval.signDate2 = this.appProps.app_sign_date2;
-                    this.approval.signDate3 = this.appProps.app_sign_date3;
-                    this.approval.statusCheck = this.appProps.app_status_check;
-                    this.approval.status1 = this.appProps.app_status1;
-                    this.approval.status2 = this.appProps.app_status2;
-                    this.approval.status3 = this.appProps.app_status3;
-                    this.approval.writerName = this.appProps.app_writer_name;
-                    this.approval.writerPosition = this.appProps.app_writer_position;
-                    this.approval.writerDepId = this.appProps.app_writer_depid;
-                    this.approval.writerDepName = this.appProps.app_writer_depname;
-                }*/
-
 
                 var data = {
                     app_doc_num: this.approval.docNum,
@@ -535,6 +512,7 @@
                         this.refIdToNames(data.app_ref_id1);
                         this.refIdToNames(data.app_ref_id2);
                         this.refIdToNames(data.app_ref_id3);
+                        this.signerCheck()
 
                     })
                     .catch(e => {
@@ -622,6 +600,48 @@
             },
             listDoc(){
                 this.$router.push('/app/sign/hold')
+            },
+            signerCheck() {
+
+                if (require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png');
+
+                else
+                    this.sign_url_1 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+
+                if (this.approval.signId1 != '' && this.approval.status1 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png') != undefined)
+                        this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
+                    else
+                        this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'false'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'hold'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId2 != '' && this.approval.status2 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png') != undefined)
+                        this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
+                    else
+                        this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'false'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'no'+ '.png');
+
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'hold'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId3 != '' && this.approval.status3 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png') != undefined)
+                        this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
+                    else
+                        this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'false'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'hold'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
             }
 
         },
@@ -737,5 +757,10 @@
         color: red;
         cursor: pointer;
         float: right;
+    }
+    img {
+        width: 100%;
+        height: 40%;
+        object-fit: cover;
     }
 </style>

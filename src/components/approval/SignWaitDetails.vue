@@ -28,28 +28,34 @@
                     <tr>
                         <th class="sign-th table-light" rowspan="2" style="width:90px"></th>
                         <th class="table-light" style="border: black 2px solid">기안</th>
-                        <th v-if="approval.signId1!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId2!=null" class="table-light" style="border: black 2px solid">결재</th>
-                        <th v-if="approval.signId3!=null" class="table-light" style="border: black 2px solid">결재</th>
+                        <th v-if="approval.signId1!=''" class="table-light" style="border: black 2px solid">결재</th>
+                        <th v-if="approval.signId2!=''" class="table-light" style="border: black 2px solid">결재</th>
+                        <th v-if="approval.signId3!=''" class="table-light" style="border: black 2px solid">결재</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px;">결<br><br>재</td>
-                        <td style="border: black 2px solid"><b>{{approval.writerName}}</b><br><br>사인
-                            <hr>
+                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{approval.writerName}}</b>
+                            <img v-bind:src="sign_url_1">
                             {{approval.date.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId1!=null" style="border: black 2px solid; padding-top: 0px;"><b>{{signName1}}<br><br></b>{{this.approval.status1}}
-                            <hr>
+                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}</b>
+                            <img v-if="approval.status1!=''" v-bind:src="sign_url_2">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate1.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId2!=null" style="border: black 2px solid"><b>{{signName2}}<br><br></b>{{this.approval.status2}}
-                            <hr>
+                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}</b>
+                            <img v-if="approval.status2!=''" v-bind:src="sign_url_3">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate2.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId3!=null" style="border: black 2px solid"><b>{{signName3}}<br><br></b>{{this.approval.status3}}
-                            <hr>
+                        <td v-if="approval.signId3!=''" style="border: black 2px solid;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}</b>
+                            <img v-if="approval.status3!=''" v-bind:src="sign_url_4">
+                            <div v-else style="height: 80px;">
+                            </div>
                             {{approval.signDate3.substring(5,10)}}
                         </td>
                     </tr>
@@ -70,7 +76,6 @@
                     <select id="type" name="type" required v-model="approval.type"
                             style="width: 80px; height: 25px; float: left;">
                         <option v-for="(type,index) in types" :key="index" disabled>{{type}}</option>
-
                     </select>
                 </td>
 
@@ -206,6 +211,10 @@
                     writerDepId: "",
                     writerDepName: ""
                 },
+                sign_url_1: "",
+                sign_url_2: "",
+                sign_url_3: "",
+                sign_url_4: ""
             }
         },
         components: {
@@ -449,6 +458,10 @@
                         this.refIdToNames(data.app_ref_id2);
                         this.refIdToNames(data.app_ref_id3);
 
+                        this.signerCheck()
+
+
+
                     })
                     .catch(e => {
                         /* eslint-disable no-console */
@@ -547,6 +560,48 @@
 
                     fileLink.click();
                 });
+            },
+            signerCheck() {
+
+                if (require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png');
+
+                else
+                    this.sign_url_1 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+
+                if (this.approval.signId1 != '' && this.approval.status1 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png') != undefined)
+                        this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
+                    else
+                        this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'false'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId1 != '' && this.approval.status1 == 'hold'){
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId2 != '' && this.approval.status2 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png') != undefined)
+                        this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
+                    else
+                        this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'false'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'no'+ '.png');
+
+                }else if(this.approval.signId2 != '' && this.approval.status2 == 'hold'){
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
+
+                if (this.approval.signId3 != '' && this.approval.status3 == 'true') {
+                    if (require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png') != undefined)
+                        this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
+                    else
+                        this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'false'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'no'+ '.png');
+                }else if(this.approval.signId3 != '' && this.approval.status3 == 'hold'){
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                }
             }
         },
         mounted() {
@@ -556,6 +611,7 @@
                 this.login_id = sessionStorage.getItem("login_id");
 
                 this.getEmpInfo(this.login_id);
+
             } else {
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
@@ -567,7 +623,7 @@
 
             // console.log("this.approval");
             // console.log(this.approval);
-        },
+        }
     }
 </script>
 
@@ -665,5 +721,11 @@
 
     hr {
         margin: 0px;
+    }
+
+    img {
+        width: 100%;
+        height: 40%;
+        object-fit: cover;
     }
 </style>

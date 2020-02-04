@@ -1,46 +1,20 @@
 <template>
 
     <div class="container">
-        <h2 style="float: left; margin-left: 200px">메인화면</h2>
+<!--        <h2 style="float: left; margin-left: 200px">메인화면</h2>-->
 
         <div class="list row">
             <subMenu></subMenu>
         </div>
 
-        <table class="table table-hover">
-            <thead>
-            <tr class="table-primary">
-                <th scope="col">No</th>
-                <th scope="col">부서</th>
-                <th scope="col">문서번호</th>
-                <th scope="col">유형</th>
-                <th scope="col">문서제목</th>
-                <th scope="col">기안자</th>
-                <th scope="col">기안일</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <!--로그인 정보에서 받아올 부분-->
-            <tr v-if="approvals[index].app_status_check == 'save'" class="table-light" v-for="(app, index) in approvals" :key="index">
-                    <td>{{approvals.length-index}}</td>
-                    <td>{{app.app_writer_depname}}</td>
-                    <td>{{app.app_doc_num}}</td>
-                    <td>{{app.app_type}}</td>
-                    <td>
-                        <router-link :to="{
-                        name : 'wait-details',
-                        params:{appProps : app, id : app.app_doc_num}
-                    }">
-                            {{app.app_doc_title}}
-                        </router-link>
-                    </td>
-                    <td>{{app.app_writer_name}}</td>
-                    <td>{{app.app_date}}</td>
-
-            </tr>
-            </tbody>
-        </table>
+        <br>
+        <div class="wait">
+            <wait></wait>
+        </div>
+        <br>
+        <div class="ing">
+            <ing></ing>
+        </div>
 
     </div>
 
@@ -50,6 +24,8 @@
 <script>
     import http from "../../http-common";
     import ApprovalSubMenu from "./ApprovalSubMenu";
+    import SignWait from "./SignWait";
+    import SignIng from "./SignIng";
     // import {EventBus} from "../../event-bus";
 
     export default {
@@ -62,7 +38,9 @@
             };
         },
         components: {
-            subMenu: ApprovalSubMenu
+            subMenu: ApprovalSubMenu,
+            wait : SignWait,
+            ing : SignIng
         },
         methods: {
 
@@ -75,9 +53,6 @@
                     .catch(e => {
                         console.log(e);
                     });
-            },
-            refreshList(id) {
-                this.getApprovals(id);
             }
         },
         mounted() {
