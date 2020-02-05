@@ -22,9 +22,7 @@
         </router-link>
 
 
-            <router-link to="/dep_pst/newBoard">
-                <button type="button" class="btn btn-primary btn-lg">게시판 등록</button>
-            </router-link>
+
 
             <button type="button" class="btn btn-primary btn-lg" @click="getBoard">우리 부서 게시판</button>
 
@@ -39,6 +37,12 @@
                 </li>
 
         </ul>
+        <router-link to="/dep_pst/newBoard">
+            <button type="button" class="btn btn-primary btn-lg">게시판 등록</button>
+        </router-link>
+        <router-link to="/dep_pst/DeleteBoard">
+            <button type="button" class="btn btn-primary btn-lg">게시판 삭제</button>
+        </router-link>
     </div>
 </template>
 

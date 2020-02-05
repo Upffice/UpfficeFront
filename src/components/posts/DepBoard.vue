@@ -39,6 +39,7 @@
 <script>
     import PostSubmenu from "./PostSubmenu";
     import http from "../../http-common";
+    import router from "../../router";
 
     export default {
         name: "board",
@@ -82,6 +83,8 @@
                     .post("/board/saveBoard",Board)
                     .then(response =>{
                     })
+                alert("새 게시판이 등록되었습니다!!");
+                this.$router.push("/dep_pst");
             },
             //이전 페이지로 돌아가는 메서드
             backlist(){

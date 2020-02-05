@@ -11,9 +11,7 @@
 
         <hr style="width: 80%; margin: 60px 60px 20px 75px;">
         <!--여기부터-->
-<!--            <div>-->
-<!--                <label>작성자: </label> {{this.survey.survey_writer}}-->
-<!--            </div>-->
+
         <div class="subjectbox_survey" style="font-weight: bold">
             <label >작성자 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_writer}}
         </div>
@@ -23,23 +21,11 @@
         <div class="subjectbox_survey" style="font-weight: bold">
             <label >종료일 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{time(this.survey.end_date)}}
         </div>
-<!--            <div>-->
-<!--                <label>제목: </label> {{this.survey.survey_subject}}-->
-<!--            </div>-->
+
 
         <hr  style="width: 80%; margin-bottom: 50px;">
-<!--        <div class="subjectbox_survey" style="font-weight: bold">-->
-<!--            <label >설문 제목 : </label> &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_subject}}-->
-<!--        </div>-->
+
             <div class="qstbox">
-<!--                <label for="one">질문: {{this.survey.answer1}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="one" name="a" :value="1" v-model="survey.answer"><br>&ndash;&gt;-->
-
-<!--                <label for="two">질문: {{this.survey.answer2}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="two" name="a" :value="2" v-model="survey.answer"><br>&ndash;&gt;-->
-
-<!--                <label for="three">질문: {{this.survey.answer3}}</label>-->
-<!--&lt;!&ndash;                <input type="radio" id="three" name="a" :value="3" v-model="survey.answer"><br>&ndash;&gt;-->
                 <label style="font-weight: bold; font-size: 30px;">  &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_subject}}</label>
             </div>
 

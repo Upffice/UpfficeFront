@@ -24,6 +24,7 @@ import DepBoard from "./components/posts/DepBoard";
 import DepPage from "./components/posts/DepPage";
 import PostSubmenu from "./components/posts/PostSubmenu";
 import EndSurvey from "./components/survey/EndSurvey";
+import DeleteBoard from "./components/posts/DeleteBoard";
 
 Vue.use(Router);
 
@@ -170,6 +171,12 @@ export default new Router({
             component:DepPage,
 
         },
+        {
+            path:"/dep_pst/DeleteBoard/",
+            name: "Delete-Board",
+            component:DeleteBoard,
+        }
+
 
 
 
