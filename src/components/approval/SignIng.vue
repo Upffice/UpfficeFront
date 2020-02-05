@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재진행함</h2>
+        <h2 style="float: left; margin-left: 200px"><router-link :to="'/app/sign/ing'">결재진행함</router-link></h2>
 
         <form class="form-inline my-2 my-lg-0" style="margin-bottom: 2px;">
             <fieldset>
@@ -138,7 +138,6 @@
             },
             sendQuery() {
                 this.approvals = [];
-                this.currentPosts = [];
                 let q = this.query;
                 let r = [];
                 if (this.select == "제목") {
@@ -146,12 +145,16 @@
                         .get("/app/writer/title/" + q)
                         .then(Response => {
                             r = Response.data;
+                            console.log("r");
                             console.log(r);
-                            if(r.length == 0) {
+                            this.re(r)
+                            console.log('this.posts')
+                            console.log(this.posts)
+                            if(this.posts.length == 0) {
                                 alert("검색결과가 없습니다!");
                                 location.reload();
                             }else{
-                                this.re(r)
+                                this.currentPosts = [];
                                 this.setPagination();
                                 this.setCurrentPosts();
                             }
@@ -161,11 +164,13 @@
                         .get("/app/writer/content/" + q)
                         .then(Response => {
                             r = Response.data;
-                            if(r.length == 0) {
+                            this.re(r)
+                            console.log('this.posts')
+                            console.log(this.posts)
+                            if(this.posts.length == 0) {
                                 alert("검색결과가 없습니다!");
                                 location.reload();
                             }else{
-                                this.re(r)
                                 this.setPagination();
                                 this.setCurrentPosts();
                             }

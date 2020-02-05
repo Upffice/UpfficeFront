@@ -2,7 +2,7 @@
 
 
     <div class="card border-primary mb-3" style="max-width: 1100px;">
-        <div class="list row">
+        <div >
             <subMenu></subMenu>
         </div>
         <div class="card-header">
@@ -632,6 +632,7 @@
     .card {
         margin: auto auto auto 300px;
         border: 1.5px solid black;
+        position: static;
     }
 
     .title {

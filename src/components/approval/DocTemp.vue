@@ -152,7 +152,6 @@
             },
             sendQuery() {
                 this.approvals = [];
-                this.currentPosts = [];
                 let q = this.query;
                 let r = [];
                 if (this.select == "제목") {
@@ -160,14 +159,18 @@
                         .get("/app/writer/title/" + q)
                         .then(Response => {
                             r = Response.data;
+                            console.log("r");
                             console.log(r);
-                            if(r.length == 0) {
+                            this.re(r)
+                            console.log('this.posts')
+                            console.log(this.posts)
+                            if(this.posts.length == 0) {
                                 alert("검색결과가 없습니다!");
                                 location.reload();
                             }else{
-                            this.re(r)
-                            this.setPagination();
-                            this.setCurrentPosts();
+                                this.currentPosts = [];
+                                this.setPagination();
+                                this.setCurrentPosts();
                             }
                         })
                 } else if (this.select == "내용") {
@@ -175,11 +178,13 @@
                         .get("/app/writer/content/" + q)
                         .then(Response => {
                             r = Response.data;
-                            if(r.length == 0) {
+                            this.re(r)
+                            console.log('this.posts')
+                            console.log(this.posts)
+                            if(this.posts.length == 0) {
                                 alert("검색결과가 없습니다!");
                                 location.reload();
                             }else{
-                                this.re(r)
                                 this.setPagination();
                                 this.setCurrentPosts();
                             }

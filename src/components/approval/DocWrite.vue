@@ -2,9 +2,9 @@
 
 
     <div class="card border-primary mb-3" style="max-width: 1100px;">
-        <div class="list row">
+<!--        <div class="list row">-->
             <subMenu></subMenu>
-        </div>
+<!--        </div>-->
         <div class="card-header">
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문작성</b></span>
