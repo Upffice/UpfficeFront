@@ -69,9 +69,9 @@
 
                 this.submitted = true;
             },
-            newCustomer() {
+            newBoard() {
                 this.submitted = false;
-                this.customer = {};
+                this.board = {};
             }
             /* eslint-enable no-console */
         }

@@ -9,6 +9,9 @@ import CustomersList from "./components/customer/CustomersList.vue";
 import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
+import MainEmployAddress from "./components/address/employees/MainEmployAddress";
+import Employees from "./components/address/employees/Employees";
+import OutAddressMain from "./components/address/outaddress/OutAddressMain";
 import MypageInfo from "./components/mypage/MypageInfo";
 import Addposts from "./components/posts/Addposts";
 import PostsList from "./components/posts/PostsList";
@@ -46,6 +49,14 @@ import DepPage from "./components/posts/DepPage";
 import PostSubmenu from "./components/posts/PostSubmenu";
 import EndSurvey from "./components/survey/EndSurvey";
 import DeleteBoard from "./components/posts/DeleteBoard";
+import EmployeesManagement from "./components/managerpage/EmployeesManagement";
+import EmployeesMgmDetail from "./components/managerpage/EmployeesMgmDetail";
+import AddEmployees from "./components/managerpage/AddEmployees";
+import OutManagement from "./components/managerpage/OutManagement";
+import AddOutAddress from "./components/managerpage/AddOutAddress";
+import OutMgmDetail from "./components/managerpage/OutMgmDetail";
+import FormManagement from "./components/managerpage/FormManagement";
+import employeesPopup from "./components/managerpage/employeesPopup";
 
 Vue.use(Router);
 
@@ -101,6 +112,91 @@ export default new Router({
             name: "search",
             component: SearchCustomers
         },
+
+
+
+                                                                /*--addressRouter*/
+        {
+            path: "/mainEmployAddress",
+            name: "main-employAddress",
+            component: MainEmployAddress,
+            children: [
+                {
+                    path: "/mainEmployAddress/:emp_id",
+                    name: "employees-details",
+                    component: Employees,
+                    props: true
+                },
+            ]
+        },
+
+        {
+            path: "/employees/:emp_id",
+            name: "employees",
+            component: Employees,
+            props: true
+        },
+
+        {
+            path: "/mainOutAddress",
+            name: "outAddress-main",
+            component: OutAddressMain
+        },
+
+                                                                /*--ManagerRouter*/
+
+        {
+            path: "/manager/employees",
+            name: "employees-mgm",
+            component: EmployeesManagement,
+            children:[{
+                path: "/manager/form-management",
+                name: "employeesPopup",
+                component: employeesPopup,
+                props: true
+            },]
+
+        },
+        {
+            path: "/manager/employees/:emp_id",
+            name: "EmployeesMgmDetail",
+            component: EmployeesMgmDetail,
+            props: true
+        },
+        {
+            path: "/manager/add-employees",
+            name: "AddEmployees",
+            component: AddEmployees
+        },
+        {
+            path: "/manager/out-address",
+            name: "outManagement",
+            component: OutManagement
+        },
+        {
+            path: "/manager/out-address/:out_id",
+            name: "OutMgmDetail",
+            component: OutMgmDetail,
+            props: true
+        },
+        {
+            path: "/manager/add-out-address",
+            name: "AddOutAddress",
+            component: AddOutAddress
+        },
+        {
+            path: "/manager/form-management",
+            name: "formManagement",
+            component: FormManagement
+        },
+
+
+
+       /*---------------------------------------------- */
+
+
+
+
         {
             path: "/mypage",
             name: "mypage",
