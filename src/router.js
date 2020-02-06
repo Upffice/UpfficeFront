@@ -10,6 +10,9 @@ import AddCustomer from "./components/customer/AddCustomer.vue";
 import SearchCustomers from "./components/customer/SearchCustomers.vue";
 import Customer from "./components/customer/Customer.vue";
 import MypageInfo from "./components/mypage/MypageInfo";
+import Addposts from "./components/posts/Addposts";
+import PostsList from "./components/posts/PostsList";
+import Post from "./components/posts/Post";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
 import FileExplorer from "./components/file/fileExplorer.vue";
@@ -33,6 +36,16 @@ import Reference from "./components/approval/Reference";
 import ReferenceDetails from "./components/approval/ReferenceDetails";
 import Receive from "./components/approval/Receive";
 import ReceiveDetails from "./components/approval/ReceiveDetails";
+import AddSurvey from "./components/survey/AddSurvey";
+import SurveyList from "./components/survey/SurveyList";
+import Survey from "./components/survey/Survey";
+import DepPostsList from "./components/posts/DepPostsList";
+import EndSurveyList from "./components/survey/EndSurveyList";
+import DepBoard from "./components/posts/DepBoard";
+import DepPage from "./components/posts/DepPage";
+import PostSubmenu from "./components/posts/PostSubmenu";
+import EndSurvey from "./components/survey/EndSurvey";
+import DeleteBoard from "./components/posts/DeleteBoard";
 
 Vue.use(Router);
 
@@ -94,6 +107,23 @@ export default new Router({
             component: MypageInfo
         },
         {
+            path: "/pst/add",
+            name: "add",
+            component: Addposts
+        },
+        {
+            path:  "/pst/posts",
+            name: "post",
+            alias: "/pst",
+            component: PostsList
+        },
+        {
+            path: "/pst/PostsList/:post_id",
+            name: "post-details",
+            component: Post,
+            props : true
+        },
+        {
             path: "/working/status",
             name: "workingStatus",
             alias: "/working",
@@ -103,6 +133,69 @@ export default new Router({
             path: "/working/annual",
             name: "annualDetail",
             component: AnnualDetail
+        },
+        {
+            path:"/survey/addsurvey",
+            name:"addsurvey",
+            alias: "/addsurvey",
+            component: AddSurvey
+        },
+        {
+            path:  "/survey/allsurvey",
+            name: "SurveyList",
+            alias: "/survey",
+            component: SurveyList
+        },
+        {
+            path:  "/survey/endsurvey",
+            name: "EndSurveyList",
+            alias: "/endsurvey",
+            component: EndSurveyList
+        },
+        {
+            path: "/survey/SurveyList/:survey_id",
+            name: "survey-details",
+            component: Survey,
+            props : true
+        },
+        {
+            path: "/survey/EndSurveyList/:survey_id",
+            name: "end-survey-details",
+            component: EndSurvey,
+            props : true
+        },
+        {
+            path: "/dep_pst/add",
+            name: "dep_add",
+            component: Addposts
+        },
+        {
+            path:  "/dep_pst/posts",
+            name: "dep_post",
+            alias: "/dep_pst",
+            component: DepPostsList
+        },
+        {
+            path: "/dep_pst/PostsList/:post_id",
+            name: "dep_post-details",
+            component: Post,
+            props : true
+        },
+        {
+            path:"/dep_pst/newBoard",
+            name:"board",
+            component: DepBoard
+        },
+        {
+            path:"/dep_pst/DepPage/:board_name",
+            name: "DepPage",
+            component:DepPage,
+
+        },
+        {
+            path:"/dep_pst/DeleteBoard/",
+            name: "Delete-Board",
+            component:DeleteBoard,
         },
 
 

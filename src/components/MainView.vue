@@ -104,11 +104,14 @@
     }
 
     .inputLbl {
-        margin-right: 220px;
+        margin-right: 200px;
         font-weight: bold;
     }
 
     .loginBtn {
         width: 300px;
+    }
+    .form-control{
+        width:300px;
     }
 </style>
