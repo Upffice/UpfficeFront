@@ -14,7 +14,7 @@
             TopMenu: TopMenu
         }
     };
-
+    /* eslint-disable no-console */
 </script>
 
 <style>

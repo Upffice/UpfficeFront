@@ -19,6 +19,9 @@
                         <router-link class="nav-link" to="/working">근태관리</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link class="nav-link" to="/app">전자결재</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link class="nav-link" to="/file">자료실</router-link>
                     </li>
                 </ul>
