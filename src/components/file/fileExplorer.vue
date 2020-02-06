@@ -15,7 +15,6 @@
 
 <script>
     import http from "../../http-common";
-    import file from "../../file";
     import FileSubMenu from "./fileSubMenu";
 
     export default {
