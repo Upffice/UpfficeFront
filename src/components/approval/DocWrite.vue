@@ -12,9 +12,9 @@
                     <button type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="search_signer">결재선</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="tempsaveDoc" @click="submitFiles">임시저장</button>
+                            v-on:click="tempsaveDoc">임시저장</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc"
-                            @click="submitFiles">상신</button>
+                            >상신</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
                 </span>
             </div>
@@ -113,12 +113,12 @@
                         <input type="text" class="form-control" id="refFile" required
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
                                style="width: 500px;float: left">
-                        <div class="container">
-                            <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
-                            <!--style="width: 200px"-->
+                        <div class="container">                            <!--@change는 변경될때 메서드 호출 ~watch와 비슷~ -->
+                            <input type="file" id="files" ref="files" multiple  v-on:change="handleFilesUpload()">
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <div v-for="(file, key) in files" :key="key" class="file-listing">{{ file.name }} <span
-                                        class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
+                                <div v-for="(file, key) in files" :key="key" class="file-listing">{{ file.name }}
+                                    <span class="remove-file" v-on:click="removeFile( key )">Remove</span>
+                                </div>
                             </div>
 
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
@@ -248,8 +248,10 @@
                 http
                     .post("/app/doc/write", data)
                     .then(response => {
-                        this.approval = response.data;
+                        data = response.data;
+                        console.log(data.app_doc_num)
                         alert("DB에 저장되었습니다.");
+                        this.submitFiles(data.app_doc_num);
                         this.$router.push('/app/');
                     })
                     .catch(e => {
@@ -361,7 +363,8 @@
                 http
                     .post("/app/doc/write", data)
                     .then(response => {
-                        this.approval = response.data;
+                        data = response.data;
+                        this.submitFiles(data.app_doc_num);
                         alert("DB에 저장되었습니다.");
                         this.$router.push('/app/');
                     })
@@ -422,54 +425,53 @@
                     });
             },
             handleFilesUpload() {
+                /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
-
                 for (var i = 0; i < uploadedFiles.length; i++) {
+                    /*전역변수 배열끝에 돔에서 가져온 파일 추가*/
                     this.files.push(uploadedFiles[i]);
                 }
-                console.log("uploadedFiles")
-                console.log(uploadedFiles)
             },
             removeFile(key) {
+                /*key번째 1개 삭제*/
                 this.files.splice(key, 1);
             },
-            submitFiles() {
-
+            submitFiles(docnum) {
+/*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
 
                 for (var i = 0; i < this.files.length; i++) {
-
                     let file = this.files[i];
-                    formData.append('files[' + i + ']', file);
-                    // console.log("file");
-                    // console.log(file);
+                    /*append는 덮어쓰기가 아니라 추가*/
+                    /*formData 뒤에 key=이름, value=파일 추가*/
+                    formData.append('file', file);
+
                 }
-                // console.log(formData[0].get("files[0]"));
-                console.log("formData")
-                // console.log(formData)
-                formData.forEach((value, key) => {
+                /*key value 확인 for-each문*/
+                /*formData.forEach((value, key) => {
                     console.log("key %s: value %s", key, value);
-                })
-                http.post('/app/multiple-files',
-                    formData).then(r => {
-                        var message = r.data
-                    console.log('SUCCESS!!');
-                    console.log(message)
-                    /*,
+                })*/
+
+                /*param필요없으면 +docnum지워도됨*/
+                http.post('/app/multiple-files/'+docnum,
+                    formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
-                    }*/
+                    }).then(r => {
+                        var message = r.data
+                    console.log('SUCCESS!!');
+                    console.log(message)
+
                 }).catch(function () {
                     console.log('FAILURE!!');
                 });
 
             },
             addFiles() {
-                console.log("진입");
-                console.log(this.$refs);
-                this.$refs.files.click();
+                /*1.add File 클릭시 실행메서드*/
+                this.$refs.files.click();//Dom의 ref=files 클릭한것과 같은효과
 
             }
         },
@@ -500,6 +502,8 @@
     .card {
         margin: auto auto auto 300px;
         border: 1.5px solid black;
+        position: static;
+
     }
 
     .title {
@@ -579,6 +583,9 @@
 
     div.file-listing {
         width: 200px;
+        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
+        white-space: nowrap; /*말 줄임표 위한 설정*/
+        overflow: hidden;
     }
 
     span.remove-file {

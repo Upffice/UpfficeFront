@@ -42,7 +42,7 @@
 
             <!--로그인 정보에서 받아올 부분-->
             <tr class="table-light" v-for="(app, index) in currentPosts" :key="index">
-                <td>{{currentPosts.length-index}}</td>
+                <td>{{index+1}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -98,7 +98,7 @@
             return {
                 login_id: "",
                 approvals: [],
-                a: 0,
+                a: [],
                 approvalFilter: [],
                 selected: ["제목", "내용"],
                 select: "제목",
@@ -192,8 +192,10 @@
                     if ((app[i].app_status_check == 'ing' && app[i].app_status3 != 'true')
                         && app[i].app_writer_id == this.login_id) {
                         this.approvalFilter[idx++] = app[i];
+
                     }
                 }
+                this.a = this.approvalFilter;
                 this.posts = this.approvalFilter;
 
             },
@@ -263,13 +265,20 @@
                 }
             },
             next() {
+                console.log("진입")
+                console.log(this.endPage)
+                console.log(this.totalPage)
                 if (this.endPage < this.totalPage) {
                     this.startPage = this.endPage + 1;
                     this.page = this.startPage;
                     if (this.totalPage < 5) {
                         this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                        console.log("진입1")
+
                     } else {
                         this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
+                        console.log("진입2")
+
                     }
 
                     this.currentPages = [];

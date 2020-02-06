@@ -12,9 +12,9 @@
                     <button type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="search_signer">결재선</button>
                     <button type="button" class="btn btn-secondary disabled buttons"
-                            v-on:click="tempsaveDoc" @click="submitFiles">임시저장</button>
+                            v-on:click="tempsaveDoc">임시저장</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc"
-                            @click="submitFiles">상신</button>
+                            >상신</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">삭제</button>
                 </span>
             </div>
@@ -211,7 +211,7 @@
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
 
-                this.approval.statusCheck = "temp";
+                this.approval.statusCheck = "ing";
 
                 var data = {
                     app_doc_num: this.approval.docNum,
@@ -243,7 +243,8 @@
                 http
                     .post("/app/doc/write", data)
                     .then(response => {
-                        this.approval = response.data;
+                       data = response.data;
+                        this.submitFiles(data.app_doc_num);
                         alert("DB에 저장되었습니다.");
                         this.$router.push('/app/');
                     })
@@ -340,7 +341,8 @@
                 http
                     .post("/app/doc/write", data)
                     .then(response => {
-                        this.approval = response.data;
+                        data = response.data;
+                        this.submitFiles(data.app_doc_num);
                         alert("DB에 저장되었습니다.");
                         this.$router.push('/app/');
                     })
@@ -418,23 +420,36 @@
             removeFile(key) {
                 this.files.splice(key, 1);
             },
-            submitFiles() {
+            submitFiles(docnum) {
 
                 let formData = new FormData();
 
                 for (var i = 0; i < this.files.length; i++) {
 
                     let file = this.files[i];
-                    formData.append('files[' + i + ']', file);
+                    formData.append('file', file);
+                    //append는 덮어씌기가 아니라 추가가 계속됨..
+                    console.log("file");
+                    console.log(file);
+
                 }
-                axios.post('/multiple-files',
+                // console.log(formData[0].get("files[0]"));
+                console.log("formData");
+                console.log(formData);
+                formData.forEach((value, key) => {
+                    console.log("key %s: value %s", key, value);
+                })
+                http.post('/app/multiple-files/'+docnum,
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
-                    }).then(function () {
+                    }).then(r => {
+                    var message = r.data
                     console.log('SUCCESS!!');
+                    console.log(message)
+
                 }).catch(function () {
                     console.log('FAILURE!!');
                 });
@@ -555,27 +570,7 @@
                     });
 
             },
-            /*signerCheck() {
 
-                if (this.approval.signId1 != '') {
-                    if (require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png') != undefined)
-                        this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
-                    else
-                        this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }
-                if (this.approval.signId2 != '') {
-                    if (require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png') != undefined)
-                        this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
-                    else
-                        this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }
-                if (this.approval.signId3 != '') {
-                    if (require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png') != undefined)
-                        this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
-                    else
-                        this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }
-            }*/
             signerCheck() {
 
                 if (require('../../assets/sign_img/' + this.approval.writerId + 'sign' + '.png') != undefined)
@@ -649,6 +644,8 @@
     .card {
         margin: auto auto auto 300px;
         border: 1.5px solid black;
+        position: static;
+
     }
 
     .title {

@@ -634,6 +634,8 @@
     .card {
         margin: auto auto auto 300px;
         border: 1.5px solid black;
+        position: static;
+
     }
 
     .title {
