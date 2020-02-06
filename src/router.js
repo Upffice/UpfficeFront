@@ -22,6 +22,7 @@ import OutManagement from "./components/managerpage/OutManagement";
 import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 import FormManagement from "./components/managerpage/FormManagement";
+import employeesPopup from "./components/managerpage/employeesPopup";
 
 Vue.use(Router);
 
@@ -114,6 +115,12 @@ export default new Router({
             path: "/manager/employees",
             name: "employees-mgm",
             component: EmployeesManagement,
+            children:[{
+                path: "/manager/form-management",
+                name: "employeesPopup",
+                component: employeesPopup,
+                props: true
+            },]
 
         },
         {
@@ -148,6 +155,8 @@ export default new Router({
             name: "formManagement",
             component: FormManagement
         },
+
+
 
        /*---------------------------------------------- */
 

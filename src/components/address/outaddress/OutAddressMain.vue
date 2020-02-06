@@ -1,7 +1,7 @@
 <template>                                                                  <!--외부주소록 메인-->
     <div class="list row">
         <AddressSubMenu></AddressSubMenu>
-        <div class="col-md-6">
+        <div >
             <h4>외부 주소록</h4>
             <hr>
             <div class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
@@ -260,6 +260,7 @@
         /*  margin: auto;*/
         margin-left: 15%;
     }
+
 
     .table {
         width: 80%;

@@ -219,6 +219,8 @@
                     .then(response => {
                         this.outaddress = response.data, // JSON are parsed automatically.
                             console.log(response.data);
+                        this.setPagination();
+                        this.setCurrentPosts();
                     })
                     .catch(e => {
                         console.log(e);

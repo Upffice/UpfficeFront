@@ -27,7 +27,8 @@
                         </tr>
                         <tr>
                             <th>내선번호</th>
-                            <td><input type="text" placeholder="내선번호 수정" required v-model="employee.extension_number"></td>
+                            <td><input type="text" placeholder="내선번호 수정" required v-model="employee.extension_number">
+                            </td>
                         </tr>
                         <tr>
                             <th>입사일</th>
@@ -46,7 +47,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="modifyEmp">수정</button>
                     <button type="button" class="btn btn-primary" @click="deleteEmp">삭제</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소
+                    </button>
                 </div>
             </div>
         </div>
@@ -56,17 +58,29 @@
     import http from "../../http-common";
 
     export default {
-        data(){
+        props: ['modal_employees'],
+        data() {
             return {
-
+                employee: {
+                    emp_id: "",
+                    emp_pw: "",
+                    emp_name: "",
+                    emp_email: "",
+                    position: "",
+                    hire_date: "",
+                    extension_number: "",
+                    phone_number: "",
+                    dep_id: ""
+                },
+                dep_name: "", // 부서이름 담을 변수
+                emp_img_url: "" // 사원 사진 경로
             }
         },
-        props : [
-            'registerData'
-        ],
-        methods : {
+        watch: {'$route': 'getEmpInfo'},  //라우터 변경되면 메소드 다시 호출
+        methods: {
             modifyEmp() {
                 // 수정 메소드
+
             },
             deleteEmp() {
                 // 삭제 메소드
@@ -74,12 +88,8 @@
 
         },
         mounted() {
-            // mounted 될 때 로그인이 되어있는 상태라면
-            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
-                this.emp_id = sessionStorage.getItem("login_id");
-            }else {
-                this.$router.push("/");
-            }
+                this.getEmpInfo(this.employees.emp_id); // 사원 정보 가져오기
+                this.getDep_Name(this.employee.dep_id);
         }
     };
 </script>
@@ -87,10 +97,12 @@
     .popupInput {
         width: 100%;
     }
+
     .dateInput {
         width: 45%;
         float: left;
     }
+
     .timeInput {
         width: 40%;
         float: left;

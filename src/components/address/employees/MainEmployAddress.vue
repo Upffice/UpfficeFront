@@ -17,13 +17,34 @@
                 </fieldset>
             </div>
 
+          <!--  <button class="btn btn-success btn-lg btn-block" v-on:click="dep.dep1.show = !dep.dep1.show">경영부</button>
+            <table v-if="dep.dep1.show"  class="table table-hover">
+                <tr  v-for="(employee, index) in dep.dep1.employees" :key="index">
+                    <td>
+                        <router-link :to="{
+                   name : 'employees-details',
+                   params: { employee: employee, emp_id: employee.emp_id}
+                       }">
+                            {{employee.name}}
+                        </router-link>
+                    </td>
+
+                    <td>{{employee.position}}</td>
+                </tr>
+            </table>
+-->
+
+
+
+
+
 
             <table boder="2" class="table table-hover" style="margin-top: 70px" >                             <!--출력부분-->
                 <thead class="table-secondary"><tr>
                     <th colspan="2">경영부</th>
                 </tr></thead>
                 <tr v-if="employee.dep_id==1000" v-for="(employee, index) in employees" :key="index">
-                    <td>
+                                      <td>
                         <router-link :to="{
                    name : 'employees-details',
                    params: { employee: employee, emp_id: employee.emp_id}
@@ -108,7 +129,10 @@
         data() {
             return {
                 nameAndPosition: "",
-                employees: []
+                employees: [],
+               /* dep:{
+                    dep1:{employees:[], show:false},
+                },*/
             };
 
         },
