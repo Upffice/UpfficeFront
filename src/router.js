@@ -1,14 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import MainView from "./components/MainView";
-import BoardList from "./components/board/BoardList.vue";
-import AddBorad from "./components/board/AddBorad.vue";
-import SearchBoards from "./components/board/SearchBoards.vue";
-import Board from "./components/board/Board.vue";
-import CustomersList from "./components/customer/CustomersList.vue";
-import AddCustomer from "./components/customer/AddCustomer.vue";
-import SearchCustomers from "./components/customer/SearchCustomers.vue";
-import Customer from "./components/customer/Customer.vue";
 import MainEmployAddress from "./components/address/employees/MainEmployAddress";
 import Employees from "./components/address/employees/Employees";
 import OutAddressMain from "./components/address/outaddress/OutAddressMain";
@@ -19,8 +11,6 @@ import Post from "./components/posts/Post";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
 import FileExplorer from "./components/file/fileExplorer.vue";
-
-
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
 import DocWrite from "./components/approval/DocWrite";
@@ -46,7 +36,6 @@ import DepPostsList from "./components/posts/DepPostsList";
 import EndSurveyList from "./components/survey/EndSurveyList";
 import DepBoard from "./components/posts/DepBoard";
 import DepPage from "./components/posts/DepPage";
-import PostSubmenu from "./components/posts/PostSubmenu";
 import EndSurvey from "./components/survey/EndSurvey";
 import DeleteBoard from "./components/posts/DeleteBoard";
 import EmployeesManagement from "./components/managerpage/EmployeesManagement";
@@ -68,54 +57,7 @@ export default new Router({
             name: "mainView",
             component: MainView,
         },
-        {
-            path: "/bbs/board",
-            name: "boards",
-            alias: "/bbs",
-            component: BoardList,
-        },
-        {
-            path: "/bbs/BoardList/:b_id",
-            name: "board-details",
-            component: Board,
-            props: true
-        },
-        {
-            path: "/bbs/add",
-            name: "add",
-            component: AddBorad
-        },
-        {
-            path: "/bbs/search",
-            name: "search",
-            component: SearchBoards
-        },
-        {
-            path: "/customer/customer",
-            name: "customers",
-            alias: "/customer",
-            component: CustomersList,
-        },
-        {
-            path: "/customer/customer/:id",
-            name: "customer-details",
-            component: Customer,
-            props: true
-        },
-        {
-            path: "/customer/add",
-            name: "add",
-            component: AddCustomer
-        },
-        {
-            path: "/customer/search",
-            name: "search",
-            component: SearchCustomers
-        },
-
-
-
-                                                                /*--addressRouter*/
+        /*--addressRouter*/
         {
             path: "/mainEmployAddress",
             name: "main-employAddress",
@@ -129,14 +71,12 @@ export default new Router({
                 },
             ]
         },
-
         {
             path: "/employees/:emp_id",
             name: "employees",
             component: Employees,
             props: true
         },
-
         {
             path: "/mainOutAddress",
             name: "outAddress-main",
