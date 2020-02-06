@@ -6,46 +6,46 @@
                     <h5 class="modal-title">사원 관리(수정/삭제)</h5>
                 </div>
                 <!-- 일정 추가 기능 -->
-                <div class="modal-body">
+                <div v-if="employees" class="modal-body">
                     <table class="table table-hover">
 
                         <tr>
                             <th>사번</th>
-                            <td>{{employee.emp_id}}</td>
+                            <td>{{employees.emp_id}}</td>
                         </tr>
                         <tr>
                             <th>성명</th>
-                            <td><input type="text" placeholder="성명 수정" required v-model="employee.name"></td>
+                            <td><input type="text" placeholder="성명 수정" required v-model="employees.name"></td>
                         </tr>
                         <tr>
                             <th>소속</th>
-                            <td><input type="text" placeholder="소속 수정" required v-model="employee.dep_id"></td>
+                            <td><input type="text" placeholder="소속 수정" required v-model="employees.dep_id"></td>
                         </tr>
                         <tr>
                             <th>직책</th>
-                            <td><input type="text" placeholder="직책 수정" required v-model="employee.position"></td>
+                            <td><input type="text" placeholder="직책 수정" required v-model="employees.position"></td>
                         </tr>
                         <tr>
                             <th>내선번호</th>
-                            <td><input type="text" placeholder="내선번호 수정" required v-model="employee.extension_number">
+                            <td><input type="text" placeholder="내선번호 수정" required v-model="employees.extension_number">
                             </td>
                         </tr>
                         <tr>
                             <th>입사일</th>
-                            <td><input type="text" placeholder="입사일 수정" required v-model="employee.hire_date"></td>
+                            <td><input type="text" placeholder="입사일 수정" required v-model="employees.hire_date"></td>
                         </tr>
                         <tr>
                             <th>이메일</th>
-                            <td><input type="text" placeholder="이메일 수정" required v-model="employee.emp_email"></td>
+                            <td><input type="text" placeholder="이메일 수정" required v-model="employees.emp_email"></td>
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
-                            <td><input type="text" placeholder="휴대폰번호 수정" required v-model="employee.phone_number"></td>
+                            <td><input type="text" placeholder="휴대폰번호 수정" required v-model="employees.phone_number"></td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="modifyEmp">수정</button>
+                    <button type="button" class="btn btn-primary" @click="modifyEmp(employee.emp_id)">수정</button>
                     <button type="button" class="btn btn-primary" @click="deleteEmp">삭제</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소
                     </button>
@@ -58,7 +58,8 @@
     import http from "../../http-common";
 
     export default {
-        props: ['modal_employees'],
+        name : 'employeesPopup',
+        props: ['employees'],
         data() {
             return {
                 employee: {
@@ -78,8 +79,35 @@
         },
         watch: {'$route': 'getEmpInfo'},  //라우터 변경되면 메소드 다시 호출
         methods: {
-            modifyEmp() {
+            modifyEmp(id) {
                 // 수정 메소드
+                let data = {
+                    name: this.employees.name,
+                    dep_id: this.employees.dep_id,
+                    position:this.employees.position,
+                    extension_number: this.employees.extension_number,
+                    hire_date: this.employees.hire_date,
+                    emp_email: this.employees.emp_email,
+                    phone_number : this.employees.phone_number
+                }
+
+                if (data.name==""|data.dep_id==""|data.position==""|data.extension_number==""|
+                    data.hire_date==""|data.emp_email==""|data.phone_number == ""){ // 빈 칸 인지 확인하기
+                    alert("빈 칸을 확인해주세요!");
+                } else {
+                    http
+                        .put("/employees/update/" + id, data) // UpfficeBack의 MyPageController로 매핑 된다.
+                        .then(response => {
+                            if (response.data == 1) { // 결과값이 1이라면 1개의 데이터가 수정됐다는 뜻, 즉 수정 성공!
+                                alert("수정 완료!");
+
+                               /* this.$router.push("/manager")*/
+                            }
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+                }
 
             },
             deleteEmp() {
@@ -87,10 +115,12 @@
             }
 
         },
-        mounted() {
-                this.getEmpInfo(this.employees.emp_id); // 사원 정보 가져오기
-                this.getDep_Name(this.employee.dep_id);
-        }
+        // mounted() {
+        //         // this.getEmpInfo(this.employees.emp_id); // 사원 정보 가져오기
+        //         // this.getDep_Name(this.employee.dep_id);
+        //
+        //         console.log("모달 사번 "+this.employees.emp_id);
+        // }
     };
 </script>
 <style scoped>

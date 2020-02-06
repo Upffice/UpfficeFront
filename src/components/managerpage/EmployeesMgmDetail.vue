@@ -43,8 +43,8 @@
 
 <script>
     import http from "../../http-common";
-    export default {
 
+    export default {
         name: "EmployeesMgmDetail",
         props: ["employee"],
         data() {

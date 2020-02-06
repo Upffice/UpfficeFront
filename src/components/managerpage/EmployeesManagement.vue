@@ -41,14 +41,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(employee, index) in employees" :key="index" v-on:click="emp_modi_del(employee,emp_id)">
+                <tr v-for="(employee, index) in employees" :key="index" v-on:click="emp_modi_del(employee)">
                     <td>
-                        <!-- <router-link :to="{
-                             name: 'EmployeesMgmDetail',
-                             params: { employee: employee, emp_id: employee.emp_id }
-                         }">-->
                         {{employee.emp_id}}
-                        <!-- </router-link>-->
                     </td>
                     <td>{{employee.name}}</td>
                     <td>{{employee.emp_email}}</td>
@@ -84,7 +79,6 @@
                 nameAndPosition: ""
             };
 
-
         },/*END-OF-data*/
 
         methods: {
@@ -103,15 +97,6 @@
                 this.retrieveEmployees();
                 this.nameAndPosition = "";
             },
-           /* goToDetail(emp, emp_id) {
-                // window.open("/manager/employees/" + emp_id);
-                console.log("디테일로 갑니까?");
-                this.$router.push({
-                    name: 'EmployeesMgmDetail',
-                    params: {employee: emp, id: emp_id}
-                })
-                console.log(emp_id)
-            },*/
 
             addEmployees() {
                 this.$router.push('/manager/add-employees')
@@ -127,52 +112,22 @@
                         console.log(e);
                     });
             },
-            emp_modi_del(emp,emp_id) { // 일정 등록 modal 띄우는 메소드
+            emp_modi_del(employee) { // 일정 등록 modal 띄우는 메소드
 
                 this.$modal.show(employeesPopup, {
-                    modal_employees: 'data',
+                        name: 'employeesPopup',
+                        employees: employee,
                         modal: this.$modal,
-                        employees:{ employee: emp,
-                            id: emp_id,}
-
                     },
                     {
-                        name: 'dynamic-modal',
                         width: '500px',
-                        height: '700px',
+                        height: '650px',
                         draggable: true,
                     });
-                console.log(emp_id);
+                console.log(employee.emp_id);
 
             },
 
-
-
-           /* emp_modi_del() { // 일정 등록 modal 띄우는 메소드
-
-                this.$modal.show(employeesPopup, {
-                        registerData: 'data',
-                        modal: this.$modal, valueUpdated: (emp_id, emp_pw, emp_name, emp_email, position,
-                                                           hire_date, extension_number, phone_number, dep_id) => {
-                            this.employees.emp_id = emp_id;
-                            this.employees.emp_pw = emp_pw;
-                            this.employees.name = emp_name;
-                            this.employees.emp_email = emp_email;
-                            this.employees.position = position;
-                            this.employees.hire_date = hire_date;
-                            this.employees.extension_number = extension_number;
-                            this.employees.phone_number = phone_number;
-                            this.employees.dep_id = dep_id;
-                        }
-                    },
-                    {
-                        name: 'dynamic-modal',
-                        width: '500px',
-                        height: '700px',
-                        draggable: true,
-                    });
-                console.log(this.employees.emp_id);
-            },*/
         },/*END-OF-methods*/
         mounted() {
             if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
@@ -180,7 +135,6 @@
             } else {
                 this.$router.push("/");
             }
-
         },
 
     }

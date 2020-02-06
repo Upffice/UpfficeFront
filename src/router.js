@@ -124,6 +124,12 @@ export default new Router({
 
         },
         {
+            path: "/manager/form-management",
+            name: "employeesPopup",
+            component: employeesPopup,
+            props: true
+        },
+        {
             path: "/manager/employees/:emp_id",
             name: "EmployeesMgmDetail",
             component: EmployeesMgmDetail,
