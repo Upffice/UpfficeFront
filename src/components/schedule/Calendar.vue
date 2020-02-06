@@ -34,8 +34,8 @@
                             </span>
                             </div>
                         <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
-                        <div v-if="day!==''" class="scrollDiv">
-                            캘린더 : {{selected_cal}}
+                        <div v-if="day!=='' && hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
+                            캘린더 : {{sche_name}}
 <!--                            일정:{{getSchedule(currentYear, currentMonth, day)}}-->
 <!--                            <span v-for="(schedule, index3) in scheduleList" :key="index3">a{{schedule.sche_name}}</span>-->
                         </div>
@@ -52,7 +52,6 @@
 <script>
     import ScheduleSubMenu from "./ScheduleSubMenu";
     import http from "../../http-common";
-    import * as response from "vue";
 
     export default {
         name: 'Calendar',
@@ -76,7 +75,9 @@
                 sche_name: "",
                 sche_date: "",
                 schedule: [],
-                selected_cal : []   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
+                selected_cal : [],   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
+                curr_year : "",
+                curr_month : ""
             }
         },
         methods: {
@@ -84,6 +85,37 @@
                 this.currentMonthStartWeekIndex = this.getStartWeek(this.currentYear, this.currentMonth);
                 this.endOfDay = this.getEndOfDay(this.currentYear, this.currentMonth);
                 this.initCalendar();
+            },
+            hasScheduleToday(year,month,day) {
+
+            },
+            getAllSchedules() {
+                let year = this.currentYear;
+                let month = this.currentMonth;
+
+                if(month < 10)  month = "0" + month;    // 형식을 맞추기 위하여 달이 한 자리 수일 때 앞에 0을 추가 해준다.
+
+                for(let i=1; i<=this.endOfDay; i++) {
+                    let date = i;
+                    if(date < 10) date = "0" + date;
+                    let sche_date = year + "-" + month + "-" + date;
+                    console.log(sche_date);
+                        http
+                            .post("/schedule/all/" + this.emp_id, sche_date)
+                            .then(response=> {
+                                /* eslint-disable no-console */
+                                this.scheduleList = response.data;
+                                for(let i=0; i<this.scheduleList.length; i++) {
+                                    this.sche_name = this.scheduleList[i].sche_name;
+                                    console.log("sche_name : " + this.sche_name);
+                                }
+
+                            })
+                            .catch(e => {
+                                /* eslint-disable no-console */
+                                console.log(e);
+                            });
+                }
             },
             initCalendar:function(){
                 this.currentCalendarMatrix = [];
@@ -104,6 +136,8 @@
                     }
                     this.currentCalendarMatrix.push(calendarRow);
                 }
+                // currentCalendarMatrix 생성된 후
+                this.getAllSchedules();
             },
             getEndOfDay: function(year, month){
                 switch(month){
@@ -184,25 +218,13 @@
                 let date = new Date();
                 return year == date.getFullYear() && month == date.getMonth()+1 && day == date.getDate();
             },
-            showCellDetail(year, month, day) {  // 테이블 cell 클릭 시 상세 정보 모달 띄우기
+/*            showCellDetail(year, month, day) {  // 테이블 cell 클릭 시 상세 정보 모달 띄우기
                 if(day!==""){
 
                 }
 
             },
-            // getAllSchedules(sche_date) { // 모든 스케줄 가져오기
-            //     http
-            //         .get("/schedule/all/" + this.emp_id, sche_date)
-            //         .then(response=> {
-            //             /* eslint-disable no-console */
-            //             console.log("getAllSchedules" + response.data);
-            //             this.scheduleList = response.data;
-            //         })
-            //         .catch(e => {
-            //             /* eslint-disable no-console */
-            //             console.log(e);
-            //         });
-            // },
+*/
             getSchedule(year, month, day){
                 // 한 자릿 수일 때 0추가
                 if(month < 10)  month = "0" + month;
@@ -210,11 +232,10 @@
 
                 // 해당 년, 월, 일
                 let sche_date = year + "-" + month + "-" + day;
-                // let selected_cal = sessionStorage.getItem("calendar");
 
                 if (this.selected_cal !== null) { // 선택한 calendar_id 배열 가져오기
 
-;                    if(this.selected_cal.includes('0')) { // selected_cal 에 0이 포함되어 있다면 전체 일정이 check 되어 있으므로 전체 일정만 불러오기 위해 selected_cal 에 0만 넣는다.
+                    if(this.selected_cal.includes('0')) { // selected_cal 에 0이 포함되어 있다면 전체 일정이 check 되어 있으므로 전체 일정만 불러오기 위해 selected_cal 에 0만 넣는다.
 
                         console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + this.selected_cal+"/ "+ sche_date)
                         http
@@ -272,14 +293,7 @@
             } else {
                 this.$router.push("/");
             }
-        },
-        updated() {
-            if(sessionStorage.getItem("calendar") !== null){
-                this.selected_cal = sessionStorage.getItem("calendar");
-            }
-
         }
-
 
     }
 </script>

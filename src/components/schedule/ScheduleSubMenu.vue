@@ -62,7 +62,7 @@ export default {
                  name: 'dynamic-modal',
                  width:'400px',
                  height: '600px',
-                 draggable: true,
+                 draggable: true
             });
         },
         addCategory() {
