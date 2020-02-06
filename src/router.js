@@ -12,6 +12,8 @@ import Customer from "./components/customer/Customer.vue";
 import MypageInfo from "./components/mypage/MypageInfo";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
+import FileExplorer from "./components/file/fileExplorer.vue";
+
 
 Vue.use(Router);
 
@@ -82,6 +84,12 @@ export default new Router({
             path: "/working/annual",
             name: "annualDetail",
             component: AnnualDetail
+        },
+        {
+            path: "/file/All",
+            name: "file",
+            alias: ["/file","/file/dep","/file/emp"],
+            component: FileExplorer
         }
     ]
 });
