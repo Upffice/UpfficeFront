@@ -1,37 +1,50 @@
 <template>
-    <div class="submitform">
-        <table class="table table-hover">
+    <div class="container">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="text-align: center; margin: auto"><strong>사원 관리(수정/삭제)</strong></h5>
+                </div>
+                <!-- 직원 수정/삭제 기능 -->
+                <div v-if="outAddress" class="modal-body">
+                    <table class="table table-hover">
 
-            <tr>
-                <th>ID</th>
-                <td>{{outAddress.out_id}}</td>
-            </tr>
-            <tr>
-                <th>성명</th>
-                <td><input type="text" placeholder="성명 수정" required v-model="outAddress.outName"></td>
-            </tr>
-            <tr>
-                <th>핸드폰 번호</th>
-                <td><input type="text" placeholder="핸드폰 번호 수정" required v-model="outAddress.out_mobile"></td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td><input type="text" placeholder="이메일 수정" required v-model="outAddress.out_email"></td>
-            </tr>
-            <tr>
-                <th>회사명</th>
-                <td><input type="text" placeholder="회사명 수정" required v-model="outAddress.outCompany"></td>
-            </tr>
-            <tr>
-                <th>회사 전화 번호</th>
-                <td><input type="text" placeholder="회사 전화번호 수정" required v-model="outAddress.out_dep_phone"></td>
-            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{outAddress.out_id}}</td>
+                        </tr>
+                        <tr>
+                            <th>성명</th>
+                            <td><input type="text" placeholder="성명 수정" required v-model="outAddress.outName"></td>
+                        </tr>
+                        <tr>
+                            <th>핸드폰 번호</th>
+                            <td><input type="text" placeholder="핸드폰 번호 수정" required v-model="outAddress.out_mobile"></td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td><input type="text" placeholder="이메일 수정" required v-model="outAddress.out_email"></td>
+                        </tr>
+                        <tr>
+                            <th>회사명</th>
+                            <td><input type="text" placeholder="회사명 수정" required v-model="outAddress.outCompany"></td>
+                        </tr>
+                        <tr>
+                            <th>회사 전화 번호</th>
+                            <td><input type="text" placeholder="회사 전화번호 수정" required v-model="outAddress.out_dep_phone"></td>
+                        </tr>
 
-        </table>
-        <button class="btn btn-primary btn-lg" @click="updateOut(outAddress.out_id)">수정하기</button>
-        <button class="btn btn-primary btn-lg" @click="deleteOut()">삭제하기</button>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="modifyOut(outAddress.out_id)">수정</button>
+                    <button type="button" class="btn btn-primary" @click="deleteOut">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-
 </template>
 
 <script>
@@ -42,7 +55,7 @@
         props: ["outAddress"],
         data() {
             return {
-                outAddress: {
+                outaddress: {
                     out_id: "",
                     outName: "",
                     out_mobile: "",
@@ -50,13 +63,11 @@
                     outCompany:"",
                     out_dep_phone:""
                 },
-                dep_name: "", // 부서이름 담을 변수
-                emp_img_url: "" // 사원 사진 경로
             };
         },
 
         methods:{
-            updateOut(id) {
+            modifyOut(id) {
                 let data = {
                     outName: this.outAddress.outName,
                     out_mobile: this.outAddress.out_mobile,
@@ -71,12 +82,13 @@
                     alert("빈 칸을 확인해주세요!");
                 } else {
                     http
-                        .put("/outaddress/update/" + id, data) // UpfficeBack의 MyPageController로 매핑 된다.
+                        .put("/outaddress/update/" + id, data)
                         .then(response => {
                             if (response.data == 1) { // 결과값이 1이라면 1개의 데이터가 수정됐다는 뜻, 즉 수정 성공!
                                 alert("수정 완료!");
+                                this.$emit('close');
 
-                                this.$router.push("/manager/out-address")
+                                /*this.$router.push("/manager/out-address")*/
                             }
                         })
                         .catch(e => {
@@ -86,10 +98,11 @@
             }, // End - updatePhone() : 사원 정보 수정하기(휴대폰 번호, 비밀번호)
             deleteOut(){
                 http
-                    .delete("/outaddress/outaddress/"+ this.outaddress.out_id)
+                    .delete("/outaddress/outaddress/"+ this.outAddress.out_id)
                     .then(response=>{
                         console.log(response.data);
                         this.$emit("refreshData");
+                        this.$emit('close');
                         this.$router.push('/manager/outaddress');
                     })
                     .catch(e=>{
@@ -98,16 +111,6 @@
 
             }, //END- delete
         },
-        mounted() {
-            // mounted 될 때 로그인이 되어있는 상태라면
-            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
-                /*this.id = this.employee.emp_id;*/ //manager_id로...
-                console.log(this.id);
-
-            }else {
-                this.$router.push("/manager");
-            }
-        } // End - mounted()
     }
 </script>
 

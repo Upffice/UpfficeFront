@@ -115,13 +115,6 @@ export default new Router({
             path: "/manager/employees",
             name: "employees-mgm",
             component: EmployeesManagement,
-            children:[{
-                path: "/manager/form-management",
-                name: "employeesPopup",
-                component: employeesPopup,
-                props: true
-            },]
-
         },
         {
             path: "/manager/form-management",

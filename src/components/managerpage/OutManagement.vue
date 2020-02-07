@@ -1,7 +1,7 @@
 <template>                                                                  <!--외부주소록 메인-->
     <div class="list row">
 
-        <div class="col-md-6">
+        <div>
             <h2>외부 주소록</h2>
             <hr>
             <!--전체, 회사별 정렬하기 위한 dropdown-->
@@ -41,14 +41,14 @@
 
                 </thead>
                 <tbody>
-                <tr v-for="(outAddress,index) in currentPosts" :key="index">
+                <tr v-for="(outAddress,index) in currentPosts" :key="index" v-on:click="out_modi_del(outAddress)">
                     <td>
-                        <router-link :to="{
+                        <!--<router-link :to="{
                             name: 'OutMgmDetail',
                             params: { outAddress: outAddress, out_id: outAddress.out_id }
-                        }">
+                        }">-->
                             {{outAddress.outName}}
-                        </router-link>
+                      <!--  </router-link>-->
                     </td>
                     <td>{{outAddress.out_mobile}}</td>
                     <td>{{outAddress.out_email}}</td>
@@ -58,8 +58,8 @@
                 </tbody>
             </table>
 
-            <div>
-                <ul class="pagination">
+            <div class="page">
+                <ul class="pagination" >
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
                     </li>
@@ -82,14 +82,14 @@
                 <router-view @refreshData="refreshList"></router-view>
             </div>
         </div>
+        <modals-container/>
     </div>
-
-
 </template>
 
 
 <script>
     import http from "../../http-common";
+    import OutMgmDetail from "./OutMgmDetail";
 
     export default {
         name: "outManagement",
@@ -104,12 +104,12 @@
                     {text:'정렬',     value: '0'},
                     {text:'전체',     value: '1'},
                     {text:'회사별',   value: '2'},
+
                     {text:'이름',     value: '3'}
                 ],
-
                 currentPosts:[],
                 count: 0,   //총 길이
-                countList:5, // 한 페이지에 나올 게시글 개수
+                countList:10, // 한 페이지에 나올 게시글 개수
                 totalPage:1, // 페이지 번호 묶음 (5 개씩 묶음)
                 page:1,
                 countPage:5,
@@ -229,6 +229,21 @@
             addOutAddress() {
                 this.$router.push('/manager/add-out-address')
             },
+            out_modi_del(outaddress){
+                this.$modal.show(OutMgmDetail, {
+                        name: 'OutMgmDetail',
+                        outAddress: outaddress,
+                        modal: this.$modal,
+                    },
+                    {
+                        width: '500px',
+                        height: '530px',
+                        draggable: true,
+                    });
+
+                console.log(outaddress.out_id);
+
+            },
             sort() {
                 console.log("selected"+this.selected);
                 if (this.selected === '1') {
@@ -317,11 +332,6 @@
 </script>
 
 <style scoped>
-    .searchform {
-        max-width: 300px;
-        margin: auto;
-    }
-
 
     .list {
         text-align: center;
@@ -335,6 +345,12 @@
 
     .form-group, btn-group {
         float: right;
+    }
+    .page{
+        display: table;
+        text-align: center;
+        margin: auto;
+        position: relative;
     }
 
 </style>

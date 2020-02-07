@@ -3,9 +3,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">사원 관리(수정/삭제)</h5>
+                    <h5 class="modal-title" style="text-align: center; margin: auto"><strong>외부 연락처 관리(수정/삭제)</strong></h5>
                 </div>
-                <!-- 일정 추가 기능 -->
+                <!-- 직원 수정/삭제 기능 -->
                 <div v-if="employees" class="modal-body">
                     <table class="table table-hover">
 
@@ -45,7 +45,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="modifyEmp(employee.emp_id)">수정</button>
+                    <button type="button" class="btn btn-primary" @click="modifyEmp(employees.emp_id)">수정</button>
                     <button type="button" class="btn btn-primary" @click="deleteEmp">삭제</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소
                     </button>
@@ -96,10 +96,11 @@
                     alert("빈 칸을 확인해주세요!");
                 } else {
                     http
-                        .put("/employees/update/" + id, data) // UpfficeBack의 MyPageController로 매핑 된다.
+                        .put("/employees/update/" + id, data)
                         .then(response => {
                             if (response.data == 1) { // 결과값이 1이라면 1개의 데이터가 수정됐다는 뜻, 즉 수정 성공!
                                 alert("수정 완료!");
+                                this.$emit('close');
 
                                /* this.$router.push("/manager")*/
                             }
@@ -112,15 +113,21 @@
             },
             deleteEmp() {
                 // 삭제 메소드
+                http
+                    .delete("/employees/employees/"+ this.employees.emp_id)
+                    .then(response=>{
+                        console.log(response.data);
+                        this.$emit("refreshData");
+                        this.$emit('close');
+                        this.$router.push('/manager/employees');
+                        /* router.reload(); */
+                    })
+                    .catch(e=>{
+                        console.log(e);
+                    });
             }
 
         },
-        // mounted() {
-        //         // this.getEmpInfo(this.employees.emp_id); // 사원 정보 가져오기
-        //         // this.getDep_Name(this.employee.dep_id);
-        //
-        //         console.log("모달 사번 "+this.employees.emp_id);
-        // }
     };
 </script>
 <style scoped>
