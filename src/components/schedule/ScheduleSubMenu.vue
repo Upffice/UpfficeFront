@@ -35,13 +35,12 @@
 </template>
 
 <script>
-    import RegisterPopup from "./RegisterPopup";
+    import RegisterPopup from "./RegisterPopupModal";
     import http from "../../http-common";
 
 export default {
     data() {
         return {
-
             emp_id: "",         // 사번
             calendarInput : {   // 추가할 캘린더 Input
               cal_name: "",

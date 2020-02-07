@@ -35,7 +35,7 @@
                             </div>
                         <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
                         <div v-if="day!==''&& hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
-                            <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index">
+                            <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index" @click="showDetail(sche[1])">
                                 <span style="font-size: 15px" :style="{color: getCalColor(sche[1].calendar_id)}">
                                     ●
                                 </span>&nbsp;
@@ -55,6 +55,7 @@
 <script>
     import ScheduleSubMenu from "./ScheduleSubMenu";
     import http from "../../http-common";
+    import ScheduleDetailModal from "./ScheduleDetailModal";
 
     export default {
         name: 'Calendar',
@@ -302,7 +303,20 @@
                         /* eslint-disable no-console */
                         console.log(e);
                     });
-            }
+            },
+            showDetail(schedule) { // 일정 등록 modal 띄우는 메소드
+
+                this.$modal.show(ScheduleDetailModal, {
+                        name: 'employeesPopup',
+                        schedule: schedule,
+                        modal: this.$modal,
+                    },
+                    {
+                        width: '500px',
+                        height: '700px',
+                        draggable: true,
+                    });
+            },
         },
         mounted() {
             if (sessionStorage.length > 0) {
