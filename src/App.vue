@@ -14,14 +14,13 @@
             TopMenu: TopMenu
         }
     };
-
+    /* eslint-disable no-console */
 </script>
 
 <style>
     .container-fluid {
         text-align: center;
     }
-
     .libgclr {
         background: #EBF0F0;
     }
@@ -32,6 +31,6 @@
         height: 100%;
         left: 15px;
         top: 70px;
-        position: fixed;
+        position: absolute;
     }
 </style>
