@@ -183,7 +183,7 @@
                 for (var i = 0; i < workings.length; i++) {
                     var working = workings[i].workingDate + " " + workings[i].workingTime;
                     var hour = Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('h'));
-                    totalHour += (hour == 12) ? 0 : hour;
+                    totalHour += ((hour == 12)&&(moment(working).format('hh')=='00'))? 0 : hour;
                     totalMin += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('m'));
                     totalSec += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('s'));
                 }

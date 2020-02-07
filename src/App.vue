@@ -14,12 +14,15 @@
             TopMenu: TopMenu
         }
     };
-
+    /* eslint-disable no-console */
 </script>
 
 <style>
     .container-fluid {
         text-align: center;
+    }
+    .libgclr {
+        background: #EBF0F0;
     }
 
     .libgclr {
