@@ -185,7 +185,7 @@
 <style scoped>
     .list {
         text-align: center;
-        max-width: 90%;
+        max-width: 100%;
         /*  margin: auto;*/
         margin-left: 15%;
     }

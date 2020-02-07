@@ -28,11 +28,7 @@
 
                 </thead>
                 <tr v-for="(outAddress,index) in currentPosts" :key="index">
-                    <td>
-
-                        {{outAddress.outName}}
-
-                    </td>
+                    <td>{{outAddress.outName}}</td>
                     <td>{{outAddress.out_mobile}}</td>
                     <td>{{outAddress.out_email}}</td>
                     <td>{{outAddress.outCompany}}</td>
@@ -40,7 +36,7 @@
                 </tr>
             </table>
 
-            <div>
+            <div class="page">
                 <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
@@ -78,7 +74,7 @@
                 outaddress: [],
                 currentPosts: [],
                 count: 0,   //총 길이
-                countList: 5, // 한 페이지에 나올 게시글 개수
+                countList: 10, // 한 페이지에 나올 게시글 개수
                 totalPage: 1, // 페이지 번호 묶음 (5 개씩 묶음)
                 page: 1,
                 countPage: 5,
@@ -267,5 +263,11 @@
         margin: auto;
         text-align: center;
     }
-
+    .page {
+        display: table;
+        text-align: center;
+        margin: auto;
+        padding-top: 30px;
+        position: relative;
+    }
 </style>

@@ -3,7 +3,7 @@
         <div v-if="this.employee">
             <br><br><br><br><br><br><br><br>
 
-            <div class="card border-primary mb-3" style="width: 25rem;">
+            <div class="card border-primary mb-3" style="width: 25rem; height: 29rem">
                 <div class="card-header" align="center">&#60;상세정보&#62;</div>               <!--이름 눌렀을때 나오는 부분-->
                 <div class="card-body">
                     <div class="img_div">
@@ -12,7 +12,7 @@
                     </div>
                     <h4 class="card-title" align="center">{{this.employee.name}}</h4>
 
-
+<!--
                     <div v-if="employee.position=='대표'" class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
@@ -27,7 +27,7 @@
                     </div>
                     <div v-else class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                    </div>-->
 
 
                     <table boder="2" class="table table-hover" align="center">

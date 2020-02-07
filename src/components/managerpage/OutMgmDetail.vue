@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="text-align: center; margin: auto"><strong>사원 관리(수정/삭제)</strong></h5>
+                    <h5 class="modal-title" style="text-align: center; margin: auto"><strong>외부 연락처 관리(수정/삭제)</strong></h5>
                 </div>
                 <!-- 직원 수정/삭제 기능 -->
                 <div v-if="outAddress" class="modal-body">
@@ -103,7 +103,7 @@
                         console.log(response.data);
                         this.$emit("refreshData");
                         this.$emit('close');
-                        this.$router.push('/manager/outaddress');
+                        this.$router.push('/manager/out-address');
                     })
                     .catch(e=>{
                         console.log(e);

@@ -7,9 +7,6 @@
                 </div>
                 <!-- 직원 추가 기능 -->
                 <div class="modal-body">
-                    <form>
-
-                    </form>
 
                     <div v-if="!added">
                         <table class="table table-hover">
@@ -66,16 +63,21 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" v-on:click="addEmployees">등록</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    v-on:click="$emit('close')">취소</button>
+                                    v-on:click="$emit('close')">취소
+                            </button>
                         </div>
                     </div>
 
 
                     <div v-else>
-                        <h5>{{this.employee.name}}님의 정보가 입력되었습니다.</h5>
+                        <div class="table">
+                            <h5 style="text-align: center"><strong>{{this.employee.name}}</strong>님의 정보가 입력되었습니다.</h5>
+                        </div>
                         <div class="modal-footer">
-                            <button button type="button" class="btn btn-primary" v-on:click="newEmployees">다른 직원 정보 추가</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소
+                            <button button type="button" class="btn btn-primary" v-on:click="newEmployees">다른 직원 정보 추가
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    @click="$emit('close')">취소
                             </button>
                         </div>
                     </div>
@@ -135,14 +137,20 @@
                 this.added = false;
                 this.employee = {};
             },
-           /* goBack() {
-                history.go(-1);
-            }*/
+            /* goBack() {
+                 history.go(-1);
+             }*/
 
         }
     }
 </script>
 
 <style scoped>
+    .table {
+        height: 550px;
+    }
 
+    .modal-footer {
+        padding-bottom: 0px;
+    }
 </style>

@@ -1,43 +1,37 @@
 <template>
-    <div class="employeesMgm">
+    <div class="list row">
         <div>
             <h2>직원 관리</h2>
             <hr>
-
-            <button type="button" class="btn btn-primary" v-on:click="addEmployees">직원 등록</button>
-
+            <div style="float: left">
+                <button type="button" class="btn btn-primary" v-on:click="addEmployees">직원 등록</button>
+            </div>
 
             <div class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
                 <fieldset>
-                    <input type="text" v-on:keypress="searchNameAndPosition" placeholder="검색(이름, 직책 입력)"
-                           class="form-control mr-sm-2" id="nameAndPosition"
-                           style="margin-right: 0px !important;  margin-top: 10px;"
+                    <input type="text" class="form-control mr-sm-2" v-on:keypress="searchNameAndPosition"
+                           placeholder="검색(이름, 직책 입력)" id="nameAndPosition"
                            required v-model="nameAndPosition" name="nameAndPosition"/>
-
-
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit"
-                            style="margin-left: 0px;  margin-top: 10px !important; " v-on:click="searchNameAndPosition">
-                        검색
-                    </button>
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit"
-                            style="margin-left: 0px;  margin-top: 10px !important; " v-on:click="refreshList">취소
-                    </button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="searchNameAndPosition">검색</button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="refreshList">취소</button>
                 </fieldset>
             </div>
 
-           <!-- {{$route.params}}-->
+            <!-- {{$route.params}}-->
             <table id="go-to-detail" class="table table-hover" style="margin-top: 20px">
                 <!--출력부분-->
                 <thead class="table-secondary">
                 <tr>
-                    <th>아이디</th>
-                    <th>성명</th>
+                    <th style="width: 90px">아이디</th>
+                    <th style="width: 90px">성명</th>
                     <th>이메일</th>
-                    <th>직책</th>
+                    <th style="width: 80px">직책</th>
                     <th>입사일</th>
                     <th>내선번호</th>
                     <th>휴대폰번호</th>
-                    <th>부서</th>
+                    <th style="width: 90px">부서</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,15 +52,16 @@
             </table>
 
             <div class="page">
-                <ul class="pagination" >
+                <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
                     </li>
                     <li class="page-item">
                         <button class="page-link" @click="prev()"><</button>
                     </li>
-                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item" :class="{'active':isSelected(index)}" >
-                        <button class="page-link"  @click="changePage(pageNum)">{{pageNum}}</button>
+                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item"
+                        :class="{'active':isSelected(index)}">
+                        <button class="page-link" @click="changePage(pageNum)">{{pageNum}}</button>
                     </li>
                     <li class="page-item">
                         <button class="page-link" @click="next()">></button>
@@ -89,8 +84,8 @@
 
 <script>
     import http from "../../http-common";
-    import employeesPopup from "./employeesPopup";
     import AddEmployees from "./AddEmployees";
+    import EmployeesMgmDetail from "./EmployeesMgmDetail";
 
     export default {
         name: "employeesManagement",
@@ -101,14 +96,14 @@
                 emp_id: "",
                 nameAndPosition: "",
 
-                currentPosts:[],
+                currentPosts: [],
                 count: 0,   //총 길이
-                countList:10, // 한 페이지에 나올 게시글 개수
-                totalPage:1, // 페이지 번호 묶음 (5 개씩 묶음)
-                page:1,
-                countPage:5,
-                startPage:1,
-                endPage:0,
+                countList: 10, // 한 페이지에 나올 게시글 개수
+                totalPage: 1, // 페이지 번호 묶음 (5 개씩 묶음)
+                page: 1,
+                countPage: 5,
+                startPage: 1,
+                endPage: 0,
                 totalPages: [],
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
 
@@ -121,34 +116,34 @@
                 this.count = this.employees.length;
                 console.log(this.employees.length + "길이 찍어보기")
                 this.totalPage = this.count / this.countList; // 총 페이지 개수
-                if(this.count % this.countList > 0){
+                if (this.count % this.countList > 0) {
                     this.totalPage = Math.ceil(this.totalPage);
                 }
-                if(this.totalPage < this.page){
-                    this.page=this.totalPage;
+                if (this.totalPage < this.page) {
+                    this.page = this.totalPage;
                 }
 
-                for(let i=0; i<this.totalPage; i++) {
-                    this.totalPages[i] = i+1;
+                for (let i = 0; i < this.totalPage; i++) {
+                    this.totalPages[i] = i + 1;
                 }
 
-                this.startPage = ((this.page -1)/this.countPage) * this.countPage +1; // 시작 페이지
+                this.startPage = ((this.page - 1) / this.countPage) * this.countPage + 1; // 시작 페이지
 
-                if(this.totalPage < 5) {
+                if (this.totalPage < 5) {
                     this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
                 } else {
-                    this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                    this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
                 }
 
                 this.currentPages = [];
-                let j = this.startPage-1;
-                for(let i=0; i<=(this.endPage-this.startPage) && j <
+                let j = this.startPage - 1;
+                for (let i = 0; i <= (this.endPage - this.startPage) && j <
                 this.totalPage; i++) {
                     this.currentPages[i] = this.totalPages[j];
                     j++;
-                    console.log("curr "+ i + "번째 " + this.currentPages[i]);
-                    console.log("startPage : "+this.startPage )
-                    console.log("endPage : "+ this.endPage)
+                    console.log("curr " + i + "번째 " + this.currentPages[i]);
+                    console.log("startPage : " + this.startPage)
+                    console.log("endPage : " + this.endPage)
                     console.log("totalPage : " + this.totalPage)
                     console.log("totalPages : " + this.totalPages)
 
@@ -156,8 +151,8 @@
             },
             setCurrentPosts() {
                 this.currentPosts = [];
-                let j = (this.page-1) * this.countList;
-                for(let i=0; i<this.countList && j < this.employees.length; i++) {
+                let j = (this.page - 1) * this.countList;
+                for (let i = 0; i < this.countList && j < this.employees.length; i++) {
                     this.currentPosts[i] = this.employees[j];
                     j++;
                 }
@@ -209,8 +204,8 @@
 
             emp_modi_del(employee) { // employee-Detail modal 띄우는 메소드
 
-                this.$modal.show(employeesPopup, {
-                        name: 'employeesPopup',
+                this.$modal.show(EmployeesMgmDetail, {
+                        name: 'EmployeesMgmDetail',
                         employees: employee,
                         modal: this.$modal,
                     },
@@ -227,7 +222,7 @@
                     .post("/dep/" + dep_id)
                     .then(response => {
                         this.dep_name = response.data;
-                        console.log(this.dep_name+"부서이름가져오나");
+                        console.log(this.dep_name + "부서이름가져오나");
                     })
                     .catch(e => {
                         console.log(e);
@@ -240,48 +235,48 @@
             },
             isSelected(index) { //<< >>버튼 메서드, 눌렀을때 색깔 바뀌는거
                 /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
-                if (index == (this.page-1)%this.countPage) {
+                if (index == (this.page - 1) % this.countPage) {
                     return true
                 } else {
                     return false
                 }
             },
             prev() {
-                if(this.startPage != 1) {
-                    this.startPage = this.startPage -5;
+                if (this.startPage != 1) {
+                    this.startPage = this.startPage - 5;
                     this.page = this.startPage;
-                    if(this.totalPage < 5) {
+                    if (this.totalPage < 5) {
                         this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
                     } else {
-                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                        this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
                     }
 
                     this.currentPages = [];
-                    let j = this.startPage-1;
-                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                    let j = this.startPage - 1;
+                    for (let i = 0; i <= (this.endPage - this.startPage) && j < this.totalPage; i++) {
                         this.currentPages[i] = this.totalPages[j];
                         j++;
-                        console.log("curr "+ i + "번째 " + this.currentPages[i]);
+                        console.log("curr " + i + "번째 " + this.currentPages[i]);
                     }
                     this.setCurrentPosts();
                 }
             },
             next() {
-                if(this.endPage < this.totalPage) {
-                    this.startPage = this.endPage +1;
+                if (this.endPage < this.totalPage) {
+                    this.startPage = this.endPage + 1;
                     this.page = this.startPage;
-                    if(this.totalPage < 5) {
+                    if (this.totalPage < 5) {
                         this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
                     } else {
-                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                        this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
                     }
 
                     this.currentPages = [];
-                    let j = this.startPage-1;
-                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                    let j = this.startPage - 1;
+                    for (let i = 0; i <= (this.endPage - this.startPage) && j < this.totalPage; i++) {
                         this.currentPages[i] = this.totalPages[j];
                         j++;
-                        console.log("curr "+ i + "번째 " + this.currentPages[i]);
+                        console.log("curr " + i + "번째 " + this.currentPages[i]);
                     }
                     this.setCurrentPosts();
                 }
@@ -292,8 +287,8 @@
                 this.setPagination()
             },
             gotoEnd() {
-                let pack = Math.ceil(this.totalPage/this.countPage)//몇덩이인지(페이지묶음수)
-                for(let i=0; i<pack; i++)
+                let pack = Math.ceil(this.totalPage / this.countPage)//몇덩이인지(페이지묶음수)
+                for (let i = 0; i < pack; i++)
                     this.next()
                 this.changePage(this.totalPage);
             }
@@ -312,6 +307,13 @@
 </script>
 
 <style scoped>
+
+    .list {
+        text-align: center;
+        max-width: 90%;
+        margin-top: 20px;
+    }
+
     #nameAndPosition {
         width: 200px;
     }
@@ -319,11 +321,22 @@
     .form-group, btn-group {
         float: right;
     }
-    .page{
+
+    .page {
         display: table;
         text-align: center;
         margin: auto;
+        padding-top: 30px;
         position: relative;
     }
 
+    /* .table {
+         width: 80%;
+         margin: auto;
+         text-align: center;
+     }*/
+
+    .btn {
+        margin: 20px 0px 20px 0px
+    }
 </style>
