@@ -28,7 +28,7 @@
                     <input type="text" class="form-control col-sm-9" id="subject" required v-model="survey.survey_subject" name="subject" placeholder="글 제목">
                 </div>
                 <div class="form-group form-inline">
-                    <label for="question" class="labelfont">제&nbsp;&nbsp;&nbsp; 목</label>
+                    <label for="question" class="labelfont">설&nbsp;&nbsp;&nbsp; 문</label>
                     <input type="text" class="form-control col-sm-9" id="question" required v-model="survey.survey_question" name="question" placeholder="설문 제목 ">
                 </div>
                 <div class="form-group form-inline">
@@ -104,7 +104,7 @@
                     survey_id: this.survey.survey_id,
                     survey_writer: this.survey.survey_writer,
                     survey_subject: this.survey.survey_subject,
-                    survey_question: this.survey_question,
+                    survey_question: this.survey.survey_question,
                     survey_detail: this.survey.survey_detail,
                     start_date: this.survey.start_date,
                     end_date: this.survey.end_date,
@@ -112,6 +112,23 @@
                     answer2: this.survey.answer2,
                     answer3: this.survey.answer3
                 };
+                    if(data.survey_subject==null || data.survey_subject==""){
+                        alert("게시글 제목을 입력하세요");
+                    }else if(data.survey_question==null ||data.survey_question==""){
+                        alert("설문 제목을 입력하세요");
+                    }else if(data.survey_detail ==null || data.survey_detail==""){
+                        alert("설문 내용을 입력하세요");
+                    }else if(data.start_date ==null || data.start_date == ""){
+                        alert("설문 시작일을 기재하세요");
+                    }else if(data.end_date == null || data.end_date== ""){
+                        alert("설문 종료일을 기재하세요");
+                    }else if(data.answer1 ==null || data.answer1==""){
+                        alert("질문 1 을 입력하세요");
+                    }else if(data.answer2 ==null || data.answer2==""){
+                        alert("질문 2 를 입력하세요");
+                    }else if(data.answer3 == null || data.answer3==""){
+                        alert("질문 3 을 입력하세요");
+                    }else{
                 http
                     .post("/survey/addsurvey", data)
                     .then(response => {
@@ -126,6 +143,8 @@
                 this.$router.push({
                     path:'/survey'
                 })
+                    }
+
             },
             backlist(){
                 this.$router.push({
@@ -177,9 +196,9 @@
     .root{
         width: 800px;
         border: silver solid 1px;
-        margin: 10px;
+        margin-left: 25%;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static;
         left: 24%;
 
     }
