@@ -18,20 +18,20 @@
             </div>
             <hr>
             <br>
-            <div class="form-group form-inline" >
+            <div class="form-group form-inline form-group-JH" >
                 <label for="writer" class="labelfont">작성자</label>
                 <input type="email" class="form-control col-sm-9" id="writer"required v-model="post.post_writer" name="writer" readonly>
             </div>
-            <div class="form-group form-inline">
+            <div class="form-group form-inline form-group-JH">
                 <label for="writer" class="labelfont">제 &nbsp;&nbsp;&nbsp;&nbsp;목</label>
                 <input type="email" class="form-control col-sm-9" id="subject"required v-model="post.post_subject" name="subject" aria-describedby="emailHelp" placeholder="게시글 제목">
             </div>
-            <div class="form-group form-inline">
+            <div class="form-group form-inline form-group-JH">
                 <label for="writer" class="labelfont">작 성 란</label>
                 <textarea class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
             </div>
             <br>
-            <div class="form-group form-inline">
+            <div class="form-group form-inline form-group-JH">
                 <label for="exampleInputFile" class="labelfont">사진 업로드</label>
                 <input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">
                 <small class="form-text text-muted" id="fileHelp">안녕하세요 저는 정준희에요 멋쟁이 정준희입니다 ㅎㅎ 짱짱맨 정준희</small>
@@ -179,7 +179,6 @@
 </script>
 
 <style scoped>
-
     .ppo{
         text-align: center;
         max-width: 650px;
@@ -187,7 +186,7 @@
         margin: 0 auto;
 
     }
-    .form-group{
+    .form-group-JH{
         width: 700px !important;
     }
     .root{
@@ -195,7 +194,7 @@
         border: silver solid 1px;
         margin: 10px;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static;
         left: 24%;
 
     }

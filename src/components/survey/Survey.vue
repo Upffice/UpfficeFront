@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <h4 style="margin: 20px; font-weight: bold">설문조사</h4>
     <div class="root3">
-    <div v-if="this.survey">
         <div>
             <subMenu></subMenu>
         </div>
+    <div>
+        <h4 style="margin: 20px; font-weight: bold">설문조사</h4>
+
+    <div v-if="this.survey" class="rootbox">
+
 
 
         <hr style="width: 80%; margin: 60px 60px 20px 75px;">
@@ -236,9 +238,9 @@
     .root3{
         width: 800px;
         border: silver solid 1px;
-        margin: 10px;
+        margin-left: 20% !important;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static !important;
         left: 24%;
 
     }
@@ -252,8 +254,8 @@
     .progressbox{
         border: #dddddd solid 1px;
         width: 80%;
-        margin: 0 auto;
         padding: 20px;
+        margin-left: 25%;
     }
 
     /*.qstbox {*/

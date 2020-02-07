@@ -1,12 +1,20 @@
 <template>
     <div>
+        <div>
+            <subMenu></subMenu>
+        </div>
         <div class="sidelist">
-          <subMenu></subMenu>
+
         </div>
         <div class="col-md-20">
             <br>
             <h4>Survey List</h4>
             <br>
+            <form class="form-inline my-2 my-lg-0 searchbar">
+                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
+                       required v-model="SearchSubject" name="SearchSubject">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
             <table class="table table-hover Allsurvey">
                 <thead>
                 <tr class="table-primary">
@@ -30,12 +38,10 @@
                     </router-link></td>
                     <td>{{time(survey.start_date)}}</td>
                     <td>{{time(survey.end_date) }}</td>
-
                 </tr>
-
                 </tbody>
-
             </table>
+        </div>
             <div class="pagebox_ser">
                 <ul class="pagination">
                     <li class="page-item">
@@ -55,8 +61,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
-
     </div>
 </template>
 
@@ -80,6 +84,7 @@
                 endPage:0,
                 totalPages: [],// total Page의 for결과값을 넣어줌
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
+                SearchSubject:""
             };
         },
         components: {
@@ -87,6 +92,13 @@
         },
 
         methods:{
+            searchPost(){
+                http
+                    .get("/pst/post_subject/"+this.SearchSubject)
+                    .then(response =>{
+
+                    })
+            },
             //저장된 설문들을 모두 요청하여 가져오는 메서드
             requestSurvey(){
                 http
@@ -249,6 +261,11 @@
     .sidelist{
         position: fixed;
         left: 0;
+    }
+    .searchbar{
+        position: absolute;
+        right: 13%;
+        top: 15%;
     }
     .maljul{
         text-overflow: ellipsis; overflow: hidden;

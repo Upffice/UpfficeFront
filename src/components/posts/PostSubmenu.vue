@@ -2,31 +2,19 @@
     <div class="subMenu">
 
         <ul class="nav nav-pills flex-column">
-            <div style="font-weight: bold; margin: 8%; font-size: 20px;text-align: center">
+            <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center">
                 게시판
             </div>
-
             <router-link to="/pst">
-
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-
                     전사 게시판
-
                 </li>
             </router-link>
-
             <router-link to="/dep_pst">
-
             <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-
                 부서 게시판
-
             </li>
         </router-link>
-
-
-
-
             <button type="button" class="btn btn-primary btn-lg" @click="getBoard">우리 부서 게시판</button>
 
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr"
@@ -38,7 +26,6 @@
                         <span>{{board.board_name}}</span>
                     </router-link>
                 </li>
-
         </ul>
         <router-link to="/dep_pst/newBoard">
             <button type="button" class="btn btn-primary btn-lg">게시판 등록</button>

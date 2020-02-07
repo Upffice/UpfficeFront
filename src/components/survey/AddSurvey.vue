@@ -196,9 +196,9 @@
     .root{
         width: 800px;
         border: silver solid 1px;
-        margin: 10px;
+        margin-left: 25%;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static;
         left: 24%;
 
     }

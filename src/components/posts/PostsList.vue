@@ -1,6 +1,5 @@
 <template>
     <div class="list row">
-
         <div>
             <subMenu></subMenu>
         </div>
@@ -39,12 +38,8 @@
                     <td>{{post.created}}</td>
                     <td>{{post.post_views }}</td>
                 </tr>
-
                 </tbody>
-
             </table>
-
-
         </div>
         <div class="col-md-6">
             <router-view @refreshData="refreshList"></router-view>
