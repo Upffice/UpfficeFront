@@ -19,15 +19,15 @@
             <hr>
             <br>
             <div class="form-group form-inline form-group-JH" >
-                <label for="writer" class="labelfont">작성자</label>
+                <label for="writer" class="labelfont">작성자&nbsp;&nbsp;&nbsp;</label>
                 <input type="email" class="form-control col-sm-9" id="writer"required v-model="post.post_writer" name="writer" readonly>
             </div>
             <div class="form-group form-inline form-group-JH">
-                <label for="writer" class="labelfont">제 &nbsp;&nbsp;&nbsp;&nbsp;목</label>
+                <label for="writer" class="labelfont">제 &nbsp;&nbsp;&nbsp;&nbsp;목&nbsp;&nbsp;&nbsp;</label>
                 <input type="email" class="form-control col-sm-9" id="subject"required v-model="post.post_subject" name="subject" aria-describedby="emailHelp" placeholder="게시글 제목">
             </div>
             <div class="form-group form-inline form-group-JH">
-                <label for="writer" class="labelfont">작 성 란</label>
+                <label for="writer" class="labelfont">작 성 란&nbsp;&nbsp;&nbsp;</label>
                 <textarea class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
             </div>
             <br>
@@ -192,7 +192,7 @@
     .root{
         width: 800px;
         border: silver solid 1px;
-        margin: 10px;
+        margin-left: 25%;
         padding: 20px 0 50px 0;
         position: static;
         left: 24%;
