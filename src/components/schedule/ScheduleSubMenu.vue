@@ -6,6 +6,7 @@
             <label class="col-form-label col-form-label" for="inputSmall">캘린더 추가</label>
             <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">
             <input type="color" v-model="calendarInput.cal_color">
+
             <button class="btn btn-lg btn-link addBtn" @click="addCategory()">+</button>
         </div>
 
@@ -30,7 +31,6 @@
             <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendarList()">확인</button>
             <button class="btn btn-info btn-sm pushCalBtn" @click="modi_flag=true">취소</button>
         </div>
-
     </div>
 </template>
 
@@ -41,6 +41,7 @@
 export default {
     data() {
         return {
+
             emp_id: "",         // 사번
             calendarInput : {   // 추가할 캘린더 Input
               cal_name: "",
@@ -49,7 +50,7 @@ export default {
             calendarList: [],         // 모든 캘린더 목록
             checkedCalendars : [],    // 체크된 캘린더 목록
             modi_flag : true,         // 캘린더 목록 수정 여부 검사할 flag
-            modi_cal_input : []
+            modi_cal_input : [],
         }
     },
     methods : {
@@ -76,7 +77,6 @@ export default {
                 http
                     .post("/calendar/add/" + this.emp_id, sche_data)
                     .then(response=> {
-                        console.log(response.data);
                         this.getCalendarList();
                     })
                     .catch(e => {
@@ -91,7 +91,6 @@ export default {
                 .post("/calendar/list/" + this.emp_id)
                 .then(response=> {
                     /* eslint-disable no-console */
-                    console.log("getCalendarList"+response.data);
                     this.calendarList = response.data;
                 })
                 .catch(e => {
@@ -113,7 +112,6 @@ export default {
             http
                 .put("/calendar/update/" + this.emp_id, data) // UpfficeBack의 MyPageController로 매핑 된다.
                 .then(response => {
-                    console.log("수정 성공 " + response.data);
                     this.getCalendarList();
                     this.modi_flag = true;
                     this.checkedCalendars = []; // 체크 박스 해제
@@ -128,14 +126,12 @@ export default {
                     .delete("/calendar/list/" + this.emp_id +"?calendar_id=" + this.checkedCalendars)
                     .then(response=> {
                         /* eslint-disable no-console */
-                        console.log("캘린더 " + response.data + " 개 delete 됨");
                         this.getCalendarList();
                         this.checkedCalendars = []; // 체크 박스 해제
                     })
                     .catch(e => {
                         /* eslint-disable no-console */
                         console.log(e);
-                        console.log(this.emp_id +"/err " + this.checkedCalendars)
                     });
             }
         }

@@ -85,7 +85,7 @@
                     http
                         .post("/schedule/add/" + this.emp_id, sche_data)
                         .then(response=> {
-                            console.log(response.data);
+                            console.log("등록 완료" + response.data);
                         })
                         .catch(e => {
                             /* eslint-disable no-console */
@@ -93,6 +93,7 @@
                         });
 
                     this.$emit('close');
+                    for(let i=0; i<1; i++) location.reload();
                 } // End : if-else
 
             }, // End : register() : schedule 테이블에 Input 데이터 저장
@@ -101,7 +102,6 @@
                     .post("/calendar/list/" + this.emp_id)
                     .then(response=> {
                         /* eslint-disable no-console */
-                        console.log(response.data);
                         this.calendarList = response.data;
                     })
                     .catch(e => {

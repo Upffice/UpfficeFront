@@ -34,10 +34,13 @@
                             </span>
                             </div>
                         <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
-                        <div v-if="day!=='' && hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
-                            캘린더 : {{sche_name}}
-<!--                            일정:{{getSchedule(currentYear, currentMonth, day)}}-->
-<!--                            <span v-for="(schedule, index3) in scheduleList" :key="index3">a{{schedule.sche_name}}</span>-->
+                        <div v-if="day!==''&& hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
+                            <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index">
+                                <span style="font-size: 15px" :style="{color: getCalColor(sche[1].calendar_id)}">
+                                    ●
+                                </span>&nbsp;
+                                {{sche[1].sche_name}}<br>  <!-- 일정의 캘린별 색과 이름 넣기-->
+                            </span>
                         </div>
                         </td>
                     </tr>
@@ -72,24 +75,49 @@
                 memoData: [],
                 emp_id: "",
                 scheduleList: [],    // 모든 schedule 리스트를 담을 배열
-                sche_name: "",
-                sche_date: "",
-                schedule: [],
+                sche_name: "",       // 가져온 일정의 이름
+                sche_date: [],       // 일정 날짜? -- 안 쓰는 변수 정리하기
+                schedule: [],        // 가져온 일정 담을 배열
                 selected_cal : [],   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
-                curr_year : "",
-                curr_month : ""
+                calendarList: []     // 캘린더 목록
             }
         },
         methods: {
-            init:function(){
+            init(){
                 this.currentMonthStartWeekIndex = this.getStartWeek(this.currentYear, this.currentMonth);
                 this.endOfDay = this.getEndOfDay(this.currentYear, this.currentMonth);
                 this.initCalendar();
             },
-            hasScheduleToday(year,month,day) {
+            getCalColor(calendar_id) {
+                for(let i=0; i<this.calendarList.length; i++) {
+                    if(this.calendarList[i].calendar_id == calendar_id) {
+                        return this.calendarList[i].calendar_color;
+                    }
+                }
+            },
+            getCurrDate(year, month, day) {
+                if(month < 10)  month = "0" + month;    // 형식을 맞추기 위하여 달이 한 자리 수일 때 앞에 0을 추가 해준다.
+                if(day < 10) day = "0" + day;           // 형식을 맞추기 위하여 일자가 한 자리 수일 때 앞에 0을 추가 해준다.
+                let sche_date = year + "-" + month + "-" + day;
 
+                return sche_date;
+            },
+            hasScheduleToday(year,month,day) {
+                if(month < 10)  month = "0" + month;    // 형식을 맞추기 위하여 달이 한 자리 수일 때 앞에 0을 추가 해준다.
+                if(day < 10) day = "0" + day;           // 형식을 맞추기 위하여 일자가 한 자리 수일 때 앞에 0을 추가 해준다.
+                let sche_date = year + "-" + month + "-" + day;
+
+                for(let k=0; k<this.schedule.length; k++) {
+                    let a = [];
+                    a[k] = this.schedule[k].toString().split(",");
+                    if(a[k][0] == sche_date) return true;
+                }
             },
             getAllSchedules() {
+                this.sche_date = [];
+                this.sche_name = [];
+                this.schedule = [];
+
                 let year = this.currentYear;
                 let month = this.currentMonth;
 
@@ -99,17 +127,15 @@
                     let date = i;
                     if(date < 10) date = "0" + date;
                     let sche_date = year + "-" + month + "-" + date;
-                    console.log(sche_date);
+
                         http
                             .post("/schedule/all/" + this.emp_id, sche_date)
                             .then(response=> {
                                 /* eslint-disable no-console */
                                 this.scheduleList = response.data;
-                                for(let i=0; i<this.scheduleList.length; i++) {
-                                    this.sche_name = this.scheduleList[i].sche_name;
-                                    console.log("sche_name : " + this.sche_name);
+                                for(let j=0; j<this.scheduleList.length; j++) {
+                                    this.schedule.push([sche_date, this.scheduleList[j]]);    //  배열에 해당 날짜와 일정 이름 넣기
                                 }
-
                             })
                             .catch(e => {
                                 /* eslint-disable no-console */
@@ -117,7 +143,7 @@
                             });
                 }
             },
-            initCalendar:function(){
+            initCalendar(){
                 this.currentCalendarMatrix = [];
                 let day=1;
                 for(let i=0; i<6; i++){
@@ -139,7 +165,7 @@
                 // currentCalendarMatrix 생성된 후
                 this.getAllSchedules();
             },
-            getEndOfDay: function(year, month){
+            getEndOfDay(year, month){
                 switch(month){
                     case 1:
                     case 3:
@@ -170,7 +196,7 @@
                         break;
                 }
             },
-            getStartWeek: function(targetYear, targetMonth){
+            getStartWeek(targetYear, targetMonth){
                 let year = this.rootYear;
                 let month = 1;
                 let sumOfDay = this.rootDayOfWeekIndex;
@@ -192,7 +218,7 @@
                     }
                 }
             },
-            onClickPrev: function(month){
+            onClickPrev(month){
                 month--;
                 if(month<=0){
                     this.currentMonth = 12;
@@ -203,7 +229,7 @@
                 }
                 this.init();
             },
-            onClickNext: function(month){
+            onClickNext(month){
                 month++;
                 if(month>12){
                     this.currentMonth = 1;
@@ -214,18 +240,11 @@
                 }
                 this.init();
             },
-            isToday: function(year, month, day){
+            isToday(year, month, day){
                 let date = new Date();
                 return year == date.getFullYear() && month == date.getMonth()+1 && day == date.getDate();
             },
-/*            showCellDetail(year, month, day) {  // 테이블 cell 클릭 시 상세 정보 모달 띄우기
-                if(day!==""){
-
-                }
-
-            },
-*/
-            getSchedule(year, month, day){
+/*            getSchedule(year, month, day){
                 // 한 자릿 수일 때 0추가
                 if(month < 10)  month = "0" + month;
                 if(day < 10) day = "0" + day;
@@ -237,12 +256,12 @@
 
                     if(this.selected_cal.includes('0')) { // selected_cal 에 0이 포함되어 있다면 전체 일정이 check 되어 있으므로 전체 일정만 불러오기 위해 selected_cal 에 0만 넣는다.
 
-                        console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + this.selected_cal+"/ "+ sche_date)
+                        console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + this.selected_cal + "/ "+ sche_date)
                         http
                             .post("/schedule/all/" + this.emp_id, sche_date)
                             .then(response=> {
-                                 /* eslint-disable no-console */
-                                 this.scheduleList = response.data;
+                                 /!* eslint-disable no-console *!/
+                                this.scheduleList = response.data;
                                 for(let i=0; i<this.scheduleList.length; i++) {
                                     this.sche_name = this.scheduleList[i].sche_name;
                                     console.log("sche_name : " + this.sche_name);
@@ -250,7 +269,7 @@
 
                             })
                             .catch(e => {
-                                /* eslint-disable no-console */
+                                /!* eslint-disable no-console *!/
                                 console.log(e);
                             });
                     }
@@ -259,37 +278,37 @@
                     //     http
                     //         .post("/schedule/list/" + this.emp_id, selected_cal, sche_date)
                     //         .then(response=> {
-                    //             /* eslint-disable no-console */
+                    //             /!* eslint-disable no-console *!/
                     //             console.log("getSchedule"+response.data);
                     //             this.scheduleList = response.data;
                     //         })
                     //         .catch(e => {
-                    //             /* eslint-disable no-console */
+                    //             /!* eslint-disable no-console *!/
                     //             console.log(e);
                     //         });
                     // }
 
                 } // End : if-else
 
-            },
-            // getSche_name() {
-            //     if(this.scheduleList.length >0){
-            //         this.schedule = this.scheduleList[i];
-            //         console.log("aaa"+this.schedule[0].sche_name);
-            //         // for(let i=0; i<this.scheduleList.length; i++) {
-            //         //     // this.sche_name = this.scheduleList[i].sche_name;
-            //         //     this.schedule = this.scheduleList[i];
-            //         //     console.log("aaa"+this.schedule.sche_name);
-            //         // }
-            //     }
-            //
-            //     return "";
-            // }
+            },*/
+            getCalendarList() {
+                http
+                    .post("/calendar/list/" + this.emp_id)
+                    .then(response=> {
+                        /* eslint-disable no-console */
+                        this.calendarList = response.data;
+                    })
+                    .catch(e => {
+                        /* eslint-disable no-console */
+                        console.log(e);
+                    });
+            }
         },
         mounted() {
             if (sessionStorage.length > 0) {
                 this.emp_id = sessionStorage.getItem("login_id");
                 this.init();
+                this.getCalendarList();
             } else {
                 this.$router.push("/");
             }
@@ -329,13 +348,14 @@
         height: 150px;
     }
     .scrollDiv {
+        text-align: left;
         overflow: auto;
         width: 100px;
         height:100px;
         margin: 15px auto;  /*top 10px*/
         font-size: 11px;
-        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
-        white-space: nowrap; /*말 줄임표 위한 설정*/
+        /*text-overflow: ellipsis; !*말 줄임표 위한 설정*!*/
+        /*white-space: nowrap; !*말 줄임표 위한 설정*!*/
         overflow-x: hidden; /*가로 스크롤바 없애기*/
         -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
     }
