@@ -4,7 +4,7 @@
           <subMenu></subMenu>
         </div>
         <div class="col-md-20">
-            <h4>Survey List</h4>
+            <h4>End Survey List</h4>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -31,7 +31,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div>
+            <div class="pagebox_ser">
                 <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
@@ -236,5 +236,10 @@
     table{
         width: 80%;
         margin-left: 300px;
+    }
+    .pagebox_ser{
+        position: relative;
+        margin-top: 5%;
+        margin-left: 50%;
     }
 </style>

@@ -87,21 +87,29 @@
                     post_view: this.post.post_view,
                     emp_id:this.emp_id
                 };
-                //입력한 데이터들을 컨트롤러에 보내주는 메서드
-                http
-                    .post("/pst/post", data)
-                    .then(response => {
-                        this.post.post_id = response.data.post_id;
-                        console.log(response.data);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-                this.submitted = true;
-                alert("게시글을 성공적으로 등록하였습니다 !");
-                this.$router.push({
-                    path:'/dep_pst'
-                })
+                    if(data.post_subject==null || data.post_subject==""){
+                        alert("게시글 제목을 입력하세요");
+                    }else if(data.post_content==null || data.post_content=="") {
+                        alert("내용을 입력하세요");
+                    }else if(data.board_name==null || data.board_name==""){
+                        alert("게시판을 선택하세요 !");
+                    }else{
+                        //입력한 데이터들을 컨트롤러에 보내주는 메서드
+                        http
+                            .post("/pst/post", data)
+                            .then(response => {
+                                this.post.post_id = response.data.post_id;
+                                console.log(response.data);
+                            })
+                            .catch(e => {
+                                console.log(e);
+                            });
+                        this.submitted = true;
+                        alert("게시글을 성공적으로 등록하였습니다 !");
+                        this.$router.push({
+                            path: '/dep_pst'
+                        });
+                    }
             },
             //페이지 되돌리기
             backlist(){

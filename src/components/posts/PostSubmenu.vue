@@ -2,6 +2,9 @@
     <div class="subMenu">
 
         <ul class="nav nav-pills flex-column">
+            <div style="font-weight: bold; margin: 8%; font-size: 20px;text-align: center">
+                게시판
+            </div>
 
             <router-link to="/pst">
 
