@@ -134,7 +134,7 @@
                 },
                 monthTime:'',
                 workingTime:'',
-                barWidth:'25%',
+                barWidth:'0%',
                 show: false
             };
         },// End - data
@@ -144,10 +144,10 @@
         methods: {
             /* eslint-disable no-console */
             readWorkings(currentYear, currentMonth) {// 근태기록을 조회하는 메소드
-                var workings = [];
-                var moment = require('moment');
-                var start = moment(currentYear + "-" + currentMonth).startOf('month').format('YYYY-MM-DD');
-                var end = moment(currentYear + "-" + currentMonth).endOf('month').format('YYYY-MM-DD');
+                let workings = [];
+                let moment = require('moment');
+                let start = moment(currentYear + "-" + currentMonth).startOf('month').format('YYYY-MM-DD');
+                let end = moment(currentYear + "-" + currentMonth).endOf('month').format('YYYY-MM-DD');
 
                 this.calcMonthTime(moment(currentYear + "-" + currentMonth));
 
@@ -165,11 +165,11 @@
                     });
             },// End - readWorkings(currentYear,currentMonth)
             calcMonthTime(date){//조회 중인 달에 근무해야 할 시간을 계산
-                var conut=0;
-                var startDate = date.clone().startOf('month');
-                var diff=startDate.diff(date.clone().endOf('month'),'day');
-                for(;diff!=1;diff++){
-                     if(startDate.day()!=0&&startDate.day()!=6) {
+                let conut=0;
+                let startDate = date.clone().startOf('month');
+                let diff=startDate.diff(date.clone().endOf('month'),'day');
+                for(; diff!==1; diff++){
+                     if(startDate.day()!==0&&startDate.day()!==6) {
                          conut++;
                      }
                     startDate=startDate.add(1,'day');
@@ -177,13 +177,15 @@
                this.monthTime=conut*8;
             },// End - calcMonthTime(date)
             calcWorkingTime(workings) {//현재 조희 중인 달의 근무시간의 총 합을 구하는 메소드
-                var moment = require('moment');
-                var totalHour = 0, totalMin = 0, totalSec = 0;
+                let moment = require('moment');
+                let totalHour = 0;
+                let totalMin = 0;
+                let totalSec = 0;
 
-                for (var i = 0; i < workings.length; i++) {
-                    var working = workings[i].workingDate + " " + workings[i].workingTime;
-                    var hour = Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('h'));
-                    totalHour += ((hour == 12)&&(moment(working).format('hh')=='00'))? 0 : hour;
+                for (let i = 0; i < workings.length; i++) {
+                    let working = workings[i].workingDate + " " + workings[i].workingTime;
+                    let hour = Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('h'));
+                    totalHour += (hour === 12)? 0 : hour;
                     totalMin += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('m'));
                     totalSec += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('s'));
                 }
@@ -206,25 +208,25 @@
                 this.weeks.week3.workings = [];
                 this.weeks.week4.workings = [];
 
-                var moment = require('moment');
-                var i = 0;
-                for (var j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) == 1; j++) {
+                let moment = require('moment');
+                let i = 0;
+                for (let j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) === 1; j++) {
                     this.weeks.week1.workings[j] = workings[i];
                     i++;
                 }
-                for (j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) == 2; j++) {
+                for (let j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) === 2; j++) {
                     this.weeks.week2.workings[j] = workings[i];
                     i++;
                 }
-                for (j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) == 3; j++) {
+                for (let j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) === 3; j++) {
                     this.weeks.week3.workings[j] = workings[i];
                     i++;
                 }
-                for (j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) == 4; j++) {
+                for (let j = 0; i < workings.length && this.weekOfMonth(moment(workings[i].workingDate.toString())) === 4; j++) {
                     this.weeks.week4.workings[j] = workings[i];
                     i++;
                 }
-                for (j = 0; i < workings.length; j++) {
+                for (let j = 0; i < workings.length; j++) {
                     this.weeks.week5.workings[j] = workings[i];
                     i++;
                 }
