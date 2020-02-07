@@ -1,12 +1,13 @@
 <template>
-    <div>
-        <h4 style="margin: 20px; font-weight: bold">설문조사</h4>
     <div class="root3">
-    <div v-if="this.survey">
         <div>
-
             <subMenu></subMenu>
         </div>
+    <div>
+        <h4 style="margin: 20px; font-weight: bold">설문조사</h4>
+
+    <div v-if="this.survey" class="rootbox">
+
 
 
         <hr style="width: 80%; margin: 60px 60px 20px 75px;">
@@ -51,19 +52,6 @@
 
         </div>
             총 참여자 수 : {{this.choice.length}} 명<br>
-<!--            총 참여자 수 : {{this.emp_id}} 명<br>-->
-<!--            <li v-for="(choice, index) in choice" :key="index" class="page-item active" >-->
-<!--                {{choice.emp_id}}-->
-<!--            </li>-->
-<!--        투표한 사람 {{this.emp_id}}-->
-<!--        로그인 번호 {{this.empID}}-->
-<!--            <div v-if="flag">-->
-<!--                ok 투표한 사람 {{this.emp_id}}<br>-->
-<!--                ok 로그인 번호 {{this.empID}}-->
-<!--            </div>-->
-<!--            <div v-else>-->
-<!--                노노-->
-<!--            </div>-->
             <br><br>
             <button v-if="!flag" class="btn btn-success" type="button" @click="savevote">투표하기</button>
             <button v-else class="btn btn-success" type="button" @click="goBack">돌아가기</button>
@@ -121,6 +109,11 @@
         },
         props: ["survey"],
         methods: {
+            checkwidth(){
+              if(this.width1==null || this.width1==""){
+                  this.width1.toString(0);
+              }
+            },
             time(date){
                 var moment=require("moment");
 
@@ -145,7 +138,7 @@
                     console.log(vote+"selection")
                     // console.log(this.survey.answer)
                     alert("설문을 완료하셨습니다.")
-                    history.go(-1);
+                    this.$router.push('/survey');
 
 
                 })
@@ -184,10 +177,11 @@
                             this.s3++;
                         }
                     }
-                    this.width1=this.s1/this.choice.length * 100;
-                    this.width2=this.s2/this.choice.length * 100;
-                    this.width3=this.s3/this.choice.length * 100;
-                })
+                        this.width1=this.s1/this.choice.length * 100;
+                        this.width2=this.s2/this.choice.length * 100;
+                        this.width3=this.s3/this.choice.length * 100;
+
+                });
 
             },
             checkVoter(){
@@ -244,9 +238,9 @@
     .root3{
         width: 800px;
         border: silver solid 1px;
-        margin: 10px;
+        margin-left: 20% !important;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static !important;
         left: 24%;
 
     }
@@ -260,8 +254,8 @@
     .progressbox{
         border: #dddddd solid 1px;
         width: 80%;
-        margin: 0 auto;
         padding: 20px;
+        margin-left: 25%;
     }
 
     /*.qstbox {*/

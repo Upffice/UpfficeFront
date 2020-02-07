@@ -1,10 +1,20 @@
 <template>
     <div>
+        <div>
+            <subMenu></subMenu>
+        </div>
         <div class="sidelist">
-          <subMenu></subMenu>
+
         </div>
         <div class="col-md-20">
-            <h4>Survey List</h4>
+            <br>
+            <h4>End Survey List</h4>
+            <br>
+            <form class="form-inline my-2 my-lg-0 searchbar">
+                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
+                       required v-model="SearchSubject" name="SearchSubject">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -31,7 +41,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div>
+            <div class="pagebox_ser">
                 <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
@@ -76,6 +86,8 @@
                 endPage:0,
                 totalPages: [],
                 currentPages: [],
+
+                SearchSubject:""
             };
         },
         components: {
@@ -83,6 +95,13 @@
         },
 
         methods:{
+            searchPost(){
+                http
+                    .get("/pst/post_subject/"+this.SearchSubject)
+                    .then(response =>{
+
+                    })
+            },
             //설문기간이 종료된 설문들을 불러오는 메서드
             requestSurvey(){
                 http
@@ -234,7 +253,12 @@
 
     }
     table{
-        width: 80%;
+        width: 70%;
         margin-left: 300px;
+    }
+    .pagebox_ser{
+        position: relative;
+        margin-top: 5%;
+        margin-left: 50%;
     }
 </style>

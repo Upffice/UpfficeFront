@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr id="text-over" v-for="(post, index) in dep_board" :key="index">
+                <tr id="text-over" v-for="(post, index) in currentPosts" :key="index">
                     <td>{{post.post_id}}</td>
                     <td>{{post.post_writer}}</td>
                     <td class="maljul"><router-link :to="{
@@ -42,6 +42,25 @@
 
                 </tbody>
             </table>
+            <div class="pagebox">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" @click="gotoStart()">&laquo;</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="prev()"><</button>
+                    </li>
+                    <li v-for="(pageNum, index) in currentPages" :key="index" class="page-item" :class="{'active':isSelected(index)}" >
+                        <button class="page-link"  @click="changePage(pageNum)">{{pageNum}}</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="next()">></button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @click="gotoEnd()">&raquo;</button>
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </div>
@@ -57,6 +76,16 @@
                 dep_board :[],
                 board_name : "",
                 dep_id : "",
+                currentPosts: [],
+                count: 0,
+                countList:5,
+                totalPage:1,
+                page:1,
+                countPage:5,
+                startPage:1,
+                endPage:0,
+                totalPages: [],
+                currentPages: [],
             };
 
         },
@@ -81,6 +110,8 @@
                 .get("/pst/dep_posts/"+this.board_name)
                 .then(response =>{
                     this.dep_board=response.data;
+                    this.setCurrentPosts();
+                    this.setPagination();
                 })
 
             },
@@ -95,7 +126,106 @@
                         /* eslint-disable no-console */
                         console.log(e);
                     });
+            },
+            changePage(pageNum) {
+                this.page = pageNum;
+                this.setCurrentPosts();
+            },
+            setCurrentPosts() {
+                this.currentPosts = [];
+                let j = (this.page-1) * this.countList;
+                for(let i=0; i<this.countList && j < this.dep_board.length; i++) {
+                    this.currentPosts[i] = this.dep_board[j];
+                    j++;
+                }
+
+            },
+            setPagination() {
+                this.count = this.dep_board.length;
+                this.totalPage = this.count / this.countList; // 총 페이지 개수
+                if(this.count % this.countList > 0){
+                    this.totalPage = Math.ceil(this.totalPage); // 나머지가 있으면 totalPage 하나 더 추가 (올림)
+                }
+
+                if(this.totalPage < this.page){
+                    this.page=this.totalPage;
+                }
+                for(let i=0; i<this.totalPage; i++) {
+                    this.totalPages[i] = i+1;
+                }
+                this.startPage = ((this.page -1)/this.countPage) * this.countPage +1; // 시작 페이지
+                if(this.totalPage < 5) {
+                    this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                } else {
+                    this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                }
+                //현재 페이지 번호를 구하는 작업
+                this.currentPages = [];
+                let j = this.startPage-1;
+                for(let i=0; i<=(this.endPage-this.startPage) && j <
+                this.totalPage; i++) {
+                    this.currentPages[i] = this.totalPages[j];
+                    j++;
+                }
+            },
+            prev() {
+                if(this.startPage != 1) {
+                    this.startPage = this.startPage -5;
+                    this.page = this.startPage;
+                    if(this.totalPage < 5) {
+                        this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                    } else {
+                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                    }
+
+                    this.currentPages = [];
+                    let j = this.startPage-1;
+                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                        this.currentPages[i] = this.totalPages[j];
+                        j++;
+                    }
+                    this.setCurrentPosts();
+                }
+            },
+            next() {
+                if(this.endPage < this.totalPage) {
+                    this.startPage = this.endPage +1;
+                    this.page = this.startPage;
+                    if(this.totalPage < 5) {
+                        this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                    } else {
+                        this.endPage = this.startPage + this.countPage -1; // 마지막 페이지
+                    }
+
+                    this.currentPages = [];
+                    let j = this.startPage-1;
+                    for(let i=0; i<=(this.endPage-this.startPage) && j < this.totalPage; i++) {
+                        this.currentPages[i] = this.totalPages[j];
+                        j++;
+                    }
+                    this.setCurrentPosts();
+                }
+            },
+            gotoStart() {
+                this.changePage(1);
+                this.setPagination()
+            },
+            gotoEnd() {
+                let pack = Math.ceil(this.totalPage/this.countPage) // 몇덩이인지(페이지묶음수)
+                for(let i=0; i<pack && pack>0; i++){
+                    this.next()
+                    this.changePage(this.totalPage);
+                }
+            },
+            isSelected(index) {
+                /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
+                if (index == (this.page-1)%this.countPage) {
+                    return true
+                } else {
+                    return false
+                }
             }
+
 
         },
         mounted() {

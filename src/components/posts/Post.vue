@@ -160,11 +160,12 @@
     .root2{
         width: 800px;
         border: silver solid 0px;
-        margin: 10px;
+        margin-left: 25%;
         padding: 20px 0 50px 0;
-        position: absolute;
+        position: static;
         background-color: rgba(239,239,239,0.2);
         left: 24%;
+        float: left;
     }
     .card{
         margin: 40px auto;

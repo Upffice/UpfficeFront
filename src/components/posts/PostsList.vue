@@ -1,6 +1,5 @@
 <template>
     <div class="list row">
-
         <div>
             <subMenu></subMenu>
         </div>
@@ -10,7 +9,8 @@
             <br>
             <div>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
+                       required v-model="SearchSubject" name="SearchSubject">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
             </div>
@@ -38,12 +38,8 @@
                     <td>{{post.created}}</td>
                     <td>{{post.post_views }}</td>
                 </tr>
-
                 </tbody>
-
             </table>
-
-
         </div>
         <div class="col-md-6">
             <router-view @refreshData="refreshList"></router-view>
@@ -96,6 +92,8 @@
                 totalPages: [],// total Page의 for결과값을 넣어줌
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
 
+                SearchSubject:""//찾기
+
 
             };
 
@@ -105,6 +103,13 @@
         },
         methods: {
             /* eslint-disable no-console */
+            searchPost(){
+              http
+                .get("/pst/post_subject/"+this.SearchSubject)
+                .then(response =>{
+
+                })
+            },
 
             //dep_pst 가 포함되어 있으면 0(부서게시판) 이상의 숫자, 없으면 -1(전사게시판)
             retrieveBoards() {
