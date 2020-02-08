@@ -11,8 +11,8 @@
             <h4>진행중인 설문</h4>
             <hr>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
-                       required v-model="SearchSubject" name="SearchSubject">
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="Search"
+                       required v-model="SearchSurvey" name="SearchSurvey">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
             <table class="table table-hover Allsurvey">
@@ -84,7 +84,7 @@
                 endPage:0,
                 totalPages: [],// total Page의 for결과값을 넣어줌
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
-                SearchSubject:""
+                SearchSurvey:""
             };
         },
         components: {
@@ -92,11 +92,11 @@
         },
 
         methods:{
-            searchPost(){
+            SurveySearch(){
                 http
-                    .get("/pst/post_subject/"+this.SearchSubject)
+                    .get("/survey/survey/SearchSurvey/"+this.SearchSurvey)
                     .then(response =>{
-
+                        this.currentPosts=response.data;
                     })
             },
             //저장된 설문들을 모두 요청하여 가져오는 메서드
