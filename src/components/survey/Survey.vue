@@ -10,7 +10,7 @@
 
 
 
-        <hr style="width: 80%; margin: 60px 60px 20px 75px;">
+        <hr style="width: 80%; margin: 20px 60px 20px 75px;">
         <!--여기부터-->
 
         <div class="subjectbox_survey" style="font-weight: bold">
@@ -24,10 +24,10 @@
         </div>
 
 
-        <hr  style="width: 80%; margin-bottom: 50px;">
+        <hr  style="width: 80%; margin-bottom: 20px;">
 
             <div class="qstbox">
-                <label style="font-weight: bold; font-size: 30px;">  &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_subject}}</label>
+                <label style="font-weight: bold; font-size: 25px;">  &nbsp;&nbsp;&nbsp;&nbsp;{{this.survey.survey_question}}</label>
             </div>
 
         <div class="progressbox">
@@ -51,7 +51,8 @@
             <small class="form-text text-muted" id="hihi">신중하게 선택하여 투표해 주시기 바랍니다.</small>
 
         </div>
-            총 참여자 수 : {{this.choice.length}} 명<br>
+        <br>
+        <span style="font-weight: bold">총 참여자 수 : {{this.choice.length}} 명</span><br>
             <br><br>
             <button v-if="!flag" class="btn btn-success" type="button" @click="savevote">투표하기</button>
             <button v-else class="btn btn-success" type="button" @click="goBack">돌아가기</button>

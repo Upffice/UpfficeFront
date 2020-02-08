@@ -47,13 +47,13 @@
             <small class="form-text text-muted" id="hihi">신중하게 선택하여 투표해 주시기 바랍니다.</small>
 
         </div>
-            총 참여자 수 : {{this.choice.length}} 명<br>
-<!--            총 참여자 수 : {{this.emp_id}} 명<br>-->
-            <li v-for="(choice, index) in choice" :key="index" class="page-item active" >
-                {{choice.emp_id}}
-            </li>
-        투표한 사람 {{this.emp_id}}
-        로그인 번호 {{this.empID}}<br>
+<!--            총 참여자 수 : {{this.choice.length}} 명<br>-->
+<!--&lt;!&ndash;            총 참여자 수 : {{this.emp_id}} 명<br>&ndash;&gt;-->
+<!--            <li v-for="(choice, index) in choice" :key="index" class="page-item active" >-->
+<!--                {{choice.emp_id}}-->
+<!--            </li>-->
+<!--        투표한 사람 {{this.emp_id}}-->
+<!--        로그인 번호 {{this.empID}}<br>-->
             <button class="btn btn-success" type="button" @click="goBack">돌아가기</button>
 
             <button v-if="empID==10002"class="btn btn-primary" type="button" @click="deletePost">설문삭제</button>

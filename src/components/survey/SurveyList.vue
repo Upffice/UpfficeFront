@@ -8,8 +8,8 @@
         </div>
         <div class="col-md-20">
             <br>
-            <h4>Survey List</h4>
-            <br>
+            <h4>진행중인 설문</h4>
+            <hr>
             <form class="form-inline my-2 my-lg-0 searchbar">
                 <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
                        required v-model="SearchSubject" name="SearchSubject">

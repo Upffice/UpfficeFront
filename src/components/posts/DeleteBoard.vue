@@ -13,8 +13,8 @@
             <p class="smalltext" style="color: red; font-size: smaller" >*클릭하여 게시판명을 가져오세요.</p>
             <br><br>
             <div>
-            <select v-model="selectBoard">
-                <option disabled value="">게시판명을 선택하세요</option>
+            <select class="custom-select" v-model="selectBoard">
+                <option disabled value="">삭제할 게시판을 선택하세요</option>
                 <option v-for="(board,index) in boards" :key="index">
                     {{board.board_name}}
                 </option>
@@ -62,7 +62,7 @@
                         alert("게시판을 삭제하였씁니다.")
                         history.go(0);
                     }else{
-                        history.go(0);
+                        // history.go(0);
                     }
                     console.log(this.selectBoard+"<<<<<<<삭제할 게시물")
 
@@ -124,5 +124,8 @@
 </script>
 
 <style scoped>
+    .custom-select{
+        width: 30%;
+    }
 
 </style>

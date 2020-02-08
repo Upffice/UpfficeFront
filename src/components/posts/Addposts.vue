@@ -11,7 +11,7 @@
 <!--        사용자 정보 입력란-->
             <div class="selectbox" style="margin-bottom:10px;">
             <label class="labelfont">게시판 선택 &nbsp;&nbsp;&nbsp;&nbsp; </label>
-            <select v-model="post.board_name">
+            <select class="custom-select" v-model="post.board_name">
                 <option disabled value="">게시판명을 선택하세요</option>
                 <option v-for="(board, index) in boards" :key="index">{{board.board_name}}</option>
             </select>
