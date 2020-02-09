@@ -2,7 +2,7 @@
 
 
     <div class="card border-primary mb-3" style="max-width: 1100px;">
-        <div >
+        <div>
             <subMenu></subMenu>
         </div>
         <div class="card-header">
@@ -35,24 +35,33 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
-                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{approval.writerName}}</b>
+                        <td class="table-light"
+                            style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재
+                        </td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{approval.writerName}}</b>
                             <img v-bind:src="sign_url_1">
                             {{approval.date.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}</b>
+                        <td v-if="approval.signId1!=''"
+                            style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName1}}</b>
                             <img v-if="approval.status1!=''" v-bind:src="sign_url_2">
                             <div v-else style="height: 80px;">
                             </div>
                             {{approval.signDate1.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}</b>
+                        <td v-if="approval.signId2!=''"
+                            style="border: black 2px solid; width:70px !important;  padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName2}}</b>
                             <img v-if="approval.status2!=''" v-bind:src="sign_url_3">
                             <div v-else style="height: 80px;">
                             </div>
                             {{approval.signDate2.substring(5,10)}}
                         </td>
-                        <td v-if="approval.signId3!=''" style="border: black 2px solid;  padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}</b>
+                        <td v-if="approval.signId3!=''"
+                            style="border: black 2px solid;  padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName3}}</b>
                             <img v-if="approval.status3!=''" v-bind:src="sign_url_4">
                             <div v-else style="height: 80px;">
                             </div>
@@ -129,18 +138,16 @@
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
                                style="width: 500px;float: left; background-color: aliceblue;" readonly>
                         <div class="container">
-                            <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
-                            <!--style="width: 200px"--><!--서버에서 파일 다운로드 정보 가져와서 띄우기 구현해야됨-->
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                                  readonly>
-                                <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span
-                                        class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
+                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing"
+                                             @click.native="getDown(approval.docNum,file)">
+                                    <div>{{ file }}</div>
+                                </router-link>
                             </div>
-
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="onClick">Download Files</button>
+                                <button @click="getDownAll">Download All</button>
                             </div>
-
                         </div>
                     </td>
                 </tr>
@@ -163,7 +170,6 @@
     import http from "../../http-common";
     import SearchSigner from "./SearchSigner";
     import SearchRef from "./SearchRef";
-    import axios from "axios";
 
 
     export default {
@@ -214,7 +220,9 @@
                 sign_url_1: "",
                 sign_url_2: "",
                 sign_url_3: "",
-                sign_url_4: ""
+                sign_url_4: "",
+                downLoadNames: [],
+
             }
         },
         components: {
@@ -351,42 +359,54 @@
                     });
             },
             handleFilesUpload() {
+                /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
-
                 for (var i = 0; i < uploadedFiles.length; i++) {
+                    /*전역변수 배열끝에 돔에서 가져온 파일 추가*/
                     this.files.push(uploadedFiles[i]);
                 }
             },
             removeFile(key) {
+                /*key번째 1개 삭제*/
                 this.files.splice(key, 1);
             },
-            submitFiles() {
 
+            submitFiles(docnum) {
+                /*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
 
                 for (var i = 0; i < this.files.length; i++) {
-
                     let file = this.files[i];
-                    formData.append('files[' + i + ']', file);
+                    /*append는 덮어쓰기가 아니라 추가*/
+                    /*formData 뒤에 key=이름, value=파일 추가*/
+                    formData.append('file', file);
+
                 }
-                axios.post('/multiple-files',
+                /*key value 확인 for-each문*/
+                /*formData.forEach((value, key) => {
+                    console.log("key %s: value %s", key, value);
+                })*/
+
+                /*param필요없으면 +docnum지워도됨*/
+                http.post('/app/multiple-files/' + docnum,
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
-                    }).then(function () {
+                    }).then(r => {
+                    var message = r.data
                     console.log('SUCCESS!!');
+                    console.log(message)
+
                 }).catch(function () {
                     console.log('FAILURE!!');
                 });
 
             },
             addFiles() {
-                console.log("진입");
-                console.log(this.$refs);
-                this.$refs.files.click();
-
+                /*1.add File 클릭시 실행메서드*/
+                this.$refs.files.click();//Dom의 ref=files 클릭한것과 같은효과
             },
             opening() {
                 /*props로 받은 객체 옮겨닮는과정*/
@@ -458,8 +478,9 @@
                         this.refIdToNames(data.app_ref_id2);
                         this.refIdToNames(data.app_ref_id3);
 
-                        this.signerCheck()
-
+                        this.signerCheck();
+                        this.getDownloadLink(data.app_doc_num);
+                        // this.getDown(this.approval.docNum);
 
 
                     })
@@ -545,21 +566,80 @@
             listDoc() {
                 this.$router.push('/app/sign/wait')
             },
-            onClick() {
-                axios({
-                    url: 'http://localhost:4200/my.pdf',
-                    method: 'GET',
-                    responseType: 'blob',
-                }).then((response) => {
-                    var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                    var fileLink = document.createElement('a');
+            getDownloadLink(docnum) {
+                /*1.'파일명' 다운로드링크받아오는 메서드*/
+                /*mounted에 구현하는것 추천, docnum은 업로드 파일 폴더이름*/
+                http
+                    .get('/app/down/' + docnum)
+                    .then(r => {
+                        this.downLoadNames = r.data;
+                        console.log(this.downLoadNames);
+                    })
+            },
+            getDown(docnum, filename) {
+                /*링크누르면 다운로드 되는 메서드*/
+                /*axios post 저수준 api*/
+                /**/
+                http
+                ({
+                    url: '/app/multiple-files-download/' + docnum,
+                    method: 'POST',
+                    responseType: 'blob', // important
+                    data: filename,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                })
+                    .then(r => {
+                        // var message = r.data
+                        console.log("r.data");
+                        console.log(r.data);
+                        var fileURL = window.URL.createObjectURL(new Blob([r.data]));
+                        var fileLink = document.createElement('a');
 
-                    fileLink.href = fileURL;
-                    fileLink.setAttribute('download', 'file.pdf');
-                    document.body.appendChild(fileLink);
+                        fileLink.href = fileURL;
+                        fileLink.setAttribute('download', filename);
+                        document.body.appendChild(fileLink);
+                        fileLink.click();
+                        console.log('SUCCESS!!');
+                        // console.log(message)
 
-                    fileLink.click();
+                    }).catch(function () {
+                    console.log('FAILURE!!');
                 });
+            },
+            getDownAll() {
+                /*전체 다운로드*/
+                if (this.downLoadNames.length > 0) {
+                    for (let i = 0; i < this.downLoadNames.length; i++) {
+                        let filename = this.downLoadNames[i];
+                        http
+                        ({
+                            url: '/app/multiple-files-download/' + this.approval.docNum,
+                            method: 'POST',
+                            responseType: 'blob', // important
+                            data: filename,
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                        })
+                            .then(r => {
+                                // var message = r.data
+                                console.log("r.data");
+                                console.log(r.data);
+                                var fileURL = window.URL.createObjectURL(new Blob([r.data]));
+                                var fileLink = document.createElement('a');
+
+                                fileLink.href = fileURL;
+                                fileLink.setAttribute('download', filename);
+                                document.body.appendChild(fileLink);
+                                fileLink.click();
+                                console.log('SUCCESS!!');
+                            }).catch(function () {
+                            console.log('FAILURE!!');
+                        });
+                    }
+                }
             },
             signerCheck() {
 
@@ -574,10 +654,10 @@
                         this.sign_url_2 = require('../../assets/sign_img/' + this.approval.signId1 + 'sign' + '.png');
                     else
                         this.sign_url_2 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }else if(this.approval.signId1 != '' && this.approval.status1 == 'false'){
-                    this.sign_url_2 = require('../../assets/sign_img/' + 'no'+ '.png');
-                }else if(this.approval.signId1 != '' && this.approval.status1 == 'hold'){
-                    this.sign_url_2 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                } else if (this.approval.signId1 != '' && this.approval.status1 == 'false') {
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'no' + '.png');
+                } else if (this.approval.signId1 != '' && this.approval.status1 == 'hold') {
+                    this.sign_url_2 = require('../../assets/sign_img/' + 'hold' + '.png');
                 }
 
                 if (this.approval.signId2 != '' && this.approval.status2 == 'true') {
@@ -585,11 +665,11 @@
                         this.sign_url_3 = require('../../assets/sign_img/' + this.approval.signId2 + 'sign' + '.png');
                     else
                         this.sign_url_3 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }else if(this.approval.signId2 != '' && this.approval.status2 == 'false'){
-                    this.sign_url_3 = require('../../assets/sign_img/' + 'no'+ '.png');
+                } else if (this.approval.signId2 != '' && this.approval.status2 == 'false') {
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'no' + '.png');
 
-                }else if(this.approval.signId2 != '' && this.approval.status2 == 'hold'){
-                    this.sign_url_3 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                } else if (this.approval.signId2 != '' && this.approval.status2 == 'hold') {
+                    this.sign_url_3 = require('../../assets/sign_img/' + 'hold' + '.png');
                 }
 
                 if (this.approval.signId3 != '' && this.approval.status3 == 'true') {
@@ -597,10 +677,10 @@
                         this.sign_url_4 = require('../../assets/sign_img/' + this.approval.signId3 + 'sign' + '.png');
                     else
                         this.sign_url_4 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
-                }else if(this.approval.signId3 != '' && this.approval.status3 == 'false'){
-                    this.sign_url_4 = require('../../assets/sign_img/' + 'no'+ '.png');
-                }else if(this.approval.signId3 != '' && this.approval.status3 == 'hold'){
-                    this.sign_url_4 = require('../../assets/sign_img/' + 'hold'+ '.png');
+                } else if (this.approval.signId3 != '' && this.approval.status3 == 'false') {
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'no' + '.png');
+                } else if (this.approval.signId3 != '' && this.approval.status3 == 'hold') {
+                    this.sign_url_4 = require('../../assets/sign_img/' + 'hold' + '.png');
                 }
             }
         },
@@ -710,7 +790,7 @@
         top: -500px;
     }
 
-    div.file-listing {
+    .file-listing {
         width: 200px;
     }
 

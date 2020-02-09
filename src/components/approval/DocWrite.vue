@@ -2,9 +2,9 @@
 
 
     <div class="card border-primary mb-3" style="max-width: 1100px;">
-<!--        <div class="list row">-->
-            <subMenu></subMenu>
-<!--        </div>-->
+        <!--        <div class="list row">-->
+        <subMenu></subMenu>
+        <!--        </div>-->
         <div class="card-header">
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문작성</b></span>
@@ -14,7 +14,7 @@
                     <button type="button" class="btn btn-secondary disabled buttons"
                             v-on:click="tempsaveDoc">임시저장</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="saveDoc"
-                            >상신</button>
+                    >상신</button>
                     <button type="button" class="btn btn-secondary disabled buttons" v-on:click="cancelDoc">취소</button>
                 </span>
             </div>
@@ -28,22 +28,38 @@
                     <tr>
                         <th class="sign-th table-light" rowspan="2" style="width:45px !important;"></th>
                         <th class="table-light" style="border: black 2px solid; width:70px">기안</th>
-                        <th v-if="approval.signId1!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
-                        <th v-if="approval.signId2!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
-                        <th v-if="approval.signId3!=''" class="table-light" style="border: black 2px solid; width:70px !important;">결재</th>
+                        <th v-if="approval.signId1!=''" class="table-light"
+                            style="border: black 2px solid; width:70px !important;">결재
+                        </th>
+                        <th v-if="approval.signId2!=''" class="table-light"
+                            style="border: black 2px solid; width:70px !important;">결재
+                        </th>
+                        <th v-if="approval.signId3!=''" class="table-light"
+                            style="border: black 2px solid; width:70px !important;">결재
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="table-light" style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재</td>
-                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;" ><b>{{approval.writerName}}</b><br><img v-bind:src="sign_url_1"><br>{{cTime}}</td>
+                        <td class="table-light"
+                            style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재
+                        </td>
+                        <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{approval.writerName}}</b><br><img v-bind:src="sign_url_1"><br>{{cTime}}
+                        </td>
                         <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
-                        <td v-if="approval.signId1!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName1}}<br><br></b>
+                        <td v-if="approval.signId1!=''"
+                            style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName1}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId2!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName2}}<br><br></b>
+                        <td v-if="approval.signId2!=''"
+                            style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName2}}<br><br></b>
                         </td>
-                        <td v-if="approval.signId3!=''" style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;"><b>{{signName3}}<br><br></b>
+                        <td v-if="approval.signId3!=''"
+                            style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
+                            <b>{{signName3}}<br><br></b>
                         </td>
                     </tr>
                     </tbody>
@@ -114,7 +130,7 @@
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
                                style="width: 500px;float: left">
                         <div class="container">                            <!--@change는 변경될때 메서드 호출 ~watch와 비슷~ -->
-                            <input type="file" id="files" ref="files" multiple  v-on:change="handleFilesUpload()">
+                            <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
                                 <div v-for="(file, key) in files" :key="key" class="file-listing">{{ file.name }}
                                     <span class="remove-file" v-on:click="removeFile( key )">Remove</span>
@@ -147,7 +163,6 @@
     import http from "../../http-common";
     import SearchSigner from "./SearchSigner";
     import SearchRef from "./SearchRef";
-    import axios from "axios";
 
 
     export default {
@@ -195,10 +210,10 @@
                     writerDepName: ""
                 },
                 // emp_sign_url:['','','','']
-                sign_url_1:"",
-                sign_url_2:"",
-                sign_url_3:"",
-                sign_url_4:""
+                sign_url_1: "",
+                sign_url_2: "",
+                sign_url_3: "",
+                sign_url_4: ""
 
             }
         },
@@ -209,7 +224,7 @@
             saveDoc: function () {
                 /*submit(상신)누르면 controller접근해서 데이터 받아오고 쏴주는 로직*/
                 /*전역변수 지역변수(DB접근명)로 담아주는 변수*/
-                if(this.approval.signId1 == ""){
+                if (this.approval.signId1 == "") {
                     alert("결재자를 지정해주세요.");
                     this.search_signer();
                     return
@@ -437,7 +452,7 @@
                 this.files.splice(key, 1);
             },
             submitFiles(docnum) {
-/*페이지 form전송시 호출되는 메서드(param지워도됨)*/
+                /*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
 
                 for (var i = 0; i < this.files.length; i++) {
@@ -453,14 +468,14 @@
                 })*/
 
                 /*param필요없으면 +docnum지워도됨*/
-                http.post('/app/multiple-files/'+docnum,
+                http.post('/app/multiple-files/' + docnum,
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(r => {
-                        var message = r.data
+                    var message = r.data
                     console.log('SUCCESS!!');
                     console.log(message)
 
@@ -482,10 +497,10 @@
                 this.login_id = sessionStorage.getItem("login_id");
                 this.getEmpInfo(this.login_id);
 
-                if(require('../../assets/sign_img/'+ this.login_id +'sign'+'.png') != undefined)
-                    this.sign_url_1 = require('../../assets/sign_img/'+ this.login_id +'sign'+'.png');
+                if (require('../../assets/sign_img/' + this.login_id + 'sign' + '.png') != undefined)
+                    this.sign_url_1 = require('../../assets/sign_img/' + this.login_id + 'sign' + '.png');
                 else
-                    this.sign_url_1 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
+                    this.sign_url_1 = require('../../assets/sign_img/' + 'tempo' + 'sign' + '.png');
 
 
             } else {
