@@ -119,20 +119,27 @@ export default {
                     console.log(e);
                 });
         },
-        deleteCalendarList() {
+        deleteCalendarList() {  // 캘린더 목록 삭제 하는 메소드
             if(this.checkedCalendars.length !=0) {
-                http
-                    .delete("/calendar/list/" + this.emp_id +"?calendar_id=" + this.checkedCalendars)
-                    .then(response=> {
-                        /* eslint-disable no-console */
-                        this.getCalendarList();
-                        this.checkedCalendars = []; // 체크 박스 해제
-                    })
-                    .catch(e => {
-                        /* eslint-disable no-console */
-                        console.log(e);
-                    });
+                let flag = confirm("정말로 삭제하시겠습니까?");
+
+                if(flag == true) {
+                    if(this.checkedCalendars.length !=0) {
+                        http
+                            .delete("/calendar/list/" + this.emp_id +"?calendar_id=" + this.checkedCalendars)
+                            .then(response=> {
+                                /* eslint-disable no-console */
+                                this.getCalendarList();
+                                this.checkedCalendars = []; // 체크 박스 해제
+                            })
+                            .catch(e => {
+                                /* eslint-disable no-console */
+                                console.log(e);
+                            });
+                    }
+                }
             }
+
         },
         cancel() {
             this.modi_flag = true;

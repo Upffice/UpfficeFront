@@ -17,8 +17,8 @@
                         <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
                     </span>
                     <div class="form-inline search">
-                        <input class="form-control mr-sm-2 searchInput" type="text" placeholder="일정 검색">
-                        <button class="btn btn-secondary my-2 my-sm-0 searchBtn" type="submit">검색</button>
+                        <input class="form-control mr-sm-2 searchInput" type="text" placeholder="일정 검색" v-on:keyup.enter="search" v-model="searchKeyword">
+                        <button class="btn btn-secondary my-2 my-sm-0 searchBtn" type="submit" @click="search">검색</button>
                     </div>
                 </div>
                 <table class="table">
@@ -66,6 +66,7 @@
     import ScheduleSubMenu from "./ScheduleSubMenu";
     import http from "../../http-common";
     import ScheduleDetailModal from "./ScheduleDetailModal";
+    import SearchResultModal from "./SearchResultModal"
 
     export default {
         name: 'Calendar',
@@ -91,7 +92,8 @@
                 schedule: [],        // 가져온 일정 담을 배열
                 selected_cal : [],   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
                 calendarList: [],    // 캘린더 목록
-                calendar_id : 0     // 캘린더 id
+                calendar_id : 0,     // 캘린더 id
+                searchKeyword: ""    // 검색어
             }
         },
         methods: {
@@ -285,10 +287,10 @@
                         console.log(e);
                     });
             },
-            showDetail(schedule) { // 일정 등록 modal 띄우는 메소드
+            showDetail(schedule) { // 일정 수정, 삭제할 디테일 modal 띄우는 메소드
 
                 this.$modal.show(ScheduleDetailModal, {
-                        name: 'employeesPopup',
+                        name: 'ScheduleDetailModal',
                         schedule: schedule,
                         modal: this.$modal,
                     },
@@ -297,6 +299,37 @@
                         height: '600px',
                         draggable: true,
                     });
+            },
+            search() {
+                if(this.searchKeyword != "") {
+                    let searchResult = [];
+
+                    http
+                        .get("/schedule/search/" + this.emp_id + "?keyword=" + this.searchKeyword)
+                        .then(response=> {
+                            /* eslint-disable no-console */
+                            searchResult = response.data;
+
+                            if(searchResult == "") {
+                                alert("검색 결과가 존재하지 않습니다.");
+                            } else {
+                                this.$modal.show(SearchResultModal, {
+                                        searchResult: searchResult,
+                                        modal: this.$modal,
+                                    },
+                                    {
+                                        width: '500px',
+                                        height: '400px',
+                                        draggable: false,
+                                    });
+                            }
+
+                        })
+                        .catch(e => {
+                            /* eslint-disable no-console */
+                            console.log(e);
+                        });
+                }
             }
         },
         mounted() {

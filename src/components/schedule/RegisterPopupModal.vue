@@ -72,7 +72,7 @@
                     sche_end_date: this.sche_Input.sche_end_date,
                     sche_end_time: this.sche_Input.sche_end_time,
                     sche_place: this.sche_Input.sche_place,
-                    sche_detail: this.sche_Input.sche_detail,
+                    sche_detail: this.sche_Input.sche_detail
                 }
                 if(this.sche_Input.sche_name === "") {
                     alert("일정 이름을 확인해주세요!");

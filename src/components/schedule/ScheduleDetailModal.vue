@@ -8,8 +8,8 @@
                 <!-- 일정 수정/삭제 기능 -->
                 <div class="modal-body">
                     <label class="col-form-label col-form-label-sm">일정 카테고리</label>
-                    <select class="form-control form-control-sm popupInput" v-bind:value="schedule.calendar_id">
-                        <option v-for="(calendar, index) in calendarList" :key="index" >
+                    <select class="form-control form-control-sm popupInput" v-model="schedule.calendar_id">
+                        <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
                             {{calendar.calendar_name}}
                         </option>
                     </select>
@@ -32,8 +32,9 @@
                     <textarea class="form-control form-control-sm popupInput detailInput" rows="3" placeholder="일정 세부사항 입력" v-model="schedule.sche_detail"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="register">확인</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소</button>
+                    <button type="button" class="btn btn-outline-primary" @click="updateSchedule">수정</button>
+                    <button type="button" class="btn btn-outline-danger" @click="deleteSchedule">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="cancel">취소</button>
                 </div>
             </div>
         </div>
@@ -49,52 +50,62 @@
             return{
                 emp_id: "",
                 calendarList: [],
-                sche_Input : {
-                    calendar_id : "",
-                    sche_name: "",
-                    sche_start_date: "",
-                    sche_start_time: "",
-                    sche_end_date: "",
-                    sche_end_time: "",
-                    sche_place: "",
-                    sche_detail: "",
-                }
+                calendar_id: "",
             }
         },
         methods : {
-            register(){
+            updateSchedule(){
                 let sche_data = {
-                    calendar_id : this.sche_Input.calendar_id,
-                    sche_name: this.sche_Input.sche_name,
-                    sche_start_date: this.sche_Input.sche_start_date,
-                    sche_start_time: this.sche_Input.sche_start_time,
-                    sche_end_date: this.sche_Input.sche_end_date,
-                    sche_end_time: this.sche_Input.sche_end_time,
-                    sche_place: this.sche_Input.sche_place,
-                    sche_detail: this.sche_Input.sche_detail,
+                    sche_id : this.schedule.sche_id,
+                    calendar_id : this.schedule.calendar_id,
+                    sche_name: this.schedule.sche_name,
+                    sche_start_date: this.schedule.sche_start_date,
+                    sche_start_time: this.schedule.sche_start_time,
+                    sche_end_date: this.schedule.sche_end_date,
+                    sche_end_time: this.schedule.sche_end_time,
+                    sche_place: this.schedule.sche_place,
+                    sche_detail: this.schedule.sche_detail
                 }
-                if(this.sche_Input.sche_name === "") {
+
+                if(this.schedule.sche_name === "") {
                     alert("일정 이름을 확인해주세요!");
-                } else if(this.sche_Input.sche_start_date === "" || this.sche_Input.sche_start_time === "" ||
-                    this.sche_Input.sche_end_date === "" || this.sche_Input.sche_end_time === "") {
+                } else if(this.schedule.sche_start_date === "" || this.schedule.sche_start_time === "" ||
+                    this.schedule.sche_end_date === "" || this.schedule.sche_end_time === "") {
                     alert("일정 날짜또는 시간을 확인해주세요!");
                 } else {
-                    console.log(sche_data.sche_start_date + "|| "+sche_data.sche_start_time);
+                    console.log("emp_id " +this.emp_id)
+                    console.log(sche_data);
+
                     http
-                        .post("/schedule/add/" + this.emp_id, sche_data)
+                        .put("/schedule/update/" + this.emp_id, sche_data)
                         .then(response=> {
-                            console.log("등록 완료" + response.data);
+                            console.log("수정 완료");
                         })
                         .catch(e => {
                             /* eslint-disable no-console */
                             console.log(e);
                         });
-
-                    this.$emit('close');
-                    for(let i=0; i<1; i++) location.reload();
+                    // for(let i=0; i<1; i++) location.reload();
                 } // End : if-else
 
             }, // End : register() : schedule 테이블에 Input 데이터 저장
+            deleteSchedule() {
+                let flag = confirm("정말로 삭제하시겠습니까?");
+
+                if(flag == true) {
+                    http
+                        .delete("/schedule/list/" + this.emp_id + "?schedule_id=" + this.schedule.sche_id)
+                        .then(response => {
+                            /* eslint-disable no-console */
+                            this.$emit('close');
+                            for(let i=0; i<1; i++) location.reload();
+                        })
+                        .catch(e => {
+                            /* eslint-disable no-console */
+                            console.log(e);
+                        });
+                }
+            },
             getCalendarList() {
                 http
                     .get("/calendar/list/" + this.emp_id)
@@ -106,6 +117,10 @@
                         /* eslint-disable no-console */
                         console.log(e);
                     });
+            },
+            cancel() {
+                this.$emit('close');
+                for(let i=0; i<1; i++) location.reload();
             }
         },
         mounted() {
