@@ -8,7 +8,7 @@
                 <!-- 일정 추가 기능 -->
                 <div class="modal-body">
                         <label class="col-form-label col-form-label-sm">일정 카테고리</label>
-                        <select class="form-control form-control-sm popupInput" id="exampleSelect1">
+                        <select class="form-control form-control-sm popupInput">
                             <option v-for="(calendar, index) in calendarList" :key="index">
                                 {{calendar.calendar_name, sche_Input.calendar_id = calendar.calendar_id}}
                             </option>
@@ -98,7 +98,7 @@
             }, // End : register() : schedule 테이블에 Input 데이터 저장
             getCalendarList() {
                 http
-                    .post("/calendar/list/" + this.emp_id)
+                    .get("/calendar/list/" + this.emp_id)
                     .then(response=> {
                         /* eslint-disable no-console */
                         this.calendarList = response.data;

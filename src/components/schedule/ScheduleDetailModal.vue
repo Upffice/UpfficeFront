@@ -5,32 +5,32 @@
                 <div class="modal-header">
                     <h5 class="modal-title">일정 수정 / 삭제</h5>
                 </div>
-<!--                &lt;!&ndash; 일정 수정/삭제 기능 &ndash;&gt;-->
-<!--                <div class="modal-body">-->
-<!--                    <label class="col-form-label col-form-label-sm">일정 카테고리</label>-->
-<!--                    <select class="form-control form-control-sm popupInput" id="exampleSelect1">-->
-<!--                        <option v-for="(calendar, index) in calendarList" :key="index">-->
-<!--                            {{calendar.calendar_name, sche_Input.calendar_id = calendar.calendar_id}}-->
-<!--                        </option>-->
-<!--                    </select>-->
+                <!-- 일정 수정/삭제 기능 -->
+                <div class="modal-body">
+                    <label class="col-form-label col-form-label-sm">일정 카테고리</label>
+                    <select class="form-control form-control-sm popupInput" v-bind:value="schedule.calendar_id">
+                        <option v-for="(calendar, index) in calendarList" :key="index" >
+                            {{calendar.calendar_name}}
+                        </option>
+                    </select>
 
-<!--                    <label class="col-form-label col-form-label-sm">일정 이름</label>-->
-<!--                    <input class="form-control form-control-sm popupInput" type="text" placeholder="일정 이름 입력" required v-model="schedule.sche_name">-->
+                    <label class="col-form-label col-form-label-sm">일정 이름</label>
+                    <input class="form-control form-control-sm popupInput" type="text" placeholder="일정 이름 입력" required v-model="schedule.sche_name">
 
-<!--                    <label class="col-form-label col-form-label-sm" style="width: 100%">일정 시작</label>-->
-<!--                    <input class="form-control form-control-sm popupInput dateInput" type="date" required v-model="schedule.sche_start_date">-->
-<!--                    <input class="form-control form-control-sm popupInput timeInput" type="time" style="margin-left: 10px" required v-model="schedule.sche_start_time">-->
+                    <label class="col-form-label col-form-label-sm" style="width: 100%">일정 시작</label>
+                    <input class="form-control form-control-sm popupInput dateInput" type="date" required v-model="schedule.sche_start_date">
+                    <input class="form-control form-control-sm popupInput timeInput" type="time" style="margin-left: 10px" required v-model="schedule.sche_start_time">
 
-<!--                    <label class="col-form-label col-form-label-sm" style="width: 100%">일정 마감</label>-->
-<!--                    <input class="form-control form-control-sm popupInput dateInput" type="date" required v-model="schedule.sche_end_date">-->
-<!--                    <input class="form-control form-control-sm popupInput timeInput" type="time" style="margin-left: 10px" required v-model="schedule.sche_end_time">-->
+                    <label class="col-form-label col-form-label-sm" style="width: 100%">일정 마감</label>
+                    <input class="form-control form-control-sm popupInput dateInput" type="date" required v-model="schedule.sche_end_date">
+                    <input class="form-control form-control-sm popupInput timeInput" type="time" style="margin-left: 10px" required v-model="schedule.sche_end_time">
 
-<!--                    <label class="col-form-label col-form-label-sm">일정 장소</label>-->
-<!--                    <input class="form-control form-control-sm popupInput" type="text" placeholder="일정 장소 입력" v-model="schedule.sche_place">-->
+                    <label class="col-form-label col-form-label-sm">일정 장소</label>
+                    <input class="form-control form-control-sm popupInput" type="text" placeholder="일정 장소 입력" v-model="schedule.sche_place">
 
-<!--                    <label class="col-form-label col-form-label-sm">일정 세부사항</label>-->
-<!--                    <textarea class="form-control form-control-sm popupInput detailInput" rows="3" placeholder="일정 세부사항 입력" v-model="sche_Input.sche_detail"></textarea>-->
-<!--                </div>-->
+                    <label class="col-form-label col-form-label-sm">일정 세부사항</label>
+                    <textarea class="form-control form-control-sm popupInput detailInput" rows="3" placeholder="일정 세부사항 입력" v-model="schedule.sche_detail"/>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="register">확인</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('close')">취소</button>
@@ -45,7 +45,7 @@
 
     export default {
         props: ['schedule'],
-        date() {
+        data() {
             return{
                 emp_id: "",
                 calendarList: [],
@@ -97,7 +97,7 @@
             }, // End : register() : schedule 테이블에 Input 데이터 저장
             getCalendarList() {
                 http
-                    .post("/calendar/list/" + this.emp_id)
+                    .get("/calendar/list/" + this.emp_id)
                     .then(response=> {
                         /* eslint-disable no-console */
                         this.calendarList = response.data;
@@ -109,17 +109,23 @@
             }
         },
         mounted() {
-            // mounted 될 때 로그인이 되어있는 상태라면
-            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
-                this.emp_id = sessionStorage.getItem("login_id");
-                this.getCalendarList();
-            }else {
-                this.$router.push("/");
-            }
+            this.emp_id = this.schedule.emp_id;
+            this.getCalendarList();
         }
     }
 </script>
 
 <style scoped>
-
+    .popupInput {
+        width: 100%;
+    }
+    .dateInput {
+        width: 45%;
+        float: left;
+    }
+    .timeInput {
+        width: 40%;
+        float: left;
+        margin-right: 20px;
+    }
 </style>

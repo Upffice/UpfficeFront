@@ -3,6 +3,14 @@
         <subMenu></subMenu>
             <div class="calendar">
                 <div>
+                    <div class="form-inline calendarSelect">
+                        <select class="form-control" v-model="calendar_id" @change="getAllSchedules">
+                            <option value=0>전체 일정</option>  <!-- 해당하는 calendar_id 를 0으로 하고 이 때 전체 일정 가져옴 -->
+                            <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
+                                {{calendar.calendar_name}}
+                            </option>
+                        </select>
+                    </div>
                     <span class="cal_nav">
                         <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
                         {{currentYear}}년 {{currentMonth}}월
@@ -39,7 +47,9 @@
                                 <span style="font-size: 15px" :style="{color: getCalColor(sche[1].calendar_id)}">
                                     ●
                                 </span>&nbsp;
-                                {{sche[1].sche_name}}<br>  <!-- 일정의 캘린별 색과 이름 넣기-->
+                                <span class="scheNameSpan">
+                                    {{sche[1].sche_name}}<br>
+                                </span>  <!-- 일정의 캘린더 별 색과 이름 넣기-->
                             </span>
                         </div>
                         </td>
@@ -80,7 +90,8 @@
                 sche_date: [],       // 일정 날짜? -- 안 쓰는 변수 정리하기
                 schedule: [],        // 가져온 일정 담을 배열
                 selected_cal : [],   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
-                calendarList: []     // 캘린더 목록
+                calendarList: [],    // 캘린더 목록
+                calendar_id : 0     // 캘린더 id
             }
         },
         methods: {
@@ -129,8 +140,23 @@
                     if(date < 10) date = "0" + date;
                     let sche_date = year + "-" + month + "-" + date;
 
+                    if(this.calendar_id == 0) {
                         http
-                            .post("/schedule/all/" + this.emp_id, sche_date)
+                            .get("/schedule/all/" + this.emp_id + "?sche_date=" + sche_date)
+                            .then(response=> {
+                                /* eslint-disable no-console */
+                                this.scheduleList = response.data;
+                                for(let j=0; j<this.scheduleList.length; j++) {
+                                    this.schedule.push([ sche_date, this.scheduleList[j] ]);    //  배열에 해당 날짜와 일정 이름 넣기
+                                }
+                            })
+                            .catch(e => {
+                                /* eslint-disable no-console */
+                                console.log(e);
+                            });
+                    } else {
+                        http
+                            .get("/schedule/list/" + this.emp_id + "?calendar_id=" + this.calendar_id  + "&sche_date=" + sche_date)
                             .then(response=> {
                                 /* eslint-disable no-console */
                                 this.scheduleList = response.data;
@@ -142,6 +168,8 @@
                                 /* eslint-disable no-console */
                                 console.log(e);
                             });
+                    }
+
                 }
             },
             initCalendar(){
@@ -245,56 +273,9 @@
                 let date = new Date();
                 return year == date.getFullYear() && month == date.getMonth()+1 && day == date.getDate();
             },
-/*            getSchedule(year, month, day){
-                // 한 자릿 수일 때 0추가
-                if(month < 10)  month = "0" + month;
-                if(day < 10) day = "0" + day;
-
-                // 해당 년, 월, 일
-                let sche_date = year + "-" + month + "-" + day;
-
-                if (this.selected_cal !== null) { // 선택한 calendar_id 배열 가져오기
-
-                    if(this.selected_cal.includes('0')) { // selected_cal 에 0이 포함되어 있다면 전체 일정이 check 되어 있으므로 전체 일정만 불러오기 위해 selected_cal 에 0만 넣는다.
-
-                        console.log("gelAllSchedule이 실행되어야하는디..? - calendar_id " + this.selected_cal + "/ "+ sche_date)
-                        http
-                            .post("/schedule/all/" + this.emp_id, sche_date)
-                            .then(response=> {
-                                 /!* eslint-disable no-console *!/
-                                this.scheduleList = response.data;
-                                for(let i=0; i<this.scheduleList.length; i++) {
-                                    this.sche_name = this.scheduleList[i].sche_name;
-                                    console.log("sche_name : " + this.sche_name);
-                                }
-
-                            })
-                            .catch(e => {
-                                /!* eslint-disable no-console *!/
-                                console.log(e);
-                            });
-                    }
-                    //else {
-                    //     console.log("/schedule/list/ 이 실행되어야하는디..?")
-                    //     http
-                    //         .post("/schedule/list/" + this.emp_id, selected_cal, sche_date)
-                    //         .then(response=> {
-                    //             /!* eslint-disable no-console *!/
-                    //             console.log("getSchedule"+response.data);
-                    //             this.scheduleList = response.data;
-                    //         })
-                    //         .catch(e => {
-                    //             /!* eslint-disable no-console *!/
-                    //             console.log(e);
-                    //         });
-                    // }
-
-                } // End : if-else
-
-            },*/
             getCalendarList() {
                 http
-                    .post("/calendar/list/" + this.emp_id)
+                    .get("/calendar/list/" + this.emp_id)
                     .then(response=> {
                         /* eslint-disable no-console */
                         this.calendarList = response.data;
@@ -312,11 +293,11 @@
                         modal: this.$modal,
                     },
                     {
-                        width: '500px',
-                        height: '700px',
+                        width: '400px',
+                        height: '600px',
                         draggable: true,
                     });
-            },
+            }
         },
         mounted() {
             if (sessionStorage.length > 0) {
@@ -336,9 +317,12 @@
         width: 75%;
         margin-left: 265px;
     }
+    .calendarSelect {
+        float: left;
+    }
     .cal_nav {
         font-size: 30px;
-        margin: auto auto auto 265px;
+        margin: auto;
     }
     .changeBtn {
         font-size: 25px;
@@ -368,13 +352,33 @@
         height:100px;
         margin: 15px auto;  /*top 10px*/
         font-size: 11px;
-        /*text-overflow: ellipsis; !*말 줄임표 위한 설정*!*/
-        /*white-space: nowrap; !*말 줄임표 위한 설정*!*/
+        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
+        white-space: nowrap; /*말 줄임표 위한 설정*/
         overflow-x: hidden; /*가로 스크롤바 없애기*/
         -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
     }
     .scrollDiv::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
         width: 1px;
         background: transparent;
+    }
+    /* input color 동그랗게 만들기 */
+    input[type="color"] {
+        cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
+        -webkit-appearance: none;
+        width: 18px;
+        height: 17px;
+        border-radius: 50%;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    input[type="color"]::-webkit-color-swatch {
+        box-sizing: border-box;
+        border-radius: 50%;
+    }
+    .scheNameSpan:hover{
+        cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
+        background: url("data:image/svg+xml;charset=utf8,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='1px' height='1px' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='1' height='1' fill='aqua' /%3E%3C/svg%3E") no-repeat 100% 100%;
+        background-size: 100% 50%;
     }
 </style>

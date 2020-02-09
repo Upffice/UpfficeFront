@@ -29,7 +29,7 @@
                  <input v-else class="form-control form-control-sm modi_cal_intput" type="text" :value="calendar.calendar_name" readonly>
              </label><br><br>
             <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendarList()">확인</button>
-            <button class="btn btn-info btn-sm pushCalBtn" @click="modi_flag=true">취소</button>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="cancel">취소</button>
         </div>
     </div>
 </template>
@@ -87,7 +87,7 @@ export default {
         },
         getCalendarList() {
             http
-                .post("/calendar/list/" + this.emp_id)
+                .get("/calendar/list/" + this.emp_id)
                 .then(response=> {
                     /* eslint-disable no-console */
                     this.calendarList = response.data;
@@ -133,6 +133,10 @@ export default {
                         console.log(e);
                     });
             }
+        },
+        cancel() {
+            this.modi_flag = true;
+            this.checkedCalendars = []; // 체크 박스 해제
         }
     },
     mounted() {
