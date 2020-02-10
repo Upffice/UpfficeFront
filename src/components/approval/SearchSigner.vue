@@ -132,7 +132,6 @@
                     .post("/app/search/dep")
                     .then(response => {
                         this.depArr = response.data;
-                        console.log(this.depArr)
                         this.idToName();
                         this.addCho();
                     })
@@ -147,10 +146,9 @@
                     .post("/app/search/emp")
                     .then(response => {
                         this.empArr = response.data;
-                        console.log(this.empArr)
                         for(let i=0; i<this.empArr.length; i++){
                             if(this.empArr[i].emp_id == sessionStorage.getItem("login_id")){
-                                // this.empArr[i] =[];
+                                this.empArr.splice(i,1);
                             }
                         }
                         this.idToName();
@@ -162,12 +160,7 @@
                         /* eslint-disable no-console */
                     });
             },
-            add_signer() {
-                alert("추가되었습니다!")
-                if (this.sign1 == null) {
 
-                }
-            },
             selectAbove() {
                 /*input 에서 위,왼쪽 눌렀을때 선택된곳 */
 
