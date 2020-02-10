@@ -101,9 +101,8 @@
                     .delete("/outaddress/outaddress/"+ this.outAddress.out_id)
                     .then(response=>{
                         console.log(response.data);
-                        this.$emit("refreshData");
                         this.$emit('close');
-                        this.$router.push('/manager/out-address');
+                        location.reload();
                     })
                     .catch(e=>{
                         console.log(e);

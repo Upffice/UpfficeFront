@@ -11,15 +11,17 @@
                            placeholder="성명, 회사명 입력" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany"/>
 
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="searchOutAddress">검색</button>
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
+                    <button class="btn btn-primary" type="submit"
+                            v-on:click="searchOutAddress">검색</button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="refreshList">취소</button>
                 </fieldset>
             </div>
 
 
-            <table boder="2" class="table table-hover" style="margin-top: 70px">
+            <table class="table table-hover" style="margin-top: 20px">
                 <!--출력-->
-                <thead class="table-primary">
+                <thead class="table-secondary">
                 <td>이름</td>
                 <td>휴대폰</td>
                 <td>이메일</td>
@@ -253,21 +255,23 @@
     .list {
         text-align: center;
         max-width: 90%;
-        /*  margin: auto;*/
         margin-left: 15%;
+        margin-top: 20px;
+    }
+
+    .form-group, btn-group {
+        float: right;
     }
 
 
-    .table {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-    }
     .page {
         display: table;
         text-align: center;
         margin: auto;
         padding-top: 30px;
         position: relative;
+    }
+    .btn {
+        margin: 20px 0px 20px 0px
     }
 </style>

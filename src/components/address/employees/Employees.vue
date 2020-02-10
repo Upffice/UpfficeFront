@@ -1,9 +1,8 @@
 <template>                                                                  <!--상세페이지 출력부분-->
     <div class="list row">
         <div v-if="this.employee">
-            <br><br><br><br><br><br><br><br>
-
-            <div class="card border-primary mb-3" style="width: 25rem; height: 29rem">
+            <!--class="card border-primary"-->
+            <div class="card-border" style="border: 1px solid">
                 <div class="card-header" align="center">&#60;상세정보&#62;</div>               <!--이름 눌렀을때 나오는 부분-->
                 <div class="card-body">
                     <div class="img_div">
@@ -11,23 +10,6 @@
                         <img v-bind:src="emp_img_url"><br>
                     </div>
                     <h4 class="card-title" align="center">{{this.employee.name}}</h4>
-
-<!--
-                    <div v-if="employee.position=='대표'" class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div v-else-if="employee.position=='부장'" class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div v-else-if="employee.position=='과장'" class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div v-else-if="employee.position=='대리'" class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div v-else class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>-->
 
 
                     <table boder="2" class="table table-hover" align="center">
@@ -63,9 +45,9 @@
 
         </div>
         <div v-else>
-            <br/>
-            <br><br><br><br><br><br><br><br>
-            <p>Please click on a Board...</p>
+            <div class="card-border" style="text-align: center">
+                <h5>◁◀직원 이름을 선택하시오</h5>
+            </div>
         </div>
     </div>
 
@@ -78,9 +60,9 @@
         name: "employees-details",
         props: ["employee"],
         data() {
-            return{
+            return {
                 dep_name: "",
-                emp_img_url : "" // 사원 사진 경로
+                emp_img_url: "" // 사원 사진 경로
             }
         },
         methods: {
@@ -96,7 +78,7 @@
                     });
             },
             getImg(emp_id) {
-                this.emp_img_url = require('../../../assets/emp_img/'+ emp_id + '.jpg');
+                this.emp_img_url = require('../../../assets/emp_img/' + emp_id + '.jpg');
             }
         }
     }
@@ -109,15 +91,18 @@
         margin: auto;
         position: fixed;
     }
+
     td {
         width: 70%;
         margin: auto;
         text-align: center;
     }
+
     th {
         margin: auto;
         text-align: center;
     }
+
     .img_div {
         width: 50px;
         height: 50px;
@@ -125,10 +110,19 @@
         overflow: hidden;
         margin-right: 10px;
     }
+
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .card-border {
+        width: 25rem;
+        height: 29rem;
+        border-radius: 4px;
+        margin: 7rem 0 0 20%;
+
     }
 
 </style>

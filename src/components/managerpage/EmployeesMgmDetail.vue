@@ -8,7 +8,11 @@
                 <!-- 직원 수정/삭제 기능 -->
                 <div v-if="employees" class="modal-body">
                     <table class="table table-hover">
-
+                        <tr>
+                            <td colspan="2">
+                                    <img v-bind:src="emp_img_url">
+                            </td>
+                        </tr>
                         <tr>
                             <th>사번</th>
                             <td>{{employees.emp_id}}</td>
@@ -40,7 +44,8 @@
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
-                            <td><input type="text" placeholder="휴대폰번호 수정" required v-model="employees.phone_number"></td>
+                            <td><input type="text" placeholder="휴대폰번호 수정" required v-model="employees.phone_number">
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -58,7 +63,7 @@
     import http from "../../http-common";
 
     export default {
-        name : '"EmployeesMgmDetail",',
+        name: '"EmployeesMgmDetail",',
         props: ['employees'],
         data() {
             return {
@@ -84,15 +89,15 @@
                 let data = {
                     name: this.employees.name,
                     dep_id: this.employees.dep_id,
-                    position:this.employees.position,
+                    position: this.employees.position,
                     extension_number: this.employees.extension_number,
                     hire_date: this.employees.hire_date,
                     emp_email: this.employees.emp_email,
-                    phone_number : this.employees.phone_number
+                    phone_number: this.employees.phone_number
                 }
 
-                if (data.name==""|data.dep_id==""|data.position==""|data.extension_number==""|
-                    data.hire_date==""|data.emp_email==""|data.phone_number == ""){ // 빈 칸 인지 확인하기
+                if (data.name == "" | data.dep_id == "" | data.position == "" | data.extension_number == "" |
+                    data.hire_date == "" | data.emp_email == "" | data.phone_number == "") { // 빈 칸 인지 확인하기
                     alert("빈 칸을 확인해주세요!");
                 } else {
                     http
@@ -101,7 +106,6 @@
                             if (response.data == 1) { // 결과값이 1이라면 1개의 데이터가 수정됐다는 뜻, 즉 수정 성공!
                                 alert("수정 완료!");
                                 this.$emit('close');
-
                                 /* this.$router.push("/manager")*/
                             }
                         })
@@ -113,36 +117,38 @@
             },
             deleteEmp() {
                 // 삭제 메소드
-                http
-                    .delete("/employees/employees/"+ this.employees.emp_id)
-                    .then(response=>{
-                        console.log(response.data);
-                        this.$emit("refreshData");
-                        this.$emit('close');
-                        this.$router.push('/manager/employees');
-                        /* router.reload(); */
-                    })
-                    .catch(e=>{
-                        console.log(e);
-                    });
+                if (!this.employees.emp_id) {
+                    alert("정보가 없습니다.");
+                } else {
+                    http
+                        .delete("/employees/employees/" + this.employees.emp_id)
+                        .then(response => {
+                            console.log(response.data);
+                            this.$emit('close');
+                            location.reload();
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+                    alert("삭제 완료!");
+                }
             }
 
         },
+        mounted() {
+            this.emp_img_url = require('../../assets/emp_img/'+ this.employees.emp_id + '.jpg');
+
+        }
     };
 </script>
 <style scoped>
-    .popupInput {
-        width: 100%;
-    }
 
-    .dateInput {
-        width: 45%;
-        float: left;
-    }
-
-    .timeInput {
-        width: 40%;
-        float: left;
-        margin-right: 20px;
+    img{
+        margin: auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 70%;
+        overflow: hidden;
+        display: block
     }
 </style>

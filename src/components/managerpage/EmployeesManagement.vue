@@ -1,7 +1,7 @@
 <template>
     <div class="list row">
         <div>
-            <h2>직원 관리</h2>
+            <h4>직원 관리</h4>
             <hr>
             <div style="float: left">
                 <button type="button" class="btn btn-primary" v-on:click="addEmployees">직원 등록</button>
@@ -20,7 +20,7 @@
             </div>
 
             <!-- {{$route.params}}-->
-            <table id="go-to-detail" class="table table-hover" style="margin-top: 20px">
+            <table class="table table-hover" style="margin-top: 20px">
                 <!--출력부분-->
                 <thead class="table-secondary">
                 <tr>
@@ -46,6 +46,7 @@
                     <td>{{employee.extension_number}}</td>
                     <td>{{employee.phone_number}}</td>
                     <td>{{employee.dep_id}}</td>
+
                     <!--<td>{{this.dep_name, getDep_Name(this.employee.dep_id)}}</td>-->
                 </tr>
                 </tbody>
@@ -94,6 +95,7 @@
                 employees: [],
                 dep_name: "",
                 emp_id: "",
+                dep_id:"",
                 nameAndPosition: "",
 
                 currentPosts: [],
@@ -107,57 +109,13 @@
                 totalPages: [],
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
 
+                emp_img_url : "" // 사원 사진 경로
+
             };
 
         },/*END-OF-data*/
 
         methods: {
-            setPagination() {
-                this.count = this.employees.length;
-                console.log(this.employees.length + "길이 찍어보기")
-                this.totalPage = this.count / this.countList; // 총 페이지 개수
-                if (this.count % this.countList > 0) {
-                    this.totalPage = Math.ceil(this.totalPage);
-                }
-                if (this.totalPage < this.page) {
-                    this.page = this.totalPage;
-                }
-
-                for (let i = 0; i < this.totalPage; i++) {
-                    this.totalPages[i] = i + 1;
-                }
-
-                this.startPage = ((this.page - 1) / this.countPage) * this.countPage + 1; // 시작 페이지
-
-                if (this.totalPage < 5) {
-                    this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
-                } else {
-                    this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
-                }
-
-                this.currentPages = [];
-                let j = this.startPage - 1;
-                for (let i = 0; i <= (this.endPage - this.startPage) && j <
-                this.totalPage; i++) {
-                    this.currentPages[i] = this.totalPages[j];
-                    j++;
-                    console.log("curr " + i + "번째 " + this.currentPages[i]);
-                    console.log("startPage : " + this.startPage)
-                    console.log("endPage : " + this.endPage)
-                    console.log("totalPage : " + this.totalPage)
-                    console.log("totalPages : " + this.totalPages)
-
-                }
-            },
-            setCurrentPosts() {
-                this.currentPosts = [];
-                let j = (this.page - 1) * this.countList;
-                for (let i = 0; i < this.countList && j < this.employees.length; i++) {
-                    this.currentPosts[i] = this.employees[j];
-                    j++;
-                }
-
-            },
             retrieveEmployees() {
                 http
                     .get("/employees/employees")
@@ -166,6 +124,8 @@
                         console.log(response.data);
                         this.setPagination();
                         this.setCurrentPosts();
+
+                        this.getDep_Name(this.employees.dep_id);
                     })
                     .catch(e => {
                         console.log(e);
@@ -211,13 +171,14 @@
                     },
                     {
                         width: '500px',
-                        height: '650px',
+                        height: '770px',
                         draggable: true,
                     });
                 console.log(employee.emp_id);
 
             },
             getDep_Name(dep_id) {
+                console.log("getDep_name입니다")
                 http
                     .post("/dep/" + dep_id)
                     .then(response => {
@@ -228,10 +189,58 @@
                         console.log(e);
                     });
             }, // 부서 정보 가져오기
+
+            setPagination() {
+                this.count = this.employees.length;
+                /*console.log(this.employees.length + "길이 찍어보기")*/
+                this.totalPage = this.count / this.countList; // 총 페이지 개수
+                if (this.count % this.countList > 0) {
+                    this.totalPage = Math.ceil(this.totalPage);
+                }
+                if (this.totalPage < this.page) {
+                    this.page = this.totalPage;
+                }
+
+                for (let i = 0; i < this.totalPage; i++) {
+                    this.totalPages[i] = i + 1;
+                }
+
+                this.startPage = ((this.page - 1) / this.countPage) * this.countPage + 1; // 시작 페이지
+
+                if (this.totalPage < 5) {
+                    this.endPage = this.totalPage;  // endPage 가 totalPage 와 같다
+                } else {
+                    this.endPage = this.startPage + this.countPage - 1; // 마지막 페이지
+                }
+
+                this.currentPages = [];
+                let j = this.startPage - 1;
+                for (let i = 0; i <= (this.endPage - this.startPage) && j <
+                this.totalPage; i++) {
+                    this.currentPages[i] = this.totalPages[j];
+                    j++;
+                   /* console.log("curr " + i + "번째 " + this.currentPages[i]);
+                    console.log("startPage : " + this.startPage)
+                    console.log("endPage : " + this.endPage)
+                    console.log("totalPage : " + this.totalPage)
+                    console.log("totalPages : " + this.totalPages)*/
+
+                }
+            },
+            setCurrentPosts() {
+                this.currentPosts = [];
+                let j = (this.page - 1) * this.countList;
+                for (let i = 0; i < this.countList && j < this.employees.length; i++) {
+                    this.currentPosts[i] = this.employees[j];
+                    j++;
+                }
+
+            },
+
             changePage(pageNum) {
                 this.page = pageNum;
                 this.setCurrentPosts();
-                console.log(this.page)
+                /*console.log(this.page)*/
             },
             isSelected(index) { //<< >>버튼 메서드, 눌렀을때 색깔 바뀌는거
                 /* 선택된 class 바인딩 위해 return 반환하는 메서드*/
@@ -276,7 +285,7 @@
                     for (let i = 0; i <= (this.endPage - this.startPage) && j < this.totalPage; i++) {
                         this.currentPages[i] = this.totalPages[j];
                         j++;
-                        console.log("curr " + i + "번째 " + this.currentPages[i]);
+                       /* console.log("curr " + i + "번째 " + this.currentPages[i]);*/
                     }
                     this.setCurrentPosts();
                 }

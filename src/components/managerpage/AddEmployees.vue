@@ -9,22 +9,27 @@
                 <div class="modal-body">
 
                     <div v-if="!added">
+
                         <table class="table table-hover">
                             <tr>
                                 <td colspan="2">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <input type="file" class="form-control-file" id="exampleInputFile"
-                                                   aria-describedby="fileHelp">
-                                        </div>
-                                    </fieldset>
+                                    <img v-bind:src="emp_img_url">
+
+                                    <input
+                                            style="display: none"
+                                            ref="fileInput"
+                                            type="file"
+                                            @change="onFileSelected"
+                                    />
+                                    <button @click="$refs.fileInput.click()">Pick File</button>
+                                    <button @click="onUpload">Upload</button>
 
                                 </td>
                             </tr>
                             <tr>
                                 <th for="emp_id">사원 아이디</th>
                                 <td><input type="text" id="emp_id" required v-model="employee.emp_id"
-                                           value={this.emp_id}></td>
+                                           value="emp_id"></td>
                             </tr>
                             <tr>
                                 <th for="emp_pw">사원 비밀번호</th>
@@ -106,10 +111,36 @@
                     dep_id: ""
 
                 },
-                added: false
+                added: false,
+                selectedFile: null,
+                emp_img_url: ""
             }
         },
         methods: {
+
+            onFileSelected(event) {
+                console.log(event)
+                this.selectedFile = event.target.files[0]//0이 file이고 1이길이
+            },
+            onUpload() {
+                let formData = new FormData();
+                formData.append('image', this.selectedFile, this.selectedFile.name);
+                console.log(this.selectedFile.name)
+
+                http
+                    .post('src/assets', formData, {
+                        onUploadProgress: uploadEvent => {
+                            console.log('Upload Progress: ' + Math.round(uploadEvent.load / uploadEvent.total * 100) + '%')
+                        }
+                    })
+                    .then(response => {
+                        console.log(response)
+                        this.emp_img_url = require('../../assets/emp_img/'+this.selectedFile.name+'.jpg');
+
+                    })
+            },
+
+
             addEmployees() {
                 var data = {
                     emp_id: this.employee.emp_id,

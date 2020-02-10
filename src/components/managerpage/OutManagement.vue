@@ -2,7 +2,7 @@
     <div class="list row">
 
         <div>
-            <h2>외부 주소록</h2>
+            <h4>외부 주소록</h4>
             <hr>
             <div>
                 <!--전체, 회사별 정렬하기 위한 dropdown-->
@@ -26,8 +26,10 @@
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress"
                            placeholder="검색(성명, 회사명)" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany">
-                    <button class="btn btn-secondary" v-on:click="searchOutAddress">검색</button>
-                    <button class="btn btn-secondary" v-on:click="refreshList">취소</button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="searchOutAddress">검색</button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="refreshList">취소</button>
                 </fieldset>
             </div>
 

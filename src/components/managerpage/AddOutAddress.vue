@@ -12,7 +12,8 @@
                         <table class="table table-hover">
                             <tr>
                                 <th for="out_id">외부 아이디</th>
-                                <td><input type="text" id="out_id" required v-model="outaddress.out_id"></td>
+                                <td><input type="text" id="out_id" required v-model="outaddress.out_id" disabled placeholder="자동생성"
+                                style="text-align: center"></td>
                             </tr>
 
                             <tr>
