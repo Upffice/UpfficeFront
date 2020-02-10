@@ -14,20 +14,28 @@
             캘린더 목록
              <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">
                  <input class="form-check-input" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars" checked="calendar_chk">
+                 <span style="font-size: 15px" :style="{color: calendar.calendar_color}">●</span>&nbsp;
                  {{calendar.calendar_name}}
-             </label><br>
-            <span style="font-size: 12px">checkedCalendars: {{checkedCalendars}}</span><br>
-            <button class="btn btn-info btn-sm pushCalBtn" @click="modi_flag=false">수정</button>
+             </label><br><br>
+            <button class="btn btn-info btn-sm pushCalBtn" @click="modify()">수정</button>
             <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
         </div>
 
         <div v-else class="form-check">
             캘린더 목록
              <label class="form-check-label " v-for="(calendar, index) in calendarList" :key="index">
-                 <input v-if="checkedCalendars.includes(calendar.calendar_id)" class="form-control form-control-sm modi_cal_intput" type="text"
-                        required v-model="modi_cal_input[index]" :placeholder="calendar.calendar_name">
-                 <input v-else class="form-control form-control-sm modi_cal_intput" type="text" :value="calendar.calendar_name" readonly>
+                 <div v-if="checkedCalendars.includes(calendar.calendar_id)" class="modi_cal">
+                     <input type="color" class="modi_cal_color" :value="calendar.calendar_color" @change="changeColor(calendar.calendar_color, index)">
+                     <input class="form-control form-control-sm modi_cal_input" type="text"
+                            required v-model="modi_cal_input[index]" :placeholder="calendar.calendar_name">
+                 </div>
+
+                 <div v-else class="modi_cal">
+                     <input type="color" class="modi_cal_color" v-model="calendar.calendar_color" disabled>
+                     <input class="form-control form-control-sm modi_cal_input" type="text" :value="calendar.calendar_name" readonly>
+                 </div>
              </label><br><br>
+
             <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendarList()">확인</button>
             <button class="btn btn-info btn-sm pushCalBtn" @click="cancel">취소</button>
         </div>
@@ -50,6 +58,7 @@ export default {
             checkedCalendars : [],    // 체크된 캘린더 목록
             modi_flag : true,         // 캘린더 목록 수정 여부 검사할 flag
             modi_cal_input : [],
+            modi_cal_color : []
         }
     },
     methods : {
@@ -97,23 +106,38 @@ export default {
                     console.log(e);
                 });
         },
+        changeColor(color, index) {
+            this.modi_cal_color[index] = color;    // 수정할 캘린더의 색 넣기
+        },
+        modify() {
+            if(this.checkedCalendars.length !=0) {
+                this.modi_flag = false;
+            }
+        },
         modifyCalendarList() {
             let data =[];
             let j=0;
 
+            // 캘린더 이름과 색 전부 수정하는 경우
             for(let i=0; i<this.modi_cal_input.length; i++) {
                 if(this.modi_cal_input[i] !== undefined) {
                     data[j] = this.checkedCalendars[j] + "," + this.modi_cal_input[i];
-                    j++;
+                     j++;
+                } else {
+                    return; // modi_cal_input 이 빈칸인 경우
                 }
             }
 
             http
                 .put("/calendar/update/" + this.emp_id, data) // UpfficeBack의 MyPageController로 매핑 된다.
                 .then(response => {
-                    this.getCalendarList();
+                    // 수정에 사용되는 변수 초기화
+                    this.modi_cal_input = [];
+                    this.modi_cal_color = [];
+                    this.checkedCalendars = [];
                     this.modi_flag = true;
-                    this.checkedCalendars = []; // 체크 박스 해제
+
+                    this.getCalendarList(); // 캘린더 목록 다시 불러오기
                 })
                 .catch(e => {
                     console.log(e);
@@ -129,8 +153,13 @@ export default {
                             .delete("/calendar/list/" + this.emp_id +"?calendar_id=" + this.checkedCalendars)
                             .then(response=> {
                                 /* eslint-disable no-console */
-                                this.getCalendarList();
-                                this.checkedCalendars = []; // 체크 박스 해제
+                                // 수정에 사용되는 변수 초기화
+                                this.modi_cal_input = [];
+                                this.modi_cal_color = [];
+                                this.checkedCalendars = [];
+                                this.modi_flag = true;
+
+                                this.getCalendarList(); // 캘린더 목록 다시 불러오기
                             })
                             .catch(e => {
                                 /* eslint-disable no-console */
@@ -144,6 +173,7 @@ export default {
         cancel() {
             this.modi_flag = true;
             this.checkedCalendars = []; // 체크 박스 해제
+            this.modi_cal_input = ""; // 수정 input 초기화
         }
     },
     mounted() {
@@ -190,8 +220,16 @@ export default {
     .pushCalBtn {
         width: 50px;
     }
-    .modi_cal_intput {
-        width: 80%;
+    .modi_cal {
         margin-top: 5px;
+    }
+    .modi_cal_color {
+        margin-top: 5px;
+        float: left;
+        margin-right: 10px;
+    }
+    .modi_cal_input {
+        width: 70%;
+
     }
 </style>

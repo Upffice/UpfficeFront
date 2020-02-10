@@ -8,12 +8,12 @@
                 <!-- 일정 추가 기능 -->
                 <div class="modal-body">
                         <label class="col-form-label col-form-label-sm">일정 카테고리</label>
-                        <select class="form-control form-control-sm popupInput">
-                            <option v-for="(calendar, index) in calendarList" :key="index">
-                                {{calendar.calendar_name, sche_Input.calendar_id = calendar.calendar_id}}
+                        <select class="form-control form-control-sm popupInput" v-model="sche_Input.calendar_id">
+                            <option value=0 hidden>카테고리 선택</option>
+                            <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
+                                {{calendar.calendar_name}}
                             </option>
                         </select>
-
                         <label class="col-form-label col-form-label-sm">일정 이름</label>
                         <input class="form-control form-control-sm popupInput" type="text" placeholder="일정 이름 입력" required v-model="sche_Input.sche_name">
 
@@ -48,7 +48,7 @@
                 emp_id: "",
                 calendarList: [],
                 sche_Input : {
-                    calendar_id : "",
+                    calendar_id : 0,
                     sche_name: "",
                     sche_start_date: "",
                     sche_start_time: "",
@@ -74,25 +74,26 @@
                     sche_place: this.sche_Input.sche_place,
                     sche_detail: this.sche_Input.sche_detail
                 }
-                if(this.sche_Input.sche_name === "") {
+                if(this.sche_Input.calendar_id == 0) {
+                    alert("일정 카테고리를 확인해주세요!");
+                } else if(this.sche_Input.sche_name === "") {
                     alert("일정 이름을 확인해주세요!");
                 } else if(this.sche_Input.sche_start_date === "" || this.sche_Input.sche_start_time === "" ||
                           this.sche_Input.sche_end_date === "" || this.sche_Input.sche_end_time === "") {
-                    alert("일정 날짜또는 시간을 확인해주세요!");
+                    alert("일정 날짜 또는 시간을 확인해주세요!");
                 } else {
                     console.log(sche_data.sche_start_date + "|| "+sche_data.sche_start_time);
                     http
                         .post("/schedule/add/" + this.emp_id, sche_data)
                         .then(response=> {
                             console.log("등록 완료" + response.data);
+                            this.$emit('close');
+                            for(let i=0; i<1; i++) location.reload();
                         })
                         .catch(e => {
                             /* eslint-disable no-console */
                             console.log(e);
                         });
-
-                    this.$emit('close');
-                    for(let i=0; i<1; i++) location.reload();
                 } // End : if-else
 
             }, // End : register() : schedule 테이블에 Input 데이터 저장

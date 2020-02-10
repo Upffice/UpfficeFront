@@ -55,17 +55,17 @@
         },
         methods : {
             updateSchedule(){
-                let sche_data = {
+                let data = {
                     sche_id : this.schedule.sche_id,
-                    calendar_id : this.schedule.calendar_id,
                     sche_name: this.schedule.sche_name,
                     sche_start_date: this.schedule.sche_start_date,
                     sche_start_time: this.schedule.sche_start_time,
                     sche_end_date: this.schedule.sche_end_date,
                     sche_end_time: this.schedule.sche_end_time,
                     sche_place: this.schedule.sche_place,
-                    sche_detail: this.schedule.sche_detail
-                }
+                    sche_detail: this.schedule.sche_detail,
+                    calendar_id : this.schedule.calendar_id
+                };
 
                 if(this.schedule.sche_name === "") {
                     alert("일정 이름을 확인해주세요!");
@@ -73,19 +73,18 @@
                     this.schedule.sche_end_date === "" || this.schedule.sche_end_time === "") {
                     alert("일정 날짜또는 시간을 확인해주세요!");
                 } else {
-                    console.log("emp_id " +this.emp_id)
-                    console.log(sche_data);
-
                     http
-                        .put("/schedule/update/" + this.emp_id, sche_data)
+                        .put("/schedule/update/" + this.emp_id, data)
                         .then(response=> {
-                            console.log("수정 완료");
+                            if(response.data == 1) {
+                                this.$emit('close');
+                                for(let i=0; i<1; i++) location.reload();
+                            }
                         })
                         .catch(e => {
                             /* eslint-disable no-console */
-                            console.log(e);
+                            console.log(e.response);
                         });
-                    // for(let i=0; i<1; i++) location.reload();
                 } // End : if-else
 
             }, // End : register() : schedule 테이블에 Input 데이터 저장
@@ -120,7 +119,7 @@
             },
             cancel() {
                 this.$emit('close');
-                for(let i=0; i<1; i++) location.reload();
+                // for(let i=0; i<1; i++) location.reload();
             }
         },
         mounted() {

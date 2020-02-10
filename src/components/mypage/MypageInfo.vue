@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <table class="table table-hover">
+            <table class="table table-hover mypageTable">
                 <tr>
                     <td rowspan="6" width="25%">
                         <div class="img_div">
@@ -152,9 +152,9 @@ export default {
 </script>
 
 <style scoped>
-    .table {
-        width: 100%;
-        margin: auto;
+    .mypageTable {
+        width: 80%;
+        margin: 20px auto auto;
         border: 1px solid #dddddd;
     }
     .form-control {

@@ -7,7 +7,7 @@
                         <select class="form-control" v-model="calendar_id" @change="getAllSchedules">
                             <option value=0>전체 일정</option>  <!-- 해당하는 calendar_id 를 0으로 하고 이 때 전체 일정 가져옴 -->
                             <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
-                                {{calendar.calendar_name}}
+                                {{calendar.calendar_name}}{{index}}
                             </option>
                         </select>
                     </div>
@@ -299,6 +299,7 @@
                         height: '600px',
                         draggable: true,
                     });
+                this.getAllSchedules(); // 모달 창 닫히면 일정 다시 불러옴
             },
             search() {
                 if(this.searchKeyword != "") {
@@ -323,7 +324,7 @@
                                         draggable: false,
                                     });
                             }
-
+                            this.searchKeyword = "";
                         })
                         .catch(e => {
                             /* eslint-disable no-console */
