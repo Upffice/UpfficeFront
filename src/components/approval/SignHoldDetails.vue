@@ -129,7 +129,7 @@
                         <div class="container">
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                                  readonly>
-                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing"
+                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing" key="key"
                                              @click.native="getDown(approval.docNum,file)">
                                     <div>{{ file }}</div>
                                 </router-link>

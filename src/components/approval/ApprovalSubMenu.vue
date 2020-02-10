@@ -68,4 +68,36 @@ export default {
     /*    position: fixed;*/
     /*    !*position: absolute;*!*/
     /*}*/
+
+    .shtable > tbody > tr > td:nth-child(1),
+    .shtable > thead > tr > th:nth-child(1){
+        width:8%;
+    }
+
+
+    .shtable > tbody > tr > td:nth-child(2),
+    .shtable > thead > tr > th:nth-child(2),
+    .shtable > tbody > tr > td:nth-child(3),
+    .shtable > thead > tr > th:nth-child(3),
+    .shtable > tbody > tr > td:nth-child(4),
+    .shtable > thead > tr > th:nth-child(4),
+    .shtable > tbody > tr > td:nth-child(6),
+    .shtable > thead > tr > th:nth-child(6){
+        width: 10%;
+    }
+    .shtable > tbody > tr > td:nth-child(7),
+    .shtable > thead > tr > th:nth-child(7){
+        width: 20%;
+    }
+
+    .shtable > tbody > tr > td{
+        height: 50px;
+    }
+
+    .shtable td{
+        vertical-align: middle !important;
+        /*table-layout: fixed !important;*/
+        /*width: auto;*/
+
+    }
 </style>

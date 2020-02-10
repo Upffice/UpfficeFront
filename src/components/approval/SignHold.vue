@@ -26,9 +26,9 @@
             <subMenu></subMenu>
         </div>
 
-        <table class="table table-hover">
+        <table class="table table-hover shtable">
             <thead>
-            <tr class="table-primary">
+            <tr class="table-primary ">
                 <th scope="col">No</th>
                 <th scope="col">부서</th>
                 <th scope="col">문서번호</th>
