@@ -132,6 +132,7 @@
                     .post("/app/search/dep")
                     .then(response => {
                         this.depArr = response.data;
+                        console.log(this.depArr)
                         this.idToName();
                         this.addCho();
                     })
@@ -146,6 +147,12 @@
                     .post("/app/search/emp")
                     .then(response => {
                         this.empArr = response.data;
+                        console.log(this.empArr)
+                        for(let i=0; i<this.empArr.length; i++){
+                            if(this.empArr[i].emp_id == sessionStorage.getItem("login_id")){
+                                // this.empArr[i] =[];
+                            }
+                        }
                         this.idToName();
                         this.addCho();
                     })

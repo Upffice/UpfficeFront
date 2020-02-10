@@ -126,18 +126,16 @@
                                v-model="approval.refFile" name="refFile" placeholder="참조사항을 적어주세요."
                                style="width: 500px;float: left; background-color: aliceblue;" readonly>
                         <div class="container">
-                            <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()">
-                            <!--style="width: 200px"--><!--서버에서 파일 다운로드 정보 가져와서 띄우기 구현해야됨-->
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                                  readonly>
-                                <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span
-                                        class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
+                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing"
+                                             @click.native="getDown(approval.docNum,file)">
+                                    <div>{{ file }}</div>
+                                </router-link>
                             </div>
-
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="addFiles()">Download Files</button>
+                                <button @click="getDownAll">Download All</button>
                             </div>
-
                         </div>
                     </td>
                 </tr>
@@ -211,7 +209,9 @@
                 sign_url_1: "",
                 sign_url_2: "",
                 sign_url_3: "",
-                sign_url_4: ""
+                sign_url_4: "",
+                downLoadNames: [],
+
             }
         },
         components: {
@@ -600,8 +600,86 @@
                 }else if(this.approval.signId3 != '' && this.approval.status3 == 'hold'){
                     this.sign_url_4 = require('../../assets/sign_img/' + 'hold'+ '.png');
                 }
-            }
+            },
+            getDownloadLink(docnum) {
+                /*1.'파일명' 다운로드링크받아오는 메서드*/
+                /*mounted에 구현하는것 추천, docnum은 업로드 파일 폴더이름*/
+                http
+                    .get('/app/down/' + docnum)
+                    .then(r => {
+                        this.downLoadNames = r.data;
+                        console.log(this.downLoadNames);
+                    })
+                    .catch(r=>{
+                        this.downLoadNames = ["저장된 파일이 없습니다."]
+                        console.log(r);
+                    })
+            },
+            getDown(docnum, filename) {
+                /*링크누르면 다운로드 되는 메서드*/
+                /*axios post 저수준 api*/
+                /**/
+                http
+                ({
+                    url: '/app/multiple-files-download/' + docnum,
+                    method: 'POST',
+                    responseType: 'blob', // important
+                    data: filename,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                })
+                    .then(r => {
+                        // var message = r.data
+                        console.log("r.data");
+                        console.log(r.data);
+                        var fileURL = window.URL.createObjectURL(new Blob([r.data]));
+                        var fileLink = document.createElement('a');
 
+                        fileLink.href = fileURL;
+                        fileLink.setAttribute('download', filename);
+                        document.body.appendChild(fileLink);
+                        fileLink.click();
+                        console.log('SUCCESS!!');
+                        // console.log(message)
+
+                    }).catch(function () {
+                    console.log('FAILURE!!');
+                });
+            },
+            getDownAll() {
+                /*전체 다운로드*/
+                if (this.downLoadNames.length > 0) {
+                    for (let i = 0; i < this.downLoadNames.length; i++) {
+                        let filename = this.downLoadNames[i];
+                        http
+                        ({
+                            url: '/app/multiple-files-download/' + this.approval.docNum,
+                            method: 'POST',
+                            responseType: 'blob', // important
+                            data: filename,
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                        })
+                            .then(r => {
+                                // var message = r.data
+                                console.log("r.data");
+                                console.log(r.data);
+                                var fileURL = window.URL.createObjectURL(new Blob([r.data]));
+                                var fileLink = document.createElement('a');
+
+                                fileLink.href = fileURL;
+                                fileLink.setAttribute('download', filename);
+                                document.body.appendChild(fileLink);
+                                fileLink.click();
+                                console.log('SUCCESS!!');
+                            }).catch(function () {
+                            console.log('FAILURE!!');
+                        });
+                    }
+                }
+            },
         },
         mounted() {
             /*페이지 로딩전 id에서 session으로 접근, 데이터 가져오는 로직*/

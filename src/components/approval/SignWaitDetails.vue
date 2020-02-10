@@ -140,7 +140,7 @@
                         <div class="container">
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                                  readonly>
-                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing"
+                                <router-link to="#" v-if="downLoadNames!=[]" v-for="(file, key) in downLoadNames" :key="key" class="file-listing"
                                              @click.native="getDown(approval.docNum,file)">
                                     <div>{{ file }}</div>
                                 </router-link>
@@ -572,9 +572,15 @@
                 http
                     .get('/app/down/' + docnum)
                     .then(r => {
-                        this.downLoadNames = r.data;
+
+                            this.downLoadNames = r.data;
                         console.log(this.downLoadNames);
                     })
+                    .catch(r=>{
+                        this.downLoadNames = ["저장된 파일이 없습니다."]
+                        console.log(r);
+                    })
+
             },
             getDown(docnum, filename) {
                 /*링크누르면 다운로드 되는 메서드*/
