@@ -21,12 +21,19 @@
     .container-fluid {
         text-align: center;
     }
-
     .libgclr {
         background: #EBF0F0;
     }
 
     .subMenu {
+        background: #EBF0F0;
+        width: 15%;
+        height: 100%;
+        left: 15px;
+        top: 70px;
+        position: absolute;
+    }
+    .subMenu2 {
         background: #EBF0F0;
         width: 15%;
         height: 100%;
