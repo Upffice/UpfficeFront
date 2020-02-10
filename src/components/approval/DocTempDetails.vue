@@ -411,35 +411,34 @@
                     });
             },
             handleFilesUpload() {
+                /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
-
                 for (var i = 0; i < uploadedFiles.length; i++) {
+                    /*전역변수 배열끝에 돔에서 가져온 파일 추가*/
                     this.files.push(uploadedFiles[i]);
                 }
             },
             removeFile(key) {
+                /*key번째 1개 삭제*/
                 this.files.splice(key, 1);
             },
             submitFiles(docnum) {
-
+                /*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
 
                 for (var i = 0; i < this.files.length; i++) {
-
                     let file = this.files[i];
+                    /*append는 덮어쓰기가 아니라 추가*/
+                    /*formData 뒤에 key=이름, value=파일 추가*/
                     formData.append('file', file);
-                    //append는 덮어씌기가 아니라 추가가 계속됨..
-                    console.log("file");
-                    console.log(file);
-
                 }
-                // console.log(formData[0].get("files[0]"));
-                console.log("formData");
-                console.log(formData);
-                formData.forEach((value, key) => {
+                /*key value 확인 for-each문*/
+                /*formData.forEach((value, key) => {
                     console.log("key %s: value %s", key, value);
-                })
-                http.post('/app/multiple-files/'+docnum,
+                })*/
+
+                /*param필요없으면 +docnum지워도됨*/
+                http.post('/app/multiple-files/' + docnum,
                     formData,
                     {
                         headers: {
@@ -456,9 +455,11 @@
 
             },
             addFiles() {
-                console.log("진입");
-                console.log(this.$refs);
-                this.$refs.files.click();
+                /*1.add File 클릭시 실행메서드*/
+                this.$refs.files.click();//Dom의 ref=files 클릭한것과 같은효과
+
+            },
+            loadFiles(){
 
             },
             opening() {

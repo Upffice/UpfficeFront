@@ -1,21 +1,22 @@
 <template>
 
     <div class="container">
-<!--        <h2 style="float: left; margin-left: 200px">메인화면</h2>-->
+        <!--        <h2 style="float: left; margin-left: 200px">메인화면</h2>-->
 
         <div class="list row">
             <subMenu></subMenu>
         </div>
 
-        <br>
-        <div class="wait">
-            <wait></wait>
+        <div v-if="this.login_id != ''">
+            <br>
+            <div class="wait">
+                <wait></wait>
+            </div>
+            <br>
+            <div class="ing">
+                <ing></ing>
+            </div>
         </div>
-        <br>
-        <div class="ing">
-            <ing></ing>
-        </div>
-
     </div>
 
 
@@ -39,8 +40,8 @@
         },
         components: {
             subMenu: ApprovalSubMenu,
-            wait : SignWait,
-            ing : SignIng
+            wait: SignWait,
+            ing: SignIng
         },
         methods: {
 
@@ -76,7 +77,8 @@
         max-width: 450px;
         margin: auto;
     }
-    .table{
+
+    .table {
 
         margin: auto auto auto 150px;
         width: 1000px;
