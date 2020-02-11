@@ -381,9 +381,9 @@
     }
     .scrollDiv {
         text-align: left;
-        overflow: auto;
+        overflow: auto; /*말 줄임표 위한 설정 : 스크롤 안 보이게 하려면 hidden*/
         width: 100px;
-        height:100px;
+        height: 102px;
         margin: 15px auto;  /*top 10px*/
         font-size: 11px;
         text-overflow: ellipsis; /*말 줄임표 위한 설정*/
@@ -394,21 +394,6 @@
     .scrollDiv::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
         width: 1px;
         background: transparent;
-    }
-    /* input color 동그랗게 만들기 */
-    input[type="color"] {
-        cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
-        -webkit-appearance: none;
-        width: 18px;
-        height: 17px;
-        border-radius: 50%;
-    }
-    input[type="color"]::-webkit-color-swatch-wrapper {
-        padding: 0;
-    }
-    input[type="color"]::-webkit-color-swatch {
-        box-sizing: border-box;
-        border-radius: 50%;
     }
     .scheNameSpan:hover{
         cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
