@@ -5,7 +5,7 @@
             <subMenu></subMenu>
         </div>
             <h4 style="margin: 20px; font-weight: bold">-{{this.post.board_name}} 게시판-</h4>
-        <hr style="margin: 60px">
+        <hr style="margin: 10px">
         <!--여기부터-->
         <div v-if="flex">
             <div class="subjectbox" style="font-weight: bold">
@@ -26,8 +26,9 @@
                 </div>
              </div>
               <div v-if="chkWriter()">
-            <button class="btn btn-success" type="button" @click="deletePost">게시물 삭제</button>
+            <button class="btn btn-danger" type="button" @click="deletePost">게시물 삭제</button>
             <button class="btn btn-success" type="button" @click="modify">게시물 수정</button>
+
              </div>
         </div>
         <!--여기까지 div로 묶고 검사-->
@@ -41,6 +42,11 @@
 
             <button class="btn btn-success" type="button" @click="updatePost">수정하기</button>
         </div>
+        <div class="returnbtnbox">
+            <button class="btn btn-primary" type="button" @click="goBack">돌아가기</button>
+        </div>
+        <br>
+
     </div>
 
     <div v-else>
@@ -69,6 +75,9 @@
         },
         props: ["post"],
         methods: {
+            goBack(){
+                history.go(-1);
+            },
 
             //게시된 게시글을 삭제하는 메서드
             deletePost() {
@@ -178,6 +187,11 @@
         width: 80%;
         border: silver solid 0px;
         text-align: left;
+    }
+    .returnbtnbox{
+        position: absolute;
+        bottom: -9.5%;
+        left: 67%;
     }
 
 </style>

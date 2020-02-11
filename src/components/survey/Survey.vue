@@ -55,9 +55,10 @@
         <span style="font-weight: bold">총 참여자 수 : {{this.choice.length}} 명</span><br>
             <br><br>
             <button v-if="!flag" class="btn btn-success" type="button" @click="savevote">투표하기</button>
-            <button v-else class="btn btn-success" type="button" @click="goBack">돌아가기</button>
+            <button class="btn btn-primary" type="button" @click="goBack">돌아가기</button>
 
-            <button v-if="empID==10002"class="btn btn-primary" type="button" @click="deletePost">설문삭제</button>
+
+            <button v-if="empID==10002"class="btn btn-danger" type="button" @click="deletePost">설문삭제</button>
         </div>
         <!--여기까지 div로 묶고 검사-->
         <div v-else>
