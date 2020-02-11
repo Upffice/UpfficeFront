@@ -10,6 +10,7 @@ import PostsList from "./components/posts/PostsList";
 import Post from "./components/posts/Post";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
+import Calendar from "./components/schedule/Calendar";
 import FileExplorer from "./components/file/fileExplorer.vue";
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
@@ -57,6 +58,7 @@ export default new Router({
             component: MainView,
         },
         /*--addressRouter*/
+
         {
             path: "/mainEmployAddress",
             name: "main-employAddress",
@@ -82,7 +84,7 @@ export default new Router({
             component: OutAddressMain
         },
 
-                                                                /*--ManagerRouter*/
+        /*--ManagerRouter*/
 
         {
             path: "/manager/employees",
@@ -123,8 +125,7 @@ export default new Router({
         },
 
 
-
-       /*---------------------------------------------- */
+        /*---------------------------------------------- */
 
 
 
@@ -162,6 +163,13 @@ export default new Router({
             name: "annualDetail",
             component: AnnualDetail
         },
+        {
+            path: "/schedule/calendar",
+            name: "calendar",
+            alias: "/calendar",
+            component: Calendar
+        },
+
         {
             path:"/survey/addsurvey",
             name:"addsurvey",

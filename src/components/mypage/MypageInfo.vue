@@ -1,9 +1,7 @@
 <template>
     <div>
-        <!--수정 가능한 항목 : 휴대폰 번호, 비밀번호-->
-        <!--테이블 왼쪽에 사진 넣을것임-->
-        <div >
-            <table class="table table-hover">
+        <div>
+            <table class="table table-hover mypageTable">
                 <tr>
                     <td rowspan="6" width="25%">
                         <div class="img_div">
@@ -118,7 +116,7 @@ export default {
 
             if (data.phone_number == "" | data.emp_pw == "" | data.pw_chk == ""){ // 휴대폰 번호, 비밀번호, 비밀번호 확인 칸 빈 칸 인지 확인하기
                 alert("빈 칸을 확인해주세요!");
-            } else if(data.emp_pw != data.pw_chk){  // 비밀버호, 비밀번호 확인란의 입력 값이 다른지 확인하기
+            } else if(data.emp_pw != data.pw_chk){  // 비밀번호, 비밀번호 확인란의 입력 값이 다른지 확인하기
                 alert("비밀번호를 확인해주세요!");
             } else {
                 http
@@ -154,9 +152,9 @@ export default {
 </script>
 
 <style scoped>
-    .table {
-        width: 100%;
-        margin: auto;
+    .mypageTable {
+        width: 80%;
+        margin: 20px auto auto;
         border: 1px solid #dddddd;
     }
     .form-control {
