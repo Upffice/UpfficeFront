@@ -27,26 +27,6 @@
             </li>
 
         </ul>
-
-<!--        <div class="form-group addCalendar">-->
-<!--            <label class="col-form-label col-form-label" for="inputSmall">캘린더 추가</label>-->
-<!--            <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">-->
-<!--            <input type="color" v-model="calendarInput.cal_color">-->
-
-<!--            <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>-->
-<!--        </div>-->
-
-<!--        <div v-if="calendarList" class="form-check">-->
-<!--            캘린더 목록-->
-<!--            <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">-->
-<!--                <input class="form-check-input" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars" checked="calendar_chk">-->
-<!--                <span style="font-size: 15px" :style="{color: calendar.calendar_color}">●</span>&nbsp;-->
-<!--                {{calendar.calendar_name}}-->
-<!--            </label><br><br>-->
-
-<!--            <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendar()">수정</button>-->
-<!--            <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>-->
-<!--        </div>-->
     </div>
 </template>
 
