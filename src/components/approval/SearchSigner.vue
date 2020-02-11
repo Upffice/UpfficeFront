@@ -26,7 +26,7 @@
                         <input type="button" class="btn btn-primary" value="추가" style="float: right" @click="extractSelected(keyNum)" v-on:click="selectBelow">
                     </fieldset>
 
-                    <div v-if="showArr.length>0"
+                    <div class="searchResult" v-if="showArr.length>0"
                          style="background-color: aliceblue; width: 400px; border: #95a5a6 1.5px solid; border-top: 0px; border-radius: 3px">
                         <div id="empList" v-for="(emp,index) in showArr" :key="index" style="text-align: -webkit-left;">
                             <div v-bind:class="{'selected':isSelected(index)}"><!--v-if="emp.selected=false"-->
@@ -146,6 +146,11 @@
                     .post("/app/search/emp")
                     .then(response => {
                         this.empArr = response.data;
+                        for(let i=0; i<this.empArr.length; i++){
+                            if(this.empArr[i].emp_id == sessionStorage.getItem("login_id")){
+                                this.empArr.splice(i,1);
+                            }
+                        }
                         this.idToName();
                         this.addCho();
                     })
@@ -155,12 +160,7 @@
                         /* eslint-disable no-console */
                     });
             },
-            add_signer() {
-                alert("추가되었습니다!")
-                if (this.sign1 == null) {
 
-                }
-            },
             selectAbove() {
                 /*input 에서 위,왼쪽 눌렀을때 선택된곳 */
 
@@ -258,4 +258,16 @@
         background-color: #ECF0F1;
     }
 
+    .searchResult {
+        max-height: 215px;
+        overflow: scroll;
+        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
+        white-space: nowrap; /*말 줄임표 위한 설정*/
+        overflow-x: hidden; /*가로 스크롤바 없애기*/
+        -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
+    }
+    .searchResult::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
+        width: 1px;
+        background: transparent;
+    }
 </style>

@@ -26,7 +26,7 @@
             <subMenu></subMenu>
         </div>
 
-        <table class="table table-hover">
+        <table class="table table-hover shtable">
             <thead>
             <tr class="table-primary">
                 <th scope="col">No</th>
@@ -42,7 +42,7 @@
 
             <!--로그인 정보에서 받아올 부분-->
             <tr class="table-light" v-for="(app, index) in currentPosts" :key="index">
-                <td>{{index+1}}</td>
+                <td>{{currentPosts.length-index}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -98,7 +98,7 @@
             return {
                 login_id: "",
                 approvals: [],
-                a: [],
+                a: 0,
                 approvalFilter: [],
                 selected: ["제목", "내용"],
                 select: "제목",
@@ -187,7 +187,9 @@
             },
             re(app) {
                 let idx = 0;
-                for (var i = 0; i < this.approvals.length; i++) {
+                this.approvalFilter = [];
+                this.posts = [];
+                for (var i = 0; i <app.length; i++) {
 
                     if ((app[i].app_status_check == 'ing' && app[i].app_status3 != 'true')
                         && app[i].app_writer_id == this.login_id) {
@@ -195,7 +197,6 @@
 
                     }
                 }
-                this.a = this.approvalFilter;
                 this.posts = this.approvalFilter;
 
             },

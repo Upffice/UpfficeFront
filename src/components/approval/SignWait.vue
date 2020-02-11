@@ -26,7 +26,7 @@
             <subMenu></subMenu>
         </div>
 
-        <table class="table table-hover">
+        <table class="table table-hover shtable">
             <thead>
             <tr class="table-primary">
                 <th scope="col">No</th>
@@ -55,7 +55,7 @@
                     </router-link>
                 </td>
                 <td>{{app.app_writer_name}}</td>
-                <td>{{app.app_date}}</td>
+                <td class="sh-date-td">{{app.app_date}}</td>
 
             </tr>
             </tbody>
@@ -316,12 +316,23 @@
         margin: auto;
     }
 
-    .table {
+    .shtable {
 
-        margin: auto auto auto 150px;
-        width: 1000px;
+        margin: auto auto auto 150px !important;
+        width: 1000px !important;
 
     }
+
+    .shtable td{
+        vertical-align: middle !important;
+        /*table-layout: fixed !important;*/
+        /*width: auto;*/
+
+    }
+
+    /*.sh-date-td{
+        width:auto !important;
+    }*/
 
     .form-inline {
         margin-top: 200px;
@@ -335,4 +346,7 @@
         margin-left: 50%;
 
     }
+
+
+
 </style>

@@ -21,6 +21,7 @@
         <div v-else-if="!isManager">
             <h4>You logIned successfully!</h4>
             로그인 되었을 때 메인
+            <working></working>
             <!--ex) {{this.$router.push("/mypage")}}-->
             <!--요약 메인 페이지를 하나 만들고 위처럼 주소 push 해서 넘기면 된다.(로그인 성공 시)-->
         </div>
@@ -36,6 +37,7 @@
 
 <script>
     import http from "../http-common";
+    import working from "./main/Working";
 
     export default {
         name: "employee-login",
@@ -53,6 +55,9 @@
                 },
                 isManager : ""   // 매니저 로그인 판별할 변수
             };
+        },
+        components: {
+            working:working
         },
         methods: {
             login() {
