@@ -7,7 +7,7 @@
                         <select class="form-control" v-model="calendar_id" @change="getAllSchedules">
                             <option value=0>전체 일정</option>  <!-- 해당하는 calendar_id 를 0으로 하고 이 때 전체 일정 가져옴 -->
                             <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
-                                {{calendar.calendar_name}}{{index}}
+                                {{calendar.calendar_name}}
                             </option>
                         </select>
                     </div>
