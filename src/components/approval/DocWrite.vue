@@ -313,7 +313,7 @@
                 }, {
                     name: 'dynamic-modal',
                     width: '600px',
-                    height: '600px',
+                    height: '450px',
                     draggable: true
                 })
                 /*this.approval.status1 = false;
@@ -337,7 +337,7 @@
                 }, {
                     name: 'dynamic-modal',
                     width: '600px',
-                    height: '600px',
+                    height: '450px',
                     draggable: true
                 })
             },
