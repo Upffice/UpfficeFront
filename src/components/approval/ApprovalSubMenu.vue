@@ -100,4 +100,18 @@ export default {
         /*width: auto;*/
 
     }
+    .card-header{
+        border: 1.5px black solid;
+        border-radius: 4px;
+        position: absolute;
+        margin-left: 300px !important;
+        max-width: 1100px;
+    }
+    div.card-header > table > tr> td{
+        width: 400px;
+    }
+
+    .subMenu{
+        height: 678px;
+    }
 </style>

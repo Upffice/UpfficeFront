@@ -1,10 +1,8 @@
 <template>
 
 
-    <div class="card border-primary mb-3" style="max-width: 1100px;">
-        <div class="list row">
-            <subMenu></subMenu>
-        </div>
+    <div class=" border-primary mb-3" style="max-width: 1100px;">
+        <subMenu></subMenu>
         <div class="card-header">
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문 확인</b></span>
@@ -62,7 +60,7 @@
 
 
             <!--------------------------------------------form테이블 시작---------------------------------------------------------->
-            <table class="table tb-bd">
+            <table class="table tb-bd table-responsive">
                 <th scope="row" style="border: aliceblue; font-size: 18px">
                     <div>문서유형</div>
 
