@@ -12,6 +12,9 @@
                     <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
+                                <router-link class="nav-link" to="/calendar">일정관리</router-link>
+                            </li>
+                            <li class="nav-item">
                                 <router-link class="nav-link" to="/working">근태관리</router-link>
                             </li>
                             <li class="nav-item">

@@ -46,6 +46,7 @@ import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 import FormManagement from "./components/managerpage/FormManagement";
 import employeesPopup from "./components/managerpage/employeesPopup";
+import Calendar from "./components/schedule/Calendar";
 
 Vue.use(Router);
 
@@ -169,6 +170,12 @@ export default new Router({
             path: "/working/annual",
             name: "annualDetail",
             component: AnnualDetail
+        },
+        {
+            path: "/schedule/calendar",
+            name: "calendar",
+            alias: "/calendar",
+            component: Calendar
         },
         {
             path:"/survey/addsurvey",
