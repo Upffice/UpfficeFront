@@ -144,6 +144,11 @@
                     .post("/app/search/emp")
                     .then(response => {
                         this.empArr = response.data;
+                        for(let i=0; i<this.empArr.length; i++){
+                            if(this.empArr[i].emp_id == sessionStorage.getItem("login_id")){
+                                this.empArr.splice(i,1);
+                            }
+                        }
                         this.idToName();
                         this.addCho();
                     })
@@ -153,11 +158,7 @@
                         /* eslint-disable no-console */
                     });
             },
-            add_signer() {
-                alert("추가되었습니다!")
-                if (this.sign1 == null) {
-                }
-            },
+
             selectAbove() {
                 /*input 에서 위,왼쪽 눌렀을때 선택된곳 */
 
