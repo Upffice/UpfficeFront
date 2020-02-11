@@ -34,7 +34,6 @@
             <div class="form-group form-inline form-group-JH">
                 <label for="exampleInputFile" class="labelfont">사진 업로드</label>
                 <input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">
-                <small class="form-text text-muted" id="fileHelp">안녕하세요 저는 정준희에요 멋쟁이 정준희입니다 ㅎㅎ 짱짱맨 정준희</small>
             </div>
 
         <button v-on:click="savePost" class="btn btn-success">게시물 등록</button> &nbsp;&nbsp;&nbsp;&nbsp;
