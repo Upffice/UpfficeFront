@@ -15,15 +15,7 @@
                                 <td colspan="2">
                                     <img v-bind:src="emp_img_url">
 
-                                    <input
-                                            style="display: none"
-                                            ref="fileInput"
-                                            type="file"
-                                            @change="onFileSelected"
-                                    />
-                                    <button @click="$refs.fileInput.click()">Pick File</button>
-                                    <button @click="onUpload">Upload</button>
-
+                                    <br><br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -65,7 +57,30 @@
                                 <td><input type="text" required v-model="employee.dep_id"></td>
                             </tr>
                         </table>
+
                         <div class="modal-footer">
+                            <div class="file_name">
+                                <input type="file"
+                                       id="files"
+                                       style="display: none"
+                                       ref="files"
+                                       @change="handleFilesUpload()"/>
+                                <div class="add-img">
+                                    <div v-for="(file, key) in files" :key="key"
+
+                                    ><p class="file-listing">{{ file.name}}</p>
+                                        <span class="remove-file"
+                                              v-on:click="removeFile( key )"
+                                              style="color: red"
+                                        ><small>Remove</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <button @click="$refs.fileInput.click()">Pick image</button>-->
+                            <button v-on:click="addFiles()">Add image</button>
+                            <button @click="fileUpload">저장</button>
+
+
                             <button type="button" class="btn btn-primary" v-on:click="addEmployees">등록</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                     v-on:click="$emit('close')">취소
@@ -112,35 +127,92 @@
 
                 },
                 added: false,
-                selectedFile: null,
-                emp_img_url: ""
+                emp_img_url: "",
+                files: [],
+                downLoadNames: [],
             }
         },
         methods: {
+            handleFilesUpload() {
+                /*2.input type=file dom(원래file형식의 돔)*/
+                let uploadedFiles = this.$refs.files.files;
+                for (var i = 0; i < uploadedFiles.length; i++) {
+                    /*전역변수 배열끝에 돔에서 가져온 파일 추가*/
+                    this.files.push(uploadedFiles[i]);
+                }
+            },
 
-            onFileSelected(event) {
+            /*onFileSelected(event) {
                 console.log(event)
                 this.selectedFile = event.target.files[0]//0이 file이고 1이길이
+            },*/
+            addFiles() {
+                console.log("진입");
+                console.log(this.$refs);
+                /*1.add File 클릭시 실행메서드*/
+                this.$refs.files.click();//Dom의 ref=files 클릭한것과 같은효과
             },
-            onUpload() {
+            removeFile(key) {
+                /*key번째 1개 삭제*/
+                this.files.splice(key, 1);
+            },
+            fileUpload() {
+                this.submitFiles();
+                /*this.emp_img_url = */
+                console.log(files.files[0].name);
+            },
+            submitFiles() {
+                /*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
-                formData.append('image', this.selectedFile, this.selectedFile.name);
-                console.log(this.selectedFile.name)
 
-                http
-                    .post('src/assets', formData, {
-                        onUploadProgress: uploadEvent => {
-                            console.log('Upload Progress: ' + Math.round(uploadEvent.load / uploadEvent.total * 100) + '%')
+                for (var i = 0; i < this.files.length; i++) {
+                    let file = this.files[i];
+                    /*append는 덮어쓰기가 아니라 추가*/
+                    /*formData 뒤에 key=이름, value=파일 추가*/
+                    formData.append('file', file);
+
+                }
+                /*key value 확인 for-each문*/
+                /*formData.forEach((value, key) => {
+                    console.log("key %s: value %s", key, value);
+                })*/
+
+                /*param필요없으면 +docnum지워도됨*/
+                http.post('/employees/image/',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
                         }
-                    })
-                    .then(response => {
-                        console.log(response)
-                        this.emp_img_url = require('../../assets/emp_img/'+this.selectedFile.name+'.jpg');
+                    }).then(r => {
+                    var message = r.data
+                    console.log('SUCCESS!!');
+                    console.log(message)
 
-                    })
+                }).catch(function () {
+                    console.log('FAILURE!!');
+                });
+
             },
+            /* onUpload() {
+                 let formData = new FormData();
+                 formData.append('image', this.selectedFile, this.selectedFile.name);
+                 console.log(this.selectedFile.name)
 
+                 http
+                     .post('src/assets', formData, {
+                         onUploadProgress: uploadEvent => {
+                             console.log('Upload Progress: ' + Math.round(uploadEvent.load / uploadEvent.total * 100) + '%')
+                         }
+                     })
+                     .then(response => {
+                         console.log(response)
+                         this.emp_img_url = require('../../assets/emp_img/' + this.selectedFile.name + '.jpg');
 
+                     })
+             },
+
+ */
             addEmployees() {
                 var data = {
                     emp_id: this.employee.emp_id,
@@ -184,4 +256,19 @@
     .modal-footer {
         padding-bottom: 0px;
     }
+
+    .file-listing {
+        width: 120px;
+        margin: 0 1px 0 0;
+        position: relative;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
+        white-space: nowrap; /*말 줄임표 위한 설정*/
+    }
+
+    .add-img {
+        height: 30px;
+    }
+
 </style>

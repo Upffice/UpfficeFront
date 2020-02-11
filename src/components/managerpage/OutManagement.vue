@@ -355,7 +355,7 @@
         width: 200px;
     }
 
-    .form-group, btn-group {
+    btn-group {
         float: right;
     }
 
