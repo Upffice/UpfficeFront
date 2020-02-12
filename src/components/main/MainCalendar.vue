@@ -298,7 +298,7 @@
     .scrollDiv {
         text-align: center;
         overflow: auto; /*말 줄임표 위한 설정 : 스크롤 안 보이게 하려면 hidden*/
-        width: 100%;
+        width: 70%;
         height: 60%;
         font-size: 10px;
         word-break: break-all;  /*width 넘어가면 다음 줄로 넘어가게 하기*/
@@ -311,7 +311,6 @@
         background: transparent;
     }
     .colorDot {
-        font-size: 9px;
-        margin-right: 2px;
+        font-size: 11px;
     }
 </style>

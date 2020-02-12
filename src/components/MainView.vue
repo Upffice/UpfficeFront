@@ -23,6 +23,7 @@
             <working></working>
             <sign></sign>
             <calendar></calendar>
+            <today></today>
             <!--ex) {{this.$router.push("/mypage")}}-->
             <!--요약 메인 페이지를 하나 만들고 위처럼 주소 push 해서 넘기면 된다.(로그인 성공 시)-->
         </div>
@@ -42,6 +43,7 @@
     import calendar from "./main/MainCalendar";
     import myInfo from "./main/MyInfo";
     import sign from "./main/SignSummary";
+    import today from "./main/TodaySchedule";
 
     export default {
         name: "employee-login",
@@ -65,6 +67,7 @@
             working:working,
             sign:sign,
             calendar:calendar,
+            today:today
         },
         methods: {
             login() {
