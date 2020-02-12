@@ -28,12 +28,13 @@
             </div>
             <div class="form-group form-inline form-group-JH">
                 <label for="writer" class="labelfont">작 성 란&nbsp;&nbsp;&nbsp;</label>
-                <textarea class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
+                <textarea  class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
             </div>
             <br>
             <div class="form-group form-inline form-group-JH">
                 <label for="exampleInputFile" class="labelfont">사진 업로드</label>
                 <input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">
+                <small class="form-text text-muted" id="fileHelp">사진은 .jpg .png 만 지원합니다</small>
             </div>
 
         <button v-on:click="savePost" class="btn btn-success">게시물 등록</button> &nbsp;&nbsp;&nbsp;&nbsp;
