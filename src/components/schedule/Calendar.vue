@@ -373,7 +373,7 @@
         float: right;
     }
     .searchInput {
-        width: 300px;
+        width: 200px;
     }
     .calendarCell {
         width: 100px;

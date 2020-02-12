@@ -46,8 +46,7 @@ export default {
             this.today = moment().format('DD');
             this.day = this.week[moment().day()];
 
-            // let today = moment().format('YYYY-MM-DD');
-            let today = "2020-02-11";
+            let today = moment().format('YYYY-MM-DD');
             this.getSchedule(today);
         },
         getSchedule(today) {
