@@ -1,10 +1,7 @@
 <template>
     <div class="list row">
         <div>
-            <h4>파일 다운로드</h4>
-            <hr>
-
-
+            <h4>양식 다운로드</h4>
             <hr>
             <div>
                 <table class="table table-hover" style="margin-top: 20px">
@@ -17,7 +14,7 @@
                     <tbody>
                     <tr v-for="(downLoadName,index) in downLoadNames" :key="index">
                         <td>{{downLoadName}}</td>
-                        <td><label class="badge badge-warning">다운로드하기</label></td>
+                        <td> <router-link to="#" @click.native="getDown(downLoadName)"><label class="badge badge-success">다운로드</label></router-link></td>
                     </tr>
                     </tbody>
                 </table>
@@ -42,7 +39,7 @@
                             ><small>Remove</small></span>
                         </div>
                     </div>
-<hr>
+                    <hr>
                     <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
                         <button v-on:click="addFiles()">Add Files</button>
                     </div>
@@ -55,10 +52,10 @@
             <div class="container">
                 <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                      readonly>
-                    <router-link to="#" v-for="(file, key) in downLoadNames"
-                                 class="file-listing" :key="key"
-                                 @click.native="getDown(approval.docNum,file)">
-                        <div>{{ file }}</div>
+                    <router-link to="#" v-for="(downLoadName,index) in downLoadNames" :key="index"
+                                 class="file-listing"
+                                 @click.native="getDown(downLoadName)">
+                        <div>{{ downLoadName }}</div>
                     </router-link>
                 </div>
                 <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
@@ -142,13 +139,13 @@
                 this.submitFiles();
             },
 
-            getDown(docnum, filename) {
+            getDown(filename) {
                 /*링크누르면 다운로드 되는 메서드*/
                 /*axios post 저수준 api*/
                 /**/
                 http
                 ({
-                    url: '/employees/files-download/' + docnum,
+                    url: '/employees/files-download',
                     method: 'POST',
                     responseType: 'blob', // important
                     data: filename,
@@ -181,7 +178,7 @@
                         let filename = this.downLoadNames[i];
                         http
                         ({
-                            url: '/employees/files-download/',
+                            url: '/employees/files-download',
                             method: 'POST',
                             responseType: 'blob', // important
                             data: filename,
@@ -207,11 +204,11 @@
                     }
                 }
             },
-            getDownloadLink(docnum) {
+            getDownloadLink() {
                 /*1.'파일명' 다운로드링크받아오는 메서드*/
-                /*mounted에 구현하는것 추천, docnum은 업로드 파일 폴더이름*/
+                /*mounted에 구현하는것 추천*/
                 http
-                    .get('/employees/down/' + docnum)
+                    .get('/employees/down')
                     .then(response => {
                         this.downLoadNames = response.data;
                         console.log(this.downLoadNames);
@@ -224,7 +221,11 @@
 
         },
         mounted() {
-            this.getDownloadLink();
+            if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
+                this.getDownloadLink();
+            } else {
+                this.$router.push("/");
+            }
         },
     }
 </script>

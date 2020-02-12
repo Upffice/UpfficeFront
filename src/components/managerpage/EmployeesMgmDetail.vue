@@ -10,7 +10,7 @@
                     <table class="table table-hover">
                         <tr>
                             <td colspan="2">
-                                    <img v-bind:src="emp_img_url">
+                                <img v-bind:src="emp_img_url">
                             </td>
                         </tr>
                         <tr>
@@ -136,19 +136,27 @@
 
         },
         mounted() {
-            this.emp_img_url = require('../../assets/emp_img/'+ this.employees.emp_id + '.jpg');
-
+            this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employee.emp_id + '.jpg';  // 사원 이미지 경로 설정
         }
     };
 </script>
 <style scoped>
 
-    img{
+    img {
         margin: auto;
         width: 120px;
         height: 120px;
         border-radius: 70%;
         overflow: hidden;
         display: block
+    }
+
+    th, td {
+          padding-top: 10px;
+          padding-bottom: 10px;
+      }
+
+    .table {
+        margin-bottom: 0;
     }
 </style>

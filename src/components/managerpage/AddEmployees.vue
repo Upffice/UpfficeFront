@@ -12,10 +12,12 @@
 
                         <table class="table table-hover">
                             <tr>
-                                <td colspan="2">
-                                    <img v-bind:src="emp_img_url">
-
-                                    <br><br><br>
+                                <td v-if="!url" colspan="2">
+                                    <label class="img" style="height: 120px">사진 선택 후 저장버튼을 누르시오</label>
+                                    <!--<img v-bind:src="url">-->
+                                </td>
+                                <td v-else>
+                                    <img class="img" v-bind:src="url">
                                 </td>
                             </tr>
                             <tr>
@@ -76,9 +78,11 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- <button @click="$refs.fileInput.click()">Pick image</button>-->
-                            <button v-on:click="addFiles()">Add image</button>
-                            <button @click="fileUpload">저장</button>
+                            <!-- <button v-on:click="addFiles()">Add image</button>-->
+
+                            <input type="file" @change="onFileChange">
 
 
                             <button type="button" class="btn btn-primary" v-on:click="addEmployees">등록</button>
@@ -129,10 +133,16 @@
                 added: false,
                 emp_img_url: "",
                 files: [],
-                downLoadNames: [],
+                downLoadNames: "",
+                url: ""
             }
         },
         methods: {
+            onFileChange(e) {
+                const file = e.target.files[0];
+                this.url = URL.createObjectURL(file);
+                this.files = file;
+            },
             handleFilesUpload() {
                 /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
@@ -141,11 +151,6 @@
                     this.files.push(uploadedFiles[i]);
                 }
             },
-
-            /*onFileSelected(event) {
-                console.log(event)
-                this.selectedFile = event.target.files[0]//0이 file이고 1이길이
-            },*/
             addFiles() {
                 console.log("진입");
                 console.log(this.$refs);
@@ -158,26 +163,15 @@
             },
             fileUpload() {
                 this.submitFiles();
-                /*this.emp_img_url = */
-                console.log(files.files[0].name);
+                console.log("file + " + this.files.name);
+                this.downLoadNames = 'http://localhost:8080/emp_img/' + this.employee.emp_id + '.jpg';  // 사원 이미지 경로 설정
+
             },
             submitFiles() {
                 /*페이지 form전송시 호출되는 메서드(param지워도됨)*/
                 let formData = new FormData();
+                formData.append('file', this.files);
 
-                for (var i = 0; i < this.files.length; i++) {
-                    let file = this.files[i];
-                    /*append는 덮어쓰기가 아니라 추가*/
-                    /*formData 뒤에 key=이름, value=파일 추가*/
-                    formData.append('file', file);
-
-                }
-                /*key value 확인 for-each문*/
-                /*formData.forEach((value, key) => {
-                    console.log("key %s: value %s", key, value);
-                })*/
-
-                /*param필요없으면 +docnum지워도됨*/
                 http.post('/employees/image/',
                     formData,
                     {
@@ -185,7 +179,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(r => {
-                    var message = r.data
+                    var message = r.data;
                     console.log('SUCCESS!!');
                     console.log(message)
 
@@ -194,27 +188,9 @@
                 });
 
             },
-            /* onUpload() {
-                 let formData = new FormData();
-                 formData.append('image', this.selectedFile, this.selectedFile.name);
-                 console.log(this.selectedFile.name)
 
-                 http
-                     .post('src/assets', formData, {
-                         onUploadProgress: uploadEvent => {
-                             console.log('Upload Progress: ' + Math.round(uploadEvent.load / uploadEvent.total * 100) + '%')
-                         }
-                     })
-                     .then(response => {
-                         console.log(response)
-                         this.emp_img_url = require('../../assets/emp_img/' + this.selectedFile.name + '.jpg');
-
-                     })
-             },
-
- */
             addEmployees() {
-                var data = {
+                let data = {
                     emp_id: this.employee.emp_id,
                     emp_pw: this.employee.emp_pw,
                     name: this.employee.name,
@@ -224,25 +200,40 @@
                     extension_number: this.employee.extension_number,
                     phone_number: this.employee.phone_number,
                     dep_id: this.employee.dep_id
-                };
-                http
-                    .post("/employees/employees/add", data)
-                    .then(response => {
-                        this.employee.emp_id = response.data.emp_id
-                        console.log(response.data);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-                this.added = true;
+                }
+
+
+
+
+                if (data.emp_id ==""|data.emp_pw==""|data.name == "" | data.emp_email == "" | data.position == ""| data.dep_id == ""  |
+                    data.hire_date == ""  | data.extension_number == "" |data.phone_number == "") { // 빈 칸 인지 확인하기
+                    alert("빈 칸을 확인해주세요!");
+
+                } else {
+
+
+                    http
+                        .post("/employees/employees/add", data)
+                        .then(response => {
+                            this.employee.emp_id = response.data.emp_id;
+                            console.log(response.data);
+                            this.fileUpload();
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+                    this.added = true;
+                }
             },
             newEmployees() {
                 this.added = false;
                 this.employee = {};
+                this.emp_img_url = "";
             },
             /* goBack() {
                  history.go(-1);
-             }*/
+             },*/
+
 
         }
     }
@@ -250,7 +241,7 @@
 
 <style scoped>
     .table {
-        height: 550px;
+        margin-bottom: 0;
     }
 
     .modal-footer {
@@ -269,6 +260,20 @@
 
     .add-img {
         height: 30px;
+    }
+
+    .img {
+        margin: auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 70%;
+        overflow: hidden;
+        display: block
+    }
+
+    th, td {
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
 </style>

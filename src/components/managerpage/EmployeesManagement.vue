@@ -10,7 +10,7 @@
             <div class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
                 <fieldset>
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchNameAndPosition"
-                           placeholder="검색(이름, 직책 입력)" id="nameAndPosition"
+                           placeholder="검색(성명, 직책 입력)" id="nameAndPosition"
                            required v-model="nameAndPosition" name="nameAndPosition"/>
                     <button class="btn btn-secondary" type="submit"
                             v-on:click="searchNameAndPosition">검색</button>
@@ -338,12 +338,9 @@
         padding-top: 30px;
         position: relative;
     }
-
-    /* .table {
-         width: 80%;
-         margin: auto;
-         text-align: center;
-     }*/
+.page-link{
+    background-color:#0e0b37;
+}
 
     .btn {
         margin: 20px 0px 20px 0px

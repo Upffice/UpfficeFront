@@ -255,11 +255,14 @@
     .list {
         text-align: center;
         max-width: 90%;
-        margin-left: 15%;
+        margin-left: 18%;
+        margin-right: 5%;
         margin-top: 20px;
     }
 
-    .form-group, btn-group {
+
+
+  .btn-group {
         float: right;
     }
 
