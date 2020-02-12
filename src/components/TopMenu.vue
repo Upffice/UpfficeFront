@@ -140,7 +140,7 @@
                 // 밑의 경로에 사번.jpg에 해당하는 이미지 파일을 넣어두고 사용하면 됨
                 if(!this.loginInfo.manager) {
                     this.getName(); // 이름 가져오기 위한 메소드
-                    this.emp_img_url = require('../assets/emp_img/' + this.loginInfo.login_id + '.jpg');
+                    this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.loginInfo.login_id + '.jpg';  // 사원 이미지 경로 설정
                 }
 
             }

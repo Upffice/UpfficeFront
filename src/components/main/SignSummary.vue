@@ -25,9 +25,9 @@ export default {
 
 <style scoped>
     .signDiv {
-        width: 42.5%;
+        width: 53%;
         height: 90%;
-        left: 16.2%;
+        left: 16%;
         top: 70px;
         position: absolute;
         border: 1px solid gray;

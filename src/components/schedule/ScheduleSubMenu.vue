@@ -6,10 +6,12 @@
             </li>
             <li class="list-group-item libgclr">
                 <label class="col-form-label col-form-label calendarLabel" for="inputSmall">캘린더 추가</label><br>
-                <input type="color" class="inputColor" v-model="calendarInput.cal_color">
-                <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">
+                <div style="width: 100%">
+                    <input type="color" class="inputColor" v-model="calendarInput.cal_color">
+                    <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">
 
-                <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>
+                    <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>
+                </div>
             </li>
             <li class="list-group-item libgclr">
                 <div v-if="calendarList">
@@ -175,7 +177,7 @@ export default {
         margin-right: 2px;
     }
     .addBtn {
-        width: 20px;
+        width: 5%;
         float: left;
         padding: 0;
     }

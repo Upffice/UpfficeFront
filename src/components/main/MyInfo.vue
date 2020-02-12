@@ -43,7 +43,7 @@ export default {
                 this.employee.dep_id = response.data.dep_id;
 
                 this.getDep_Name(this.employee.dep_id);     // 사원 정보 중 부서 이름 가져오기
-                this.emp_img_url = require('../../assets/emp_img/'+ this.employee.emp_id + '.jpg');  // 사원 이미지 경로 설정
+                this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employee.emp_id + '.jpg';  // 사원 이미지 경로 설정
             })
             .catch(e => {
                 /* eslint-disable no-console */

@@ -30,10 +30,7 @@
                 <div v-if="day!==''&& hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
                     <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index">
                         <!-- 일정의 캘린더 별 색과 이름 넣기-->
-                        <span style="font-size: 9px" :style="{color: getCalColor(sche[1].calendar_id)}">●</span>&nbsp;
-                        <span class="scheNameSpan">
-                            {{sche[1].sche_name}}<br>
-                        </span>
+                        <span class="colorDot" :style="{color: getCalColor(sche[1].calendar_id)}">●</span>
                     </span>
                 </div>
                 </td>
@@ -67,6 +64,7 @@
                 schedule: [],        // 가져온 일정 담을 배열
                 calendarList: [],    // 캘린더 목록
                 calendar_id : 0,     // 캘린더 id
+                cnt: 0
             }
         },
         methods: {
@@ -123,20 +121,7 @@
                                 this.scheduleList = response.data;
                                 for(let j=0; j<this.scheduleList.length; j++) {
                                     this.schedule.push([ sche_date, this.scheduleList[j] ]);    //  배열에 해당 날짜와 일정 이름 넣기
-                                }
-                            })
-                            .catch(e => {
-                                /* eslint-disable no-console */
-                                console.log(e);
-                            });
-                    } else {
-                        http
-                            .get("/schedule/list/" + this.emp_id + "?calendar_id=" + this.calendar_id  + "&sche_date=" + sche_date)
-                            .then(response=> {
-                                /* eslint-disable no-console */
-                                this.scheduleList = response.data;
-                                for(let j=0; j<this.scheduleList.length; j++) {
-                                    this.schedule.push([sche_date, this.scheduleList[j]]);    //  배열에 해당 날짜와 일정 이름 넣기
+
                                 }
                             })
                             .catch(e => {
@@ -276,7 +261,7 @@
 
 <style scoped>
     .calendar {
-        width: 40%;
+        width: 30%;
         height: 60%;
         top: 70px;
         position: absolute;
@@ -311,24 +296,22 @@
         padding: 0;
     }
     .scrollDiv {
-        text-align: left;
+        text-align: center;
         overflow: auto; /*말 줄임표 위한 설정 : 스크롤 안 보이게 하려면 hidden*/
         width: 100%;
         height: 60%;
         font-size: 10px;
-        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
-        white-space: nowrap; /*말 줄임표 위한 설정*/
+        word-break: break-all;  /*width 넘어가면 다음 줄로 넘어가게 하기*/
         overflow-x: hidden; /*가로 스크롤바 없애기*/
         -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
-        margin: 1px auto auto 5px;
+        margin: 1px auto auto;
     }
     .scrollDiv::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
         width: 1px;
         background: transparent;
     }
-    .scheNameSpan:hover{
-        cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
-        background: url("data:image/svg+xml;charset=utf8,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='1px' height='1px' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='1' height='1' fill='aqua' /%3E%3C/svg%3E") no-repeat 100% 100%;
-        background-size: 100% 50%;
+    .colorDot {
+        font-size: 9px;
+        margin-right: 2px;
     }
 </style>

@@ -346,7 +346,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .calendar {
         width: 75%;
         margin-left: 265px;
