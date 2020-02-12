@@ -1,56 +1,29 @@
 <template>
     <div class="myInfo">
-            <table class="table table-hover mypageTable">
-                내 정보 요약 페이지
-<!--                <tr>-->
-<!--                    <td rowspan="6" width="25%">-->
-<!--                        <div class="img_div">-->
-<!--                            <img v-bind:src="emp_img_url"><br>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                    <th width="25%">사번</th>-->
-<!--                    <td width="50%">{{employee.emp_id}}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>소속</th>-->
-<!--                    <td>{{dep_name}}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>직책</th>-->
-<!--                    <td>{{employee.position}}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>내선번호</th>-->
-<!--                    <td>{{employee.extension_number}}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>이메일</th>-->
-<!--                    <td>{{employee.emp_email}}</td>-->
-<!--                </tr>-->
-            </table><br>
+        <div class="img_div">
+            <img v-bind:src="emp_img_url"><br>
+        </div>
+        <div class="infoDiv">
+            <div class="empName"><strong>{{employee.emp_name}} {{employee.position}}</strong></div>
+            <div class="depName">{{dep_name}}</div>
+        </div>
     </div>
-
 </template>
 
 <script>
     import http from "../../http-common";
+
 export default {
     name: "employee-info",
     data() {
         return {
           employee: {
             emp_id: "",
-            emp_pw: "",
             emp_name: "",
-            emp_email: "",
             position: "",
-            hire_date: "",
-            extension_number: "",
-            phone_number: "",
             dep_id: ""
           },
           dep_name : "", // 부서이름 담을 변수
-          emp_pw_chk : "", // 비밀번호 확인값 담을 변수
           emp_img_url : "" // 사원 사진 경로
         };
     },
@@ -112,31 +85,24 @@ export default {
         position: absolute;
         border: 1px solid gray;
     }
-    /*.mypageTable {*/
-    /*    width: 80%;*/
-    /*    margin: 20px auto auto;*/
-    /*    border: 1px solid #dddddd;*/
-    /*}*/
-    /*.form-control {*/
-    /*    width: 200px;*/
-    /*}*/
-    /*img {*/
-    /*    width: 100%;*/
-    /*    height: 100%;*/
-    /*    object-fit: cover;*/
-    /*}*/
-    /*.img_div {*/
-    /*    margin: 50px auto auto;*/
-    /*    width: 250px;*/
-    /*    height: 250px;*/
-    /*    border-radius: 70%;*/
-    /*    overflow: hidden;*/
-    /*}*/
-    /*th {*/
-    /*    vertical-align: middle;*/
-    /*    text-align: left;*/
-    /*}*/
-    /*td {*/
-    /*    text-align: left;*/
-    /*}*/
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+    .img_div {
+        width: 100px;
+        height: 100px;
+        border-radius: 70%;
+        overflow: hidden;
+        margin: 15% auto auto;
+    }
+    .infoDiv {
+        margin-top: 20px;
+    }
+    .empName {
+        font-size: 18px;
+    }
+    .depName {
+        color: gray;
+    }
 </style>
