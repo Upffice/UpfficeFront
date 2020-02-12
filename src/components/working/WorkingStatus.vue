@@ -15,8 +15,11 @@
             </div>
             필요 근무 시간:{{monthTime}}시간<br>
             실제 근무 시간:{{workingTime}}
-            <button class="btn btn-success btn-lg btn-block" v-on:click="weeks.week1.show = !weeks.week1.show">
-                1주차
+            <button v-if="weeks.week1.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week1.show = !weeks.week1.show">
+                1주차 ▲
+            </button>
+            <button v-else="weeks.week1.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week1.show = !weeks.week1.show">
+                1주차 ▼
             </button>
             <table v-if="weeks.week1.show" class="table table-hover">
                 <thead>
@@ -34,8 +37,11 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button class="btn btn-success btn-lg btn-block" v-on:click="weeks.week2.show = !weeks.week2.show">
-                2주차
+            <button v-if="weeks.week2.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week2.show = !weeks.week2.show">
+                2주차 ▲
+            </button>
+            <button v-else="weeks.week2.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week2.show = !weeks.week2.show">
+                2주차 ▼
             </button>
             <table v-if="weeks.week2.show" class="table table-hover">
                 <thead>
@@ -53,8 +59,11 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button class="btn btn-success btn-lg btn-block" v-on:click="weeks.week3.show = !weeks.week3.show">
-                3주차
+            <button v-if="weeks.week3.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week3.show = !weeks.week3.show">
+                3주차 ▲
+            </button>
+            <button v-else="weeks.week3.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week3.show = !weeks.week3.show">
+                3주차 ▼
             </button>
             <table v-if="weeks.week3.show" class="table table-hover">
                 <thead>
@@ -72,8 +81,11 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button class="btn btn-success btn-lg btn-block" v-on:click="weeks.week4.show = !weeks.week4.show">
-                4주차
+            <button v-if="weeks.week4.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week4.show = !weeks.week4.show">
+                4주차 ▲
+            </button>
+            <button v-else="weeks.week4.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week4.show = !weeks.week4.show">
+                4주차 ▼
             </button>
             <table v-if="weeks.week4.show" class="table table-hover">
                 <thead>
@@ -91,8 +103,11 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button class="btn btn-success btn-lg btn-block" v-on:click="weeks.week5.show = !weeks.week5.show">
-                5주차
+            <button v-if="weeks.week5.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week5.show = !weeks.week5.show">
+                5주차 ▲
+            </button>
+            <button v-else="weeks.week5.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week5.show = !weeks.week5.show">
+                5주차 ▼
             </button>
             <table v-if="weeks.week5.show" class="table table-hover">
                 <thead>
