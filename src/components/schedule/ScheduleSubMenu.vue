@@ -1,10 +1,10 @@
 <template>
     <div class="subMenu">
+        <div style="font-weight: bold; margin: 8%; font-size: 20px">
+            일정관리
+        </div>
         <ul class="nav nav-pills flex-column">
-            <div style="font-weight: bold; margin: 8%; font-size: 20px">
-                일정관리
-            </div>
-                <button class="btn btn-secondary  btn-lg" @click="addSchedule()">일정 등록</button>
+            <button class="btn btn-primary btn-lg" @click="addSchedule()" style="width: 80%; margin: auto auto 20px;">일정 등록</button>
             <li class="list-group-item libgclr">
                 <label class="col-form-label col-form-label calendarLabel" for="inputSmall">캘린더 추가</label><br>
                 <div style="width: 100%">
@@ -24,8 +24,8 @@
                             {{calendar.calendar_name}}
                     </label><br><br>
 
-                    <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendar()">수정</button>
-                    <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
+                    <button class="btn btn-info disabled btn-sm pushCalBtn" @click="modifyCalendar()">수정</button>
+                    <button class="btn btn-danger disabled btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
                 </div>
             </li>
 
