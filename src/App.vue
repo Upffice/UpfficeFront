@@ -45,9 +45,6 @@
 
     }
 
-    .subMenu{
-    }
-
     a:hover {
         text-decoration: none;
     }
