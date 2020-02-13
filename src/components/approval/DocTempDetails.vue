@@ -119,11 +119,11 @@
                             <!--style="width: 200px"-->
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
                                 <div v-for="(file, key) in files" :key="key" class="file-listing">{{ file.name }} <span
-                                        class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
+                                        class="remove-file" v-on:click="removeFile( key )">삭제</span></div>
                             </div>
 
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button v-on:click="addFiles()">Add Files</button>
+                                <button v-on:click="addFiles()">파일 추가</button>
                             </div>
 
                         </div>
@@ -199,7 +199,8 @@
                 sign_url_1: "",
                 sign_url_2: "",
                 sign_url_3: "",
-                sign_url_4: ""
+                sign_url_4: "",
+                downLoadNames: [],
             }
         },
         components: {

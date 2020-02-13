@@ -2,7 +2,10 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-12">
-            <h4>연차</h4><button v-on:click="showModal()" class="btn btn-outline-success btn-lg">연차신청</button>
+            <h4>연차</h4>
+            <div class="alignRight">
+                <button v-on:click="showModal()" class="btn btn-outline-success btn-lg">연차신청</button>
+            </div>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -94,7 +97,7 @@
                     modal : this.$modal },{
                     name: 'dynamic-modal',
                     width : '300px',
-                    height : '225px',
+                    height : '255px',
                     draggable: false,
                 })
             }// End - showModal()
@@ -106,8 +109,9 @@
                 this.empId = sessionStorage.getItem("login_id");
                 this.readTotalAnnual();
                 this.readAnnuals();
-            } else {
-                this.$router.push("/");
+            }  else {
+                alert("로그인을 해주세요!");
+                this.$router.push('/');
             }
         },
         updated(){
@@ -121,5 +125,8 @@
         text-align: left;
         max-width: 450px;
         margin: auto;
+    }
+    .alignRight {
+        text-align: right;
     }
 </style>
