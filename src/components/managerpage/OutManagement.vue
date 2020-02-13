@@ -4,7 +4,7 @@
         <div>
             <h4>외부 주소록</h4>
             <hr>
-            <div style="float: left; margin: 10px 2px 0 0">
+            <div style="float: left; margin-bottom: 0">
                 <!--전체, 회사별 정렬하기 위한 dropdown-->
                 <form class="btn" role="group" style="float: left; position: relative; margin: 0 20px 0 0">
                     <select v-model="selected" @change="sort" type="button" class="form-control" id="exampleSelect1"
