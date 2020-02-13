@@ -85,6 +85,8 @@ export default {
     .shtable > thead > tr > th:nth-child(6){
         width: 10%;
     }
+
+
     .shtable > tbody > tr > td:nth-child(5){
         text-align: left;
     }
