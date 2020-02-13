@@ -46,6 +46,9 @@ import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 import FormManagement from "./components/managerpage/FormManagement";
 import Calendar from "./components/schedule/Calendar";
+import IngMain from "./components/approval/IngMain";
+import WaitMain from "./components/approval/WaitMain";
+
 
 Vue.use(Router);
 
@@ -344,6 +347,17 @@ export default new Router({
             component: ReceiveDetails,
             props: true
         },
+        {
+            path:"/app/main/ing",
+            name:"IngMain",
+            component: IngMain
+        },
+        {
+            path:"/app/main/wait",
+            name:"WaitMain",
+            component: WaitMain
+        },
+
         {
             path: "/file/All",
             name: "file",

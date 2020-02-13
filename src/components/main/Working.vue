@@ -2,9 +2,11 @@
     <div class="mainWorking">
         <div class="alignCenter">
             <Clock></Clock>
-            출근시간:{{this.working.workingIn}}<br>
-            퇴근시간:{{this.working.workingOut}}<br>
-            근무시간:{{this.working.workingTime}}<br>
+            <br>
+            <strong>출근시간</strong>&nbsp;:&nbsp;{{this.working.workingIn}}<br>
+            <strong>퇴근시간</strong>&nbsp;:&nbsp;{{this.working.workingOut}}<br>
+            <strong>근무시간</strong>&nbsp;:&nbsp;{{this.working.workingTime}}<br>
+            <br>
             <button v-if="!this.working.workingIn" v-on:click="saveWorkingIn()"
                     class="btn btn-outline-danger btn-working">출근
             </button>
@@ -108,16 +110,16 @@
     };// End - export default
 </script>
 
-<style>
+<style scoped>
     .alignCenter {
         text-align: center;
     }
     .mainWorking{
         width: 15%;
-        height: 50%;
+        height: 40%;
         left: 15px;
-        top: 50%;
+        top: 60%;
         position: absolute;
-        border: 1px solid gray;
     }
+
 </style>

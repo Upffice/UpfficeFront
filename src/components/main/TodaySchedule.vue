@@ -85,13 +85,12 @@ export default {
         right: 15px;
         top: 70%;
         position: absolute;
-        border: 1px solid gray;
     }
     .todayInfo {
         margin: auto;
     }
     .todayTable {
-        margin: 10px auto auto;
+        margin: 10px auto auto 3px;
         width: 100%;
         height: 80%;
         border: 2px solid #dddddd;
