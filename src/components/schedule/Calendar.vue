@@ -361,6 +361,7 @@
     }
     .changeBtn {
         font-size: 25px;
+        text-decoration: none;
     }
     .rounded {
         -moz-border-radius:20px 20px 20px 20px;

@@ -277,6 +277,7 @@
     }
     .changeBtn {
         font-size: 20px;
+        text-decoration: none;
     }
     .day {
         font-size: 11px;

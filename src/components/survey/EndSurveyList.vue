@@ -8,7 +8,9 @@
         </div>
         <div class="col-md-20">
             <br>
-            <h4>마감된 설문</h4>
+            <div class="big-subject2">
+            <h3>마감된 설문</h3>
+            </div>
             <br>
             <form class="form-inline my-2 my-lg-0 searchbar">
                 <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="검색"
@@ -268,5 +270,8 @@
         position: relative;
         margin-top: 5%;
         margin-left: 50%;
+    }
+    .big-subject2{
+        width: 52%;
     }
 </style>
