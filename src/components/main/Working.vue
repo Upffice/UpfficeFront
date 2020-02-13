@@ -116,7 +116,7 @@
     }
     .mainWorking{
         width: 15%;
-        height: 50%;
+        height: 40%;
         left: 15px;
         top: 60%;
         position: absolute;
