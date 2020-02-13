@@ -1,9 +1,9 @@
 <template>                                                                  <!--외부주소록 메인-->
     <div class="list row">
         <AddressSubMenu></AddressSubMenu>
-        <div >
-            <h4>외부 주소록</h4>
-            <hr>
+        <div>
+            <h3>외부 주소록</h3>
+
             <div class="form-inline my-2 my-lg-0" style="margin-bottom: 2px; float: right">
                 <!--성명,회사명으로 검색-->
                 <fieldset>
@@ -12,9 +12,11 @@
                            required v-model="nameAndCompany" name="nameAndCompany"/>
 
                     <button class="btn btn-primary" type="submit"
-                            v-on:click="searchOutAddress">검색</button>
+                            v-on:click="searchOutAddress">검색
+                    </button>
                     <button class="btn btn-secondary" type="submit"
-                            v-on:click="refreshList">취소</button>
+                            v-on:click="refreshList">취소
+                    </button>
                 </fieldset>
             </div>
 
@@ -260,9 +262,13 @@
         margin-top: 20px;
     }
 
+    h3 {
+        text-align: left;
+        float: left;
+    }
 
 
-  .btn-group {
+    .btn-group {
         float: right;
     }
 
@@ -274,6 +280,7 @@
         padding-top: 30px;
         position: relative;
     }
+
     .btn {
         margin: 20px 0px 20px 0px
     }

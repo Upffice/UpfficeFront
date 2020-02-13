@@ -3,8 +3,6 @@
         <div>
             <h4>양식 다운로드</h4>
             <hr>
-            <!--<div><input @keyup="filter(searchWord)" v-model="searchWord" type="text" id="value"
-                        placeholder="Type to Search"></div>-->
 
             <div class="btn-group">
                 <div class="file-listing">
@@ -127,29 +125,7 @@
             }
         },
         methods: {
-            /* filter(text) {
-                 var value, name, item, i;
 
-                 value = document.getElementById("value").value.toUpperCase();
-                 item = document.getElementsByClassName("item");
-
-                 for(i=0;i<item.length;i++){
-                     name = item[i].getElementsByClassName("name");
-                     if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
-                         item[i].style.display = "flex";
-                     }else{
-                         item[i].style.display = "none";
-                     }
-                 }
-                 console.log(text);
-                 var inputText = document.getElementById("inputText");
-                 var innerHTML = inputText.innerHTML;
-                 var index = innerHTML.indexOf(text);
-                 if (index >= 0) {
-                     innerHTML = innerHTML.substring(0, index) + "<span class='highlight'>" + innerHTML.substring(index, index + text.length) + "</span>" + innerHTML.substring(index + text.length);
-                     inputText.innerHTML = innerHTML;
-                 }
-             },*/
             handleFilesUpload() {
                 /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
@@ -431,10 +407,6 @@
         position: relative;
     }
 
-    .page-link {
-        background-color: #0e0b37;
-    }
-
     .btn {
         margin: 20px 3px 20px 0px;
         position: relative;
@@ -462,16 +434,14 @@
         background: transparent;
     }
 
-    .td_cnt {
-        width: 30px;
-    }
-
     .td_name {
         padding-left: 12%;
         text-align: left;
     }
 
-    .highlight {
-        background-color: yellow;
+    tbody > tr > td {
+        height: 5px;
+        padding: 8px 8px 8px 8px;
     }
+
 </style>
