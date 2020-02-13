@@ -10,15 +10,18 @@
             </h2>
 
             <div class="progress">
-                <div class="progress-bar" role="progressbar" :style="{width: barWidth}" aria-valuenow="25" aria-valuemin="0"
+                <div class="progress-bar" role="progressbar" :style="{width: barWidth}" aria-valuenow="25"
+                     aria-valuemin="0"
                      aria-valuemax="100"></div>
             </div>
             필요 근무 시간:{{monthTime}}시간<br>
             실제 근무 시간:{{workingTime}}
-            <button v-if="weeks.week1.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week1.show = !weeks.week1.show">
+            <button v-if="weeks.week1.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week1.show = !weeks.week1.show">
                 1주차 ▲
             </button>
-            <button v-else="weeks.week1.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week1.show = !weeks.week1.show">
+            <button v-else="weeks.week1.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week1.show = !weeks.week1.show">
                 1주차 ▼
             </button>
             <table v-if="weeks.week1.show" class="table table-hover">
@@ -37,10 +40,12 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week2.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week2.show = !weeks.week2.show">
+            <button v-if="weeks.week2.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week2.show = !weeks.week2.show">
                 2주차 ▲
             </button>
-            <button v-else="weeks.week2.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week2.show = !weeks.week2.show">
+            <button v-else="weeks.week2.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week2.show = !weeks.week2.show">
                 2주차 ▼
             </button>
             <table v-if="weeks.week2.show" class="table table-hover">
@@ -59,10 +64,12 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week3.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week3.show = !weeks.week3.show">
+            <button v-if="weeks.week3.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week3.show = !weeks.week3.show">
                 3주차 ▲
             </button>
-            <button v-else="weeks.week3.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week3.show = !weeks.week3.show">
+            <button v-else="weeks.week3.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week3.show = !weeks.week3.show">
                 3주차 ▼
             </button>
             <table v-if="weeks.week3.show" class="table table-hover">
@@ -81,10 +88,12 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week4.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week4.show = !weeks.week4.show">
+            <button v-if="weeks.week4.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week4.show = !weeks.week4.show">
                 4주차 ▲
             </button>
-            <button v-else="weeks.week4.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week4.show = !weeks.week4.show">
+            <button v-else="weeks.week4.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week4.show = !weeks.week4.show">
                 4주차 ▼
             </button>
             <table v-if="weeks.week4.show" class="table table-hover">
@@ -103,10 +112,12 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week5.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week5.show = !weeks.week5.show">
+            <button v-if="weeks.week5.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week5.show = !weeks.week5.show">
                 5주차 ▲
             </button>
-            <button v-else="weeks.week5.show" class="btn btn-success btn-lg btn-block" v-on:click="weeks.week5.show = !weeks.week5.show">
+            <button v-else="weeks.week5.show" class="btn btn-success btn-lg btn-block"
+                    v-on:click="weeks.week5.show = !weeks.week5.show">
                 5주차 ▼
             </button>
             <table v-if="weeks.week5.show" class="table table-hover">
@@ -147,9 +158,9 @@
                     week4: {workings: [], show: false},
                     week5: {workings: [], show: false}
                 },
-                monthTime:'',
-                workingTime:'',
-                barWidth:'0%',
+                monthTime: '',
+                workingTime: '',
+                barWidth: '0%',
                 show: false
             };
         },// End - data
@@ -179,17 +190,17 @@
                         console.log(e);
                     });
             },// End - readWorkings(currentYear,currentMonth)
-            calcMonthTime(date){//조회 중인 달에 근무해야 할 시간을 계산
-                let conut=0;
+            calcMonthTime(date) {//조회 중인 달에 근무해야 할 시간을 계산
+                let conut = 0;
                 let startDate = date.clone().startOf('month');
-                let diff=startDate.diff(date.clone().endOf('month'),'day');
-                for(; diff!==1; diff++){
-                     if(startDate.day()!==0&&startDate.day()!==6) {
-                         conut++;
-                     }
-                    startDate=startDate.add(1,'day');
+                let diff = startDate.diff(date.clone().endOf('month'), 'day');
+                for (; diff !== 1; diff++) {
+                    if (startDate.day() !== 0 && startDate.day() !== 6) {
+                        conut++;
+                    }
+                    startDate = startDate.add(1, 'day');
                 }
-               this.monthTime=conut*8;
+                this.monthTime = conut * 8;
             },// End - calcMonthTime(date)
             calcWorkingTime(workings) {//현재 조희 중인 달의 근무시간의 총 합을 구하는 메소드
                 let moment = require('moment');
@@ -200,7 +211,7 @@
                 for (let i = 0; i < workings.length; i++) {
                     let working = workings[i].workingDate + " " + workings[i].workingTime;
                     let hour = Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('h'));
-                    totalHour += (hour === 12)? 0 : hour;
+                    totalHour += (hour === 12) ? 0 : hour;
                     totalMin += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('m'));
                     totalSec += Number.isNaN(Number(moment(working).format('h'))) ? 0 : Number(moment(working).format('s'));
                 }
@@ -209,11 +220,11 @@
                 totalMin = totalMin % 60 + Math.floor(totalSec / 60);
                 totalSec = totalSec % 60;
 
-                this.workingTime=totalHour+"시간"+totalMin+"분";
-                this.setBarWidth((totalHour*60+totalMin),(this.monthTime*60));
+                this.workingTime = totalHour + "시간" + totalMin + "분";
+                this.setBarWidth((totalHour * 60 + totalMin), (this.monthTime * 60));
             },// End - calcWorkingTime(workings)
-            setBarWidth(workingMin,monthMin){ // 조회하는 달 근무시간에 따라 막대바의 길이를 조절하는 메소드
-                this.barWidth=Math.floor(workingMin/monthMin*100)+'%';
+            setBarWidth(workingMin, monthMin) { // 조회하는 달 근무시간에 따라 막대바의 길이를 조절하는 메소드
+                this.barWidth = Math.floor(workingMin / monthMin * 100) + '%';
             },// End - setBarWidth(workingMin,monthMin)
             divideWeekly(workings) { // 근태기록을 주차별로 나누는 메소드
 
@@ -281,7 +292,8 @@
                 this.empId = sessionStorage.getItem("login_id");
                 this.readWorkings(this.currentYear, this.currentMonth);
             } else {
-                this.$router.push("/");
+                alert("로그인을 해주세요!");
+                this.$router.push('/');
             }
         } // End - mounted()
     };// End - export default

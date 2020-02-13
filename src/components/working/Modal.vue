@@ -3,8 +3,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">연차 신청</h5>
-                    <button type="button" class="close" v-on:click="$emit('close')" aria-label="Close">
-                        <span aria-hidden="true">X</span>
+                    <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
+                            @click="$emit('close')">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -62,6 +63,6 @@
 </script>
 <style>
     .modalMagin{
-        margin: 1px;
+        margin: 10px;
     }
 </style>
