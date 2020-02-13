@@ -2,7 +2,7 @@
     <div class="subMenu">
 
         <ul class="nav nav-pills flex-column">
-            <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center">
+            <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center;">
                 게시판
             </div>
             <router-link to="/pst">
@@ -27,12 +27,14 @@
                     </router-link>
                 </li>
         </ul>
+        <div class="boardbox">
         <router-link to="/dep_pst/newBoard">
-            <button type="button" class="btn btn-success">게시판 등록</button>
+            <button type="button" class="btn btn-info disabled">게시판 등록</button>
         </router-link>
         <router-link to="/dep_pst/DeleteBoard">
-            <button type="button" class="btn btn-danger">게시판 삭제</button>
+            <button type="button" class="btn btn-danger disabled">게시판 삭제</button>
         </router-link>
+        </div>
     </div>
 </template>
 
@@ -113,5 +115,11 @@
 </script>
 
 <style scoped>
+    .boardbox{
+        text-align: center;
+        position: absolute;
+        margin-top: 3%;
+        left: 3.5%;
+    }
 
 </style>

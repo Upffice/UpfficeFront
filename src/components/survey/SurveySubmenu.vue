@@ -16,7 +16,7 @@
                 </li>
             </router-link>
             <router-link to="/addsurvey">
-                <li class="btn btn-success" style="width: 100%; margin-top: 40%; font-weight: bold;font-size: 20px">
+                <li class="btn btn-primary" style="width: 100%; margin-top: 40%; font-weight: bold;font-size: 20px">
                     설문 등록하기
                 </li>
             </router-link>
