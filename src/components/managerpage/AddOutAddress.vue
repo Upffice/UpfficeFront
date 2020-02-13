@@ -3,7 +3,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="text-align: center; margin: auto"><strong>외부 연락처 등록</strong></h5>
+                    <h5 class="modal-title" ><strong>외부 연락처 등록</strong></h5>
+                    <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
+                            @click="$emit('close')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <!-- 직원 추가 기능 -->
                 <div class="modal-body">
