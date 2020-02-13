@@ -83,7 +83,7 @@
                 },
                 dep_name: "", // 부서이름 담을 변수
                 emp_img_url: "", // 사원 사진 경로,
-                url:"http://localhost:8080/emp_img/10000.jpg"//기본이미지
+                url:"",//기본이미지
             }
         },
         watch: {'$route': 'getEmpInfo'},  //라우터 변경되면 메소드 다시 호출
@@ -101,8 +101,7 @@
                 }
 
                 if (data.name == "" | data.dep_id == "" | data.position == "" | data.extension_number == "" |
-                    data.hire_date == "" | data.emp_email == "" | data.phone_number == "")
-                { // 빈 칸 인지 확인하기
+                    data.hire_date == "" | data.emp_email == "" | data.phone_number == "") { // 빈 칸 인지 확인하기
                     alert("빈 칸을 확인해주세요!");
                 } else {
                     http
@@ -141,7 +140,12 @@
 
         },
         mounted() {
-            this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employees.emp_id + '.jpg';  // 사원 이미지 경로 설정
+            if (!('http://localhost:8080/emp_img/' + this.employees.emp_id + '.jpg')) {
+                this.url =  "http://localhost:8080/emp_img/10000.jpg";
+            } else {
+                this.emp_img_url = 'http://localhost:8080/emp_img/' + this.employees.emp_id + '.jpg';  // 사원 이미지 경로 설정
+
+            }
         }
     };
 </script>
@@ -157,9 +161,9 @@
     }
 
     th, td {
-          padding-top: 10px;
-          padding-bottom: 10px;
-      }
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
     .table {
         margin-bottom: 0;

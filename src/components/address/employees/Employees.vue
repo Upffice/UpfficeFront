@@ -3,7 +3,7 @@
         <div v-if="this.employee">
             <!--class="card border-primary"-->
             <div class="card-border" style="border: 1px solid">
-                <div class="card-header" align="center">&#60;상세정보&#62;</div>               <!--이름 눌렀을때 나오는 부분-->
+                <div class="header" align="center"><h5>&#60;상세정보&#62;</h5></div>               <!--이름 눌렀을때 나오는 부분-->
                 <div class="card-body">
                     <div class="img_div">
                         {{this.getImg(this.employee.emp_id)}}
@@ -125,6 +125,11 @@
         border-radius: 4px;
         margin: 7rem 0 0 20%;
 
+    }
+    .header{
+        padding: 12px 0 2px 0;
+        background-color:rgba(239,241,241,0.8);
+        height: 50px;
     }
 
 </style>
