@@ -9,8 +9,11 @@
                 <div v-if="employees" class="modal-body">
                     <table class="table table-hover">
                         <tr>
-                            <td colspan="2">
-                                <img v-bind:src="emp_img_url">
+                            <td v-if="!emp_img_url" colspan="2">
+                                <img class="img" v-bind:src="url">
+                            </td>
+                            <td v-else colspan="2">
+                                <img class="img" v-bind:src="emp_img_url">
                             </td>
                         </tr>
                         <tr>
@@ -79,7 +82,8 @@
                     dep_id: ""
                 },
                 dep_name: "", // 부서이름 담을 변수
-                emp_img_url: "" // 사원 사진 경로
+                emp_img_url: "", // 사원 사진 경로,
+                url:"http://localhost:8080/emp_img/10000.jpg"//기본이미지
             }
         },
         watch: {'$route': 'getEmpInfo'},  //라우터 변경되면 메소드 다시 호출

@@ -12,11 +12,11 @@
 
                         <table class="table table-hover">
                             <tr>
-                                <td v-if="!url" colspan="2">
-                                    <img class="img" v-bind:src="emp_img_url">
+                                <td v-if="!emp_img_url" colspan="2">
+                                    <img class="img" v-bind:src="url">
                                 </td>
                                 <td v-else colspan="2">
-                                    <img class="img" v-bind:src="url">
+                                    <img class="img" v-bind:src="emp_img_url">
                                 </td>
                             </tr>
                             <tr>
@@ -129,16 +129,17 @@
 
                 },
                 added: false,
-                emp_img_url: "http://localhost:8080/emp_img/10000.jpg",
                 files: [],
                 downLoadNames: "",
-                url: ""
+
+                emp_img_url: "",
+                url: "http://localhost:8080/emp_img/10000.jpg"
             }
         },
         methods: {
             onFileChange(e) {
                 const file = e.target.files[0];
-                this.url = URL.createObjectURL(file);
+                this.emp_img_url = URL.createObjectURL(file);
                 this.files = file;
             },
             handleFilesUpload() {
