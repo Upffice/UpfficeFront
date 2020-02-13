@@ -289,10 +289,6 @@
 
     }
 
-    /*.sh-date-td{
-        width:auto !important;
-    }*/
-
     .form-inline {
         margin-top: 200px;
         /*margin-left: 47%;*/
