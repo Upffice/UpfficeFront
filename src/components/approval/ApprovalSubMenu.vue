@@ -114,4 +114,6 @@ export default {
     .subMenu{
         height: 678px;
     }
+
+
 </style>

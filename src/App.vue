@@ -25,6 +25,10 @@
         background: #EBF0F0;
     }
 
+    .libgclr {
+        background: #EBF0F0;
+    }
+
     .subMenu {
         background: #EBF0F0;
         width: 15%;
@@ -32,13 +36,17 @@
         left: 15px;
         top: 70px;
         position: absolute;
+        font-weight: bolder;
     }
-    .subMenu2 {
-        background: #EBF0F0;
-        width: 15%;
-        height: 100%;
-        left: 15px;
-        top: 70px;
-        position: absolute;
+
+
+    li{
+        color: #2C3E50;
+
     }
+
+    a:hover {
+        text-decoration: none;
+    }
+
 </style>

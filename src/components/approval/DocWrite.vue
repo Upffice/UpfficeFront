@@ -292,23 +292,6 @@
                         this.approval.signId2 = newValue2id;
                         this.approval.signId3 = newValue3id;
 
-
-                        /*if(require('../../assets/sign_img/'+ this.approval.signId1 +'sign'+'.png') != undefined)
-                            this.sign_url_2 = require('../../assets/sign_img/'+ this.approval.signId1 +'sign'+'.png');
-                        else
-                            this.sign_url_2 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
-
-                        if(require('../../assets/sign_img/'+ this.approval.signId2 +'sign'+'.png') != undefined)
-                            this.sign_url_3 = require('../../assets/sign_img/'+ this.approval.signId2 +'sign'+'.png');
-                        else
-                            this.sign_url_3 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');
-
-                        if(require('../../assets/sign_img/'+ this.approval.signId3 +'sign'+'.png') != undefined)
-                            this.sign_url_4 = require('../../assets/sign_img/'+ this.approval.signId3 +'sign'+'.png');
-                        else
-                            this.sign_url_4 = require('../../assets/sign_img/'+ 'tempo' +'sign'+'.png');*/
-
-
                     }
                 }, {
                     name: 'dynamic-modal',
@@ -316,9 +299,6 @@
                     height: '450px',
                     draggable: true
                 })
-                /*this.approval.status1 = false;
-                this.approval.status2 = false;
-                this.approval.status3 = false;*/
             },
             search_ref() {
                 /*참조input 누르면 검색창(modal)띄워주는 로직*/

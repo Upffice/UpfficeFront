@@ -45,7 +45,6 @@ import OutManagement from "./components/managerpage/OutManagement";
 import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 import FormManagement from "./components/managerpage/FormManagement";
-import employeesPopup from "./components/managerpage/employeesPopup";
 import Calendar from "./components/schedule/Calendar";
 import IngMain from "./components/approval/IngMain";
 import WaitMain from "./components/approval/WaitMain";
@@ -62,6 +61,7 @@ export default new Router({
             component: MainView,
         },
         /*--addressRouter*/
+
         {
             path: "/mainEmployAddress",
             name: "main-employAddress",
@@ -93,13 +93,6 @@ export default new Router({
             path: "/manager/employees",
             name: "employees-mgm",
             component: EmployeesManagement,
-            children:[{
-                path: "/manager/form-management",
-                name: "employeesPopup",
-                component: employeesPopup,
-                props: true
-            },]
-
         },
         {
             path: "/manager/employees/:emp_id",
@@ -135,8 +128,7 @@ export default new Router({
         },
 
 
-
-       /*---------------------------------------------- */
+        /*---------------------------------------------- */
 
 
 
@@ -369,8 +361,14 @@ export default new Router({
         {
             path: "/file/All",
             name: "file",
-            alias: ["/file","/file/dep","/file/emp"],
+            alias: ["/file", "/file/dep", "/file/emp"],
             component: FileExplorer
+        },
+        {
+            path: "/schedule/calendar",
+            name: "calendar",
+            alias: "/calendar",
+            component: Calendar
         }
     ]
 });
