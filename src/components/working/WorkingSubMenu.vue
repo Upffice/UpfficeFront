@@ -1,5 +1,9 @@
 <template>
     <div class="subMenu">
+        <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center">
+            근태관리
+        </div>
+        <hr>
         <div class="alignCenter">
             <Clock></Clock>
             출근시간:{{this.working.workingIn}}<br>
@@ -19,16 +23,15 @@
         <ul class="nav nav-pills flex-column">
             <li class="list-group-item list-group-item-action active">
                 근태 관리
-<!--                list-group-item-success-->
             </li>
             <router-link to="/working/status">
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                    내 근태 현황
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내 근태 현황
                 </li>
             </router-link>
             <router-link to="/working/annual">
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                    내 연차 내역
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내 연차 내역
                 </li>
             </router-link>
         </ul>
