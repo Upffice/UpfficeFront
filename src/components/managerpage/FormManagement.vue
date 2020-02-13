@@ -52,7 +52,7 @@
 
             <div>
                 <table class="table table-hover" style="margin-top: 20px">
-                    <thead thead class="table-secondary">
+                    <thead thead class="table-primary">
                     <tr>
                         <td>파일 이름</td>
                         <td>파일</td>

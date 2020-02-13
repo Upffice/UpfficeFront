@@ -21,7 +21,7 @@
 
             <table class="table table-hover" style="margin-top: 20px">
                 <!--출력-->
-                <thead class="table-secondary">
+                <thead class="table-primary">
                 <td>이름</td>
                 <td>휴대폰</td>
                 <td>이메일</td>

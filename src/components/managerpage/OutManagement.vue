@@ -4,10 +4,10 @@
         <div>
             <h4>외부 주소록</h4>
             <hr>
-            <div>
+            <div style="float: left; margin-bottom: 0">
                 <!--전체, 회사별 정렬하기 위한 dropdown-->
-                <form class="btn-group" role="group" style="float: left; position: relative; margin-right: 20px ">
-                    <select v-model="selected" @change="sort" type="button" class="btn btn-primary"
+                <form class="btn" role="group" style="float: left; position: relative; margin: 0 20px 0 0">
+                    <select v-model="selected" @change="sort" type="button" class="form-control" id="exampleSelect1"
                             style="width: 90px">
                         <option v-for="option in options" v-bind:value="option.value">
                             {{option.text}}
@@ -26,7 +26,7 @@
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchOutAddress"
                            placeholder="검색(성명, 회사명)" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany">
-                    <button class="btn btn-secondary" type="submit"
+                    <button class="btn btn-primary" type="submit"
                             v-on:click="searchOutAddress">검색</button>
                     <button class="btn btn-secondary" type="submit"
                             v-on:click="refreshList">취소</button>
@@ -35,8 +35,8 @@
 
 
             <table class="table table-hover" style="margin-top: 20px">                                 <!--출력-->
-                <thead class="table-secondary">
-                <td width="70px">번호</td>
+                <thead class="table-primary">
+                <td width="120px">번호</td>
                 <td>이름</td>
                 <td>휴대폰</td>
                 <td>이메일</td>
