@@ -12,7 +12,7 @@
                     <input type="text" class="form-control mr-sm-2" v-on:keypress="searchNameAndPosition"
                            placeholder="검색(성명, 직책 입력)" id="nameAndPosition"
                            required v-model="nameAndPosition" name="nameAndPosition"/>
-                    <button class="btn btn-secondary" type="submit"
+                    <button class="btn btn-primary" type="submit"
                             v-on:click="searchNameAndPosition">검색
                     </button>
                     <button class="btn btn-secondary" type="submit"
@@ -24,16 +24,16 @@
             <!-- {{$route.params}}-->
             <table class="table table-hover" style="margin-top: 20px">
                 <!--출력부분-->
-                <thead class="table-secondary">
+                <thead class="table-primary">
                 <tr>
-                    <th style="width: 90px">아이디</th>
-                    <th style="width: 90px">성명</th>
+                    <th style="width: 120px">아이디</th>
+                    <th style="width: 120px">성명</th>
                     <th>이메일</th>
-                    <th style="width: 80px">직책</th>
+                    <th style="width: 120px">직책</th>
                     <th>입사일</th>
                     <th>내선번호</th>
                     <th>휴대폰번호</th>
-                    <th style="width: 90px">부서</th>
+                    <th style="width: 120px">부서</th>
                 </tr>
                 </thead>
                 <tbody>
