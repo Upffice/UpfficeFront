@@ -78,7 +78,7 @@
                 currentPosts: [],//[ ] 현재 게시물을 보여주는 페이지
                 empID: "",
                 count: 0, //게시물 총 개수
-                countList:5, // 한 페이지에 나올 게시글 개수
+                countList:10, // 한 페이지에 나올 게시글 개수
                 totalPage:1, // 페이지 번호 묶음 (5 개씩 묶음)
                 page:1, // 현재 페이지 번호
                 countPage:5,//한 화면에 보여줄 페이지 번호

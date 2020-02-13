@@ -80,7 +80,7 @@
                 currentPosts: [],
                 empID: [],
                 count: 0,
-                countList:5,
+                countList:10,
                 totalPage:1,
                 page:1,
                 countPage:5,
