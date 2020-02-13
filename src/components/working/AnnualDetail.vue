@@ -2,17 +2,18 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-12">
-            <h4>연차</h4>
+            <h3>연차</h3>
             <div class="alignRight">
-                <button v-on:click="showModal()" class="btn btn-outline-success btn-lg">연차신청</button>
+                <button v-on:click="showModal()" class="btn btn-secondary btn-lg">연차신청</button>
             </div>
+            <br>
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
-                    <td>이름</td>
-                    <td>총 연차</td>
-                    <td>사용 연차</td>
-                    <td>잔여 연차</td>
+                    <th>이름</th>
+                    <th>총 연차</th>
+                    <th>사용 연차</th>
+                    <th>잔여 연차</th>
                 </tr>
                 </thead>
                 <tr>
@@ -28,8 +29,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr class="table-primary">
-                    <td></td>
-                    <td>연차 사용일</td>
+                    <th colspan="2">연차 사용일</th>
                 </tr>
                 </thead>
                 <tr v-for="(annual, index) in annuals" :key="index">
