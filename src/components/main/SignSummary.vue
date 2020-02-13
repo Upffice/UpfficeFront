@@ -46,7 +46,8 @@ export default {
         left: 16%;
         top: 70px;
         position: absolute;
-        border: 1px solid #dddddd;
+        border-left: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
         float: left;
         position: absolute;
         margin-left: 3px;
