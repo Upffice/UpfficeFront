@@ -2,11 +2,12 @@
 
     <div class="container">
 
-        <h2 style="float: left; margin-left: 200px">결재완료함</h2>
+        <h3 style="float: left; margin-left: 150px">결재완료함</h3>
 
         <form class="form-inline my-2 my-lg-0" style="margin-bottom: 2px;">
-            <fieldset>
-                <select class="custom-select" style="width: 70px; margin-right: 10px;  margin-top: 10px;" required
+            <fieldset class="search-group">
+
+            <select class="custom-select" style="width: 70px; margin-right: 10px;  margin-top: 10px;" required
                         v-model="select">
                     <!--<option :value="selected">제목</option>
                     <option :value="selected">내용</option>-->
@@ -14,10 +15,10 @@
 
                 </select>
 
-                <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                <input class="form-control mr-sm-2" type="text" placeholder="게시판 내 검색"
                        style="margin-right: 0px !important;  margin-top: 10px;" v-model="query">
                 <button class="btn btn-secondary my-2 my-sm-0" type="button"
-                        style="margin-left: 0px;  margin-top: 10px !important;" @click="sendQuery">Search
+                        style="margin-left: 5px;  margin-top: 10px !important;" @click="sendQuery">검색
                 </button>
             </fieldset>
         </form>
@@ -42,7 +43,7 @@
 
             <!--로그인 정보에서 받아올 부분-->
             <tr class="table-light" v-for="(app, index) in currentPosts" :key="index">
-                <td>{{currentPosts.length-index}}</td>
+                <td>{{numbering(posts.length)-(index-1)}}</td>
                 <td>{{app.app_writer_depname}}</td>
                 <td>{{app.app_doc_num}}</td>
                 <td>{{app.app_type}}</td>
@@ -288,6 +289,13 @@
                 for (let i = 0; i < pack; i++)
                     this.next()
                 this.changePage(this.totalPage);
+            },
+            numbering(idx){
+                if(idx>0) {
+                    this.a=(idx-(this.page-1)*10)-1;
+                }
+
+                return this.a;
             }
         },
         mounted() {
