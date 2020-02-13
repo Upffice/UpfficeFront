@@ -266,7 +266,6 @@
         top: 70px;
         position: absolute;
         right: 15px;
-        border: 1px solid gray;
     }
     .cal_nav {
         font-size: 20px;

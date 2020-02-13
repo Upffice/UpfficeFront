@@ -1,12 +1,17 @@
 <template>
     <div class="signDiv">
-        결재 대기함, 진행함 넣을 공간
+<!--        결재 대기함, 진행함 넣을 공간-->
+        <div class="sh-merged-main">
+            <signIng></signIng>
+            <signWait></signWait>
+        </div>
     </div>
 
 </template>
 
 <script>
-    import http from "../../http-common";
+    import IngMain from "../approval/IngMain";
+    import WaitMain from "../approval/WaitMain";
 
 export default {
     data() {
@@ -16,6 +21,12 @@ export default {
     methods: {
 
     },
+    components:{
+        signIng:IngMain,
+        signWait:WaitMain
+    },
+
+
     mounted() {
 
     } // End - mounted()
@@ -24,13 +35,23 @@ export default {
 </script>
 
 <style scoped>
+    .sh-main{
+        position: relative !important;
+        width: auto;
+        margin-top: 10px;
+    }
     .signDiv {
-        width: 53%;
+        width: 52%;
         height: 90%;
         left: 16%;
         top: 70px;
         position: absolute;
-        border: 1px solid gray;
+        border: 1px solid #dddddd;
+        float: left;
+        position: absolute;
+        margin-left: 3px;
+        font-size: 13px;
+
     }
 
 </style>

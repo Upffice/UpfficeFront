@@ -18,7 +18,7 @@
             <button v-on:click="login()" class="btn btn-primary btn-lg loginBtn">Login</button>
         </div>
 
-        <div v-else-if="!isManager">
+        <div class="mainView" v-else-if="!isManager">
             <myInfo></myInfo>
             <working></working>
             <sign></sign>
@@ -147,4 +147,5 @@
     .loginBtn {
         width: 300px;
     }
+
 </style>

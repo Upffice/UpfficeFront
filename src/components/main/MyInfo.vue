@@ -78,12 +78,12 @@ export default {
 
 <style scoped>
     .myInfo {
-        width: 15%;
+        width: 15.2%;
         height: 40%;
         left: 15px;
         top: 70px;
         position: absolute;
-        border: 1px solid gray;
+        border-bottom: 1px solid #dddddd;
     }
     img {
         width: 100%;
