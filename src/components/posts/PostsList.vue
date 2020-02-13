@@ -6,18 +6,18 @@
         <div class="col-md-20">
             <br>
             <h4>전사 게시판</h4>
-            <hr>
+            <br>
             <div>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keyup="searchPost" id="SearchSubject" placeholder="Search"
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="searchPost" id="SearchSubject" placeholder="검색"
                        required v-model="SearchSubject" name="SearchSubject">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
             </form>
             </div>
             <table class="table table-hover AllPost">
                 <thead>
                 <tr class="table-primary">
-                    <td width="10%">번호</td>
+                    <td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번호</td>
                     <td width="15%">작성자</td>
                     <td>제목</td>
                     <td width="20%">작성일</td>
@@ -26,9 +26,9 @@
                 </thead>
                 <tbody>
                 <tr id="text-over" v-for="(post, index) in currentPosts" :key="index" >
-                    <td>{{post.post_id}}</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{post.post_id}}</td>
                     <td>{{post.post_writer}}</td>
-                    <td class="maljul"><router-link :to="{
+                    <td class="maljul"  style="text-align: left;"><router-link :to="{
                             name: 'post-details',
                             params: { post: post, post_id: post.post_id }
                         }">
@@ -271,6 +271,7 @@
                 this.empID = sessionStorage.getItem("login_id"); // 이 컴포넌트에 선언된 empID 변수에 현재 로그인한 사번 넣기
                 // this.paging();
             } else {
+                alert("로그인을 해주세요");
                 this.$router.push("/");
             }
         },
@@ -311,6 +312,7 @@
     }
     .AllPost{
         width: 120%;
+        text-align: center;
     }
 
     table{

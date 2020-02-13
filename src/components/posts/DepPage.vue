@@ -6,14 +6,15 @@
         <div>
             <subMenu></subMenu>
         </div>
+
         <div class="col-md-20">
             <br>
             <h4>{{this.board_name}} 게시판</h4>
-            <hr>
+            <br>
             <div>
                 <form class="form-inline my-2 my-lg-0 searchbar">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="text" placeholder="검색">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
                 </form>
             </div>
             <table class="table table-hover AllPost">
@@ -26,11 +27,11 @@
                     <td width="10%">조회수</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="currentPosts">
                 <tr id="text-over" v-for="(post, index) in currentPosts" :key="index">
                     <td>{{post.post_id}}</td>
                     <td>{{post.post_writer}}</td>
-                    <td class="maljul"><router-link :to="{
+                    <td class="maljul"  style="text-align: left;"><router-link :to="{
                             name: 'dep_post-details',
                             params: { post: post, post_id: post.post_id }
                         }">
@@ -65,7 +66,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </template>
 <script>

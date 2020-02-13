@@ -1,9 +1,10 @@
 <template>
     <div class="subMenu">
         <ul class="nav nav-pills flex-column">
-            <li class="list-group-item addCalendarList libgclr">
-                <button class="btn btn-lg btn-link" @click="addSchedule()">일정 등록</button>
-            </li>
+            <div style="font-weight: bold; margin: 8%; font-size: 20px">
+                일정관리
+            </div>
+                <button class="btn btn-secondary  btn-lg" @click="addSchedule()">일정 등록</button>
             <li class="list-group-item libgclr">
                 <label class="col-form-label col-form-label calendarLabel" for="inputSmall">캘린더 추가</label><br>
                 <div style="width: 100%">
@@ -47,7 +48,6 @@ export default {
             },
             calendarList: [],         // 모든 캘린더 목록
             checkedCalendars : [],    // 체크된 캘린더 목록
-            modi_flag : [],         // 캘린더 목록 수정 여부 검사할 flag
             modi_cal_input : [],
             modi_cal_color : []
         }
@@ -91,9 +91,6 @@ export default {
                 .then(response=> {
                     /* eslint-disable no-console */
                     this.calendarList = response.data;
-                    for(let i=0; i<this.calendarList.length; i++) {
-                        this.modi_flag[i] = false;
-                    }
                 })
                 .catch(e => {
                     /* eslint-disable no-console */
@@ -112,7 +109,6 @@ export default {
                 });
 
             this.checkedCalendars = []; // 체크한 캘린더 목록 초기화
-            // this.getCalendarList(); // 캘린더 목록 다시 불러오기
         },
         deleteCalendarList() {  // 캘린더 목록 삭제 하는 메소드
             if(this.checkedCalendars.length !=0) {
@@ -125,6 +121,7 @@ export default {
                             .then(response=> {
                                 /* eslint-disable no-console */
                                 this.checkedCalendars = []; // 체크한 캘린더 목록 초기화
+                                for(let i=0; i<1; i++) location.reload();
                             })
                             .catch(e => {
                                 /* eslint-disable no-console */

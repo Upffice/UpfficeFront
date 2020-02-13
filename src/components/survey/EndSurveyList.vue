@@ -9,11 +9,11 @@
         <div class="col-md-20">
             <br>
             <h4>마감된 설문</h4>
-            <hr>
+            <br>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="Search"
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="검색"
                        required v-model="SearchSurvey" name="SearchSurvey">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
             </form>
             <table class="table table-hover">
                 <thead>
@@ -29,7 +29,7 @@
                 <tr id="text-over" v-for="(survey, index) in currentPosts" :key="index">
                     <td>{{survey.survey_id}}</td>
                     <td>{{survey.survey_writer}}</td>
-                    <td class="maljul"><router-link :to="{
+                    <td class="maljul" style="text-align: left;"><router-link :to="{
                             name: 'end-survey-details',
                             params: { survey: survey, survey_id: survey.survey_id}
                         }">
@@ -235,6 +235,7 @@
             if (sessionStorage.length > 0) { // 현재 sessionStorage에 요소가 존재하는 상태일 때(로그인이 되어서 sessionStorage에 저장된 상태일 때)
                 this.requestSurvey();
             } else {
+                alert("로그인을 해주세요");
                 this.$router.push("/");
             }
         }

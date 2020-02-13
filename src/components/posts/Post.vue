@@ -26,8 +26,8 @@
                 </div>
              </div>
               <div v-if="chkWriter()">
-            <button class="btn btn-danger" type="button" @click="deletePost">게시물 삭제</button>
-            <button class="btn btn-success" type="button" @click="modify">게시물 수정</button>
+            <button class="btn btn-danger disabled" type="button" @click="deletePost">게시물 삭제</button>
+            <button class="btn btn-info disabled" type="button" @click="modify">게시물 수정</button>
 
              </div>
         </div>
@@ -40,7 +40,7 @@
             <label>내용</label>
             <textarea class="form-control textArea" rows="15" required v-model="post.post_content">{{post.post_content}}</textarea><br>
 
-            <button class="btn btn-success" type="button" @click="updatePost">수정하기</button>
+            <button class="btn btn-info disabled" type="button" @click="updatePost">수정하기</button>
         </div>
         <div class="returnbtnbox">
             <button class="btn btn-primary" type="button" @click="goBack">돌아가기</button>
@@ -144,6 +144,7 @@
                 this.emp_id = sessionStorage.getItem("login_id"); // 이 컴포넌트에 선언된 empID 변수에 현재 로그인한 사번 넣기
                 this.getEmpInfo(this.emp_id);
             } else {
+                alert("로그인을 해주세요");
                 this.$router.push("/");
             }
         },
