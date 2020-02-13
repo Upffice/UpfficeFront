@@ -13,10 +13,9 @@
                         <table class="table table-hover">
                             <tr>
                                 <td v-if="!url" colspan="2">
-                                    <label class="img" style="height: 120px">사진 선택 후 저장버튼을 누르시오</label>
-                                    <!--<img v-bind:src="url">-->
+                                    <img class="img" v-bind:src="emp_img_url">
                                 </td>
-                                <td v-else>
+                                <td v-else colspan="2">
                                     <img class="img" v-bind:src="url">
                                 </td>
                             </tr>
@@ -82,8 +81,7 @@
                             <!-- <button @click="$refs.fileInput.click()">Pick image</button>-->
                             <!-- <button v-on:click="addFiles()">Add image</button>-->
 
-                            <input type="file" @change="onFileChange">
-
+                            <input type="file" @change="onFileChange" style="width: 200px">
 
                             <button type="button" class="btn btn-primary" v-on:click="addEmployees">등록</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -131,7 +129,7 @@
 
                 },
                 added: false,
-                emp_img_url: "",
+                emp_img_url: "http://localhost:8080/emp_img/10000.jpg",
                 files: [],
                 downLoadNames: "",
                 url: ""
@@ -268,7 +266,7 @@
         height: 120px;
         border-radius: 70%;
         overflow: hidden;
-        display: block
+        display: block;
     }
 
     th, td {

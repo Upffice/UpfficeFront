@@ -113,6 +113,8 @@
             newOutAddress() {
                 this.added = false;
                 this.outaddress = {};
+
+                location.reload();
             },
 
         }

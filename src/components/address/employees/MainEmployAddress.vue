@@ -110,9 +110,6 @@
             return {
                 nameAndPosition: "",
                 employees: [],
-               /* dep:{
-                    dep1:{employees:[], show:false},
-                },*/
             };
 
         },
@@ -169,11 +166,7 @@
         /*  margin: auto;*/
         margin-left: 15%;
     }
-   /* .table {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-    }*/
+
     .btn {
         margin: 20px 0px 20px 0px
     }

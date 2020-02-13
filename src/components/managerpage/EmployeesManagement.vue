@@ -13,9 +13,11 @@
                            placeholder="검색(성명, 직책 입력)" id="nameAndPosition"
                            required v-model="nameAndPosition" name="nameAndPosition"/>
                     <button class="btn btn-secondary" type="submit"
-                            v-on:click="searchNameAndPosition">검색</button>
+                            v-on:click="searchNameAndPosition">검색
+                    </button>
                     <button class="btn btn-secondary" type="submit"
-                            v-on:click="refreshList">취소</button>
+                            v-on:click="refreshList">취소
+                    </button>
                 </fieldset>
             </div>
 
@@ -95,7 +97,7 @@
                 employees: [],
                 dep_name: "",
                 emp_id: "",
-                dep_id:"",
+                dep_id: "",
                 nameAndPosition: "",
 
                 currentPosts: [],
@@ -109,7 +111,6 @@
                 totalPages: [],
                 currentPages: [], // 현재 페이지 번호들 배열 5개 짜리
 
-                emp_img_url : "" // 사원 사진 경로
 
             };
 
@@ -157,7 +158,7 @@
                     },
                     {
                         width: '500px',
-                        height: '770px',
+                        height: '780px',
                         draggable: true,
                     });
             },
@@ -219,11 +220,11 @@
                 this.totalPage; i++) {
                     this.currentPages[i] = this.totalPages[j];
                     j++;
-                   /* console.log("curr " + i + "번째 " + this.currentPages[i]);
-                    console.log("startPage : " + this.startPage)
-                    console.log("endPage : " + this.endPage)
-                    console.log("totalPage : " + this.totalPage)
-                    console.log("totalPages : " + this.totalPages)*/
+                    /* console.log("curr " + i + "번째 " + this.currentPages[i]);
+                     console.log("startPage : " + this.startPage)
+                     console.log("endPage : " + this.endPage)
+                     console.log("totalPage : " + this.totalPage)
+                     console.log("totalPages : " + this.totalPages)*/
 
                 }
             },
@@ -285,7 +286,7 @@
                     for (let i = 0; i <= (this.endPage - this.startPage) && j < this.totalPage; i++) {
                         this.currentPages[i] = this.totalPages[j];
                         j++;
-                       /* console.log("curr " + i + "번째 " + this.currentPages[i]);*/
+                        /* console.log("curr " + i + "번째 " + this.currentPages[i]);*/
                     }
                     this.setCurrentPosts();
                 }
@@ -327,9 +328,6 @@
         width: 200px;
     }
 
-    .form-group, btn-group {
-        float: right;
-    }
 
     .page {
         display: table;
@@ -338,9 +336,10 @@
         padding-top: 30px;
         position: relative;
     }
-.page-link{
-    background-color:#0e0b37;
-}
+
+    .page-link {
+        background-color: #0e0b37;
+    }
 
     .btn {
         margin: 20px 0px 20px 0px

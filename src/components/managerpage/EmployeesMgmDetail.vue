@@ -97,7 +97,8 @@
                 }
 
                 if (data.name == "" | data.dep_id == "" | data.position == "" | data.extension_number == "" |
-                    data.hire_date == "" | data.emp_email == "" | data.phone_number == "") { // 빈 칸 인지 확인하기
+                    data.hire_date == "" | data.emp_email == "" | data.phone_number == "")
+                { // 빈 칸 인지 확인하기
                     alert("빈 칸을 확인해주세요!");
                 } else {
                     http
@@ -136,7 +137,7 @@
 
         },
         mounted() {
-            this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employee.emp_id + '.jpg';  // 사원 이미지 경로 설정
+            this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employees.emp_id + '.jpg';  // 사원 이미지 경로 설정
         }
     };
 </script>

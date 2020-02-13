@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="img_div">
                         {{this.getImg(this.employee.emp_id)}}
-                        <img v-bind:src="emp_img_url"><br>
+                        <img v-bind:src="this.emp_img_url"><br>
                     </div>
                     <h4 class="card-title" align="center">{{this.employee.name}}</h4>
 
@@ -78,9 +78,13 @@
                     });
             },
             getImg(emp_id) {
-                this.emp_img_url = require('../../../assets/emp_img/' + emp_id + '.jpg');
+                /*this.emp_img_url = require('http://localhost:8080/emp_img/'+ emp_id + '.jpg');*/
+                this.emp_img_url = 'http://localhost:8080/emp_img/'+ emp_id + '.jpg';
             }
-        }
+        },
+       /* mounted() {
+            this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.employee.emp_id + '.jpg';
+        }*/
     }
 </script>
 
@@ -103,23 +107,21 @@
         text-align: center;
     }
 
-    .img_div {
-        width: 50px;
-        height: 50px;
-        border-radius: 70%;
-        overflow: hidden;
-        margin-right: 10px;
-    }
 
     img {
-        width: 100%;
-        height: 100%;
+        margin: auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 70%;
+        overflow: hidden;
+        display: block;
         object-fit: cover;
     }
 
+
     .card-border {
         width: 25rem;
-        height: 29rem;
+        height: 35rem;
         border-radius: 4px;
         margin: 7rem 0 0 20%;
 
