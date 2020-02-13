@@ -5,7 +5,9 @@
             <subMenu></subMenu>
         </div>
         <div class="col-md-20">
-           <br> <h4>부서 게시판</h4><br>
+           <br>
+            <h4>부서 게시판</h4>
+            <hr>
             <div>
                 <form class="form-inline my-2 my-lg-0 searchbar">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">

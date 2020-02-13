@@ -1,81 +1,53 @@
 <template>
-    <div class="schedule">
-        <subMenu></subMenu>
-            <div class="calendar">
-                <div>
-                    <div class="form-inline calendarSelect">
-                        <select class="form-control" v-model="calendar_id" @change="getAllSchedules">
-                            <option value=0>전체 일정</option>  <!-- 해당하는 calendar_id 를 0으로 하고 이 때 전체 일정 가져옴 -->
-                            <option v-for="(calendar, index) in calendarList" :key="index" :value="calendar.calendar_id">
-                                {{calendar.calendar_name}}
-                            </option>
-                        </select>
-                    </div>
-                    <span class="cal_nav">
-                        <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
-                        {{currentYear}}년 {{currentMonth}}월
-                        <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
+    <div class="calendar">
+        <span class="cal_nav">
+            <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
+            {{currentYear}}년 {{currentMonth}}월
+            <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
+        </span>
+        <!-- table 시작 -->
+        <table class="table">
+            <thead>
+            <tr>
+                <td v-for="(weekName, index) in weekNames" v-bind:key="index" class="weekName">
+                    {{weekName}}
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(row, index) in currentCalendarMatrix" :key="index">
+                <td class="calendarCell" v-for="(day, index2) in row" :key="index2">
+                 <div v-if="day!==''">
+                    <span v-if="isToday(currentYear, currentMonth, day)" class="day rounded">
+                      {{day}}
                     </span>
-                    <div class="form-inline search">
-                        <input class="form-control mr-sm-2 searchInput" type="text" placeholder="일정 검색" v-on:keyup.enter="search" v-model="searchKeyword">
-                        <button class="btn btn-secondary my-2 my-sm-0 searchBtn" type="submit" @click="search">검색</button>
-                    </div>
-                </div>
-                <!-- table 시작 부분 -->
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td v-for="(weekName, index) in weekNames" v-bind:key="index">
-                            {{weekName}}
-                        </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(row, index) in currentCalendarMatrix" :key="index">
-                        <td class="calendarCell" v-for="(day, index2) in row" :key="index2">
-                         <div v-if="day!==''">
-                            <span v-if="isToday(currentYear, currentMonth, day)" class="rounded">
-                              {{day}}
-                            </span>
 
-                            <span v-else>
-                              {{day}}
-                            </span>
-                         </div>
-                        <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
-                        <div v-if="day!==''&& hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
-                            <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index" @click="showDetail(sche[1])">
-                                <!-- 일정의 캘린더 별 색과 이름 넣기-->
-                                <span style="font-size: 15px" :style="{color: getCalColor(sche[1].calendar_id)}">●</span>&nbsp;
-                                <span class="scheNameSpan">
-                                    {{sche[1].sche_name}}<br>
-                                </span>
-                            </span>
-                        </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                    <!--modal 컴포넌트 포함 시키기 위한 div-->
-                    <modals-container/>
-            </div>
+                    <span v-else class="day">
+                      {{day}}
+                    </span>
+                 </div>
+                <!--테이블 셀에 스크롤 달기 위한 div 태그 넣기 : 날짜가 있는 칸이면 내용 출력-->
+                <div v-if="day!==''&& hasScheduleToday(currentYear,currentMonth,day)" class="scrollDiv">
+                    <span v-if="sche[0] == getCurrDate(currentYear,currentMonth,day)" v-for="(sche, index) in schedule" :key="index">
+                        <!-- 일정의 캘린더 별 색과 이름 넣기-->
+                        <span class="colorDot" :style="{color: getCalColor(sche[1].calendar_id)}">●</span>
+                    </span>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <script>
-    import ScheduleSubMenu from "./ScheduleSubMenu";
     import http from "../../http-common";
-    import ScheduleDetailModal from "./ScheduleDetailModal";
-    import SearchResultModal from "./SearchResultModal"
 
     export default {
         name: 'Calendar',
-        components: {
-            subMenu: ScheduleSubMenu
-        },
         data () {
             return {
-                weekNames: ["월요일", "화요일", "수요일","목요일", "금요일", "토요일", "일요일"],
+                weekNames: ["월", "화", "수","목", "금", "토", "일"],
                 rootYear: 1904,
                 rootDayOfWeekIndex: 4, // 2000년 1월 1일은 토요일
                 currentYear: new Date().getFullYear(),
@@ -90,10 +62,9 @@
                 sche_name: "",       // 가져온 일정의 이름
                 sche_date: [],       // 일정 날짜? -- 안 쓰는 변수 정리하기
                 schedule: [],        // 가져온 일정 담을 배열
-                selected_cal : [],   // ScheduleSubMenu 에서 선택한 캘린더 체크박스 목록
                 calendarList: [],    // 캘린더 목록
                 calendar_id : 0,     // 캘린더 id
-                searchKeyword: ""    // 검색어
+                cnt: 0
             }
         },
         methods: {
@@ -150,20 +121,7 @@
                                 this.scheduleList = response.data;
                                 for(let j=0; j<this.scheduleList.length; j++) {
                                     this.schedule.push([ sche_date, this.scheduleList[j] ]);    //  배열에 해당 날짜와 일정 이름 넣기
-                                }
-                            })
-                            .catch(e => {
-                                /* eslint-disable no-console */
-                                console.log(e);
-                            });
-                    } else {
-                        http
-                            .get("/schedule/list/" + this.emp_id + "?calendar_id=" + this.calendar_id  + "&sche_date=" + sche_date)
-                            .then(response=> {
-                                /* eslint-disable no-console */
-                                this.scheduleList = response.data;
-                                for(let j=0; j<this.scheduleList.length; j++) {
-                                    this.schedule.push([sche_date, this.scheduleList[j]]);    //  배열에 해당 날짜와 일정 이름 넣기
+
                                 }
                             })
                             .catch(e => {
@@ -287,51 +245,6 @@
                         console.log(e);
                     });
             },
-            showDetail(schedule) { // 일정 수정, 삭제할 디테일 modal 띄우는 메소드
-
-                this.$modal.show(ScheduleDetailModal, {
-                        name: 'ScheduleDetailModal',
-                        schedule: schedule,
-                        modal: this.$modal,
-                    },
-                    {
-                        width: '400px',
-                        height: '600px',
-                        draggable: true,
-                    });
-                this.getAllSchedules(); // 모달 창 닫히면 일정 다시 불러옴
-            },
-            search() {
-                if(this.searchKeyword != "") {
-                    let searchResult = [];
-
-                    http
-                        .get("/schedule/search/" + this.emp_id + "?keyword=" + this.searchKeyword)
-                        .then(response=> {
-                            /* eslint-disable no-console */
-                            searchResult = response.data;
-
-                            if(searchResult == "") {
-                                alert("검색 결과가 존재하지 않습니다.");
-                            } else {
-                                this.$modal.show(SearchResultModal, {
-                                        searchResult: searchResult,
-                                        modal: this.$modal,
-                                    },
-                                    {
-                                        width: '500px',
-                                        height: '400px',
-                                        draggable: false,
-                                    });
-                            }
-                            this.searchKeyword = "";
-                        })
-                        .catch(e => {
-                            /* eslint-disable no-console */
-                            console.log(e);
-                        });
-                }
-            }
         },
         mounted() {
             if (sessionStorage.length > 0) {
@@ -348,56 +261,56 @@
 
 <style scoped>
     .calendar {
-        width: 75%;
-        margin-left: 265px;
-    }
-    .calendarSelect {
-        float: left;
+        width: 30%;
+        height: 60%;
+        top: 70px;
+        position: absolute;
+        right: 15px;
+        border: 1px solid gray;
     }
     .cal_nav {
-        font-size: 30px;
+        font-size: 20px;
         margin: auto;
     }
+    .weekName {
+        font-size: 12px;
+        font-weight: bold;
+    }
     .changeBtn {
-        font-size: 25px;
+        font-size: 20px;
+    }
+    .day {
+        font-size: 11px;
+        font-weight: bold;
     }
     .rounded {
         -moz-border-radius:20px 20px 20px 20px;
         border-radius:20px 20px 20px 20px;
         border:solid 1px #ffffff;
         background-color:#2b6bd1;
-        padding:10px;
+        padding:3px;
         color:#ffffff;
     }
-    .search {
-        float: right;
-    }
-    .searchInput {
-        width: 200px;
-    }
     .calendarCell {
-        width: 100px;
-        height: 150px;
+        height: 60px;
+        padding: 0;
     }
     .scrollDiv {
-        text-align: left;
+        text-align: center;
         overflow: auto; /*말 줄임표 위한 설정 : 스크롤 안 보이게 하려면 hidden*/
-        width: 100px;
-        height: 102px;
-        margin: 15px auto;  /*top 10px*/
-        font-size: 11px;
-        text-overflow: ellipsis; /*말 줄임표 위한 설정*/
-        white-space: nowrap; /*말 줄임표 위한 설정*/
+        width: 70%;
+        height: 60%;
+        font-size: 10px;
+        word-break: break-all;  /*width 넘어가면 다음 줄로 넘어가게 하기*/
         overflow-x: hidden; /*가로 스크롤바 없애기*/
         -ms-overflow-style: none; /*IE에서 스크롤바 투명하게 하기*/
+        margin: 1px auto auto;
     }
     .scrollDiv::-webkit-scrollbar { /*IE 제외한 브라우저에서 스크롤바 투명하게 하기*/
         width: 1px;
         background: transparent;
     }
-    .scheNameSpan:hover{
-        cursor: pointer;    /* 클릭 하는 마우스 커서 모양 */
-        background: url("data:image/svg+xml;charset=utf8,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='1px' height='1px' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='1' height='1' fill='aqua' /%3E%3C/svg%3E") no-repeat 100% 100%;
-        background-size: 100% 50%;
+    .colorDot {
+        font-size: 11px;
     }
 </style>

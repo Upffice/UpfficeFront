@@ -8,11 +8,11 @@
         </div>
         <div class="col-md-20">
             <br>
-            <h4>End Survey List</h4>
-            <br>
+            <h4>마감된 설문</h4>
+            <hr>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
-                       required v-model="SearchSubject" name="SearchSubject">
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="Search"
+                       required v-model="SearchSurvey" name="SearchSurvey">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
             <table class="table table-hover">
@@ -87,7 +87,7 @@
                 totalPages: [],
                 currentPages: [],
 
-                SearchSubject:""
+                SearchSurvey:""
             };
         },
         components: {
@@ -95,6 +95,13 @@
         },
 
         methods:{
+            SurveySearch(){
+                http
+                    .get("/survey/survey/SearchSurvey/"+this.SearchSurvey)
+                    .then(response =>{
+                        this.currentPosts=response.data;
+                    })
+            },
             searchPost(){
                 http
                     .get("/pst/post_subject/"+this.SearchSubject)

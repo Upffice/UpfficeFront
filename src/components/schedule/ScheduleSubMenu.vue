@@ -1,26 +1,34 @@
 <template>
     <div class="subMenu">
-        <button class="btn btn-lg btn-link" @click="addSchedule()">일정 등록 +</button>
+        <ul class="nav nav-pills flex-column">
+            <li class="list-group-item addCalendarList libgclr">
+                <button class="btn btn-lg btn-link" @click="addSchedule()">일정 등록</button>
+            </li>
+            <li class="list-group-item libgclr">
+                <label class="col-form-label col-form-label calendarLabel" for="inputSmall">캘린더 추가</label><br>
+                <div style="width: 100%">
+                    <input type="color" class="inputColor" v-model="calendarInput.cal_color">
+                    <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">
 
-        <div class="form-group addCalendar">
-            <label class="col-form-label col-form-label" for="inputSmall">캘린더 추가</label>
-            <input class="form-control form-control-sm addInput" type="text" placeholder="추가할 캘린더 입력" id="inputSmall" v-model="calendarInput.cal_name">
-            <input type="color" v-model="calendarInput.cal_color">
+                    <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>
+                </div>
+            </li>
+            <li class="list-group-item libgclr">
+                <div v-if="calendarList">
+                    <label class="col-form-label col-form-label calendarLabel">캘린더 목록</label><br>
+                    <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">
+                        <input class="checkBox" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars" checked="calendar_chk">
 
-            <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>
-        </div>
+                            <span style="font-size: 15px" :style="{color: calendar.calendar_color}">●</span>&nbsp;
+                            {{calendar.calendar_name}}
+                    </label><br><br>
 
-        <div v-if="calendarList" class="form-check">
-            캘린더 목록
-            <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">
-                <input class="form-check-input" type="checkbox" :value="calendar.calendar_id" v-model="checkedCalendars" checked="calendar_chk">
-                <span style="font-size: 15px" :style="{color: calendar.calendar_color}">●</span>&nbsp;
-                {{calendar.calendar_name}}
-            </label><br><br>
+                    <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendar()">수정</button>
+                    <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
+                </div>
+            </li>
 
-            <button class="btn btn-info btn-sm pushCalBtn" @click="modifyCalendar()">수정</button>
-            <button class="btn btn-info btn-sm pushCalBtn" @click="deleteCalendarList()">삭제</button>
-        </div>
+        </ul>
     </div>
 </template>
 
@@ -154,20 +162,28 @@ export default {
         margin: auto 20px;
         padding-right: 10px;
     }
-    .addCalendar {
-        border: 1px solid yellow;
-        height: 80px;
+    .calendarLabel {
+        padding-top: 0;
+        padding-bottom: 10px;
+    }
+    .inputColor {
+        margin-top: 5px;
+        float: left;
     }
     .addInput {
-        width: 80%;
+        width: 75%;
         float: left;
-        margin-left: 10px;
+        margin-left: 5px;
         margin-right: 2px;
     }
     .addBtn {
-        width: 20px;
+        width: 5%;
         float: left;
         padding: 0;
+    }
+    .checkBox {
+        margin-top: 5px;
+        margin-right: 5px;
     }
     .pushCalBtn {
         width: 50px;
@@ -186,5 +202,10 @@ export default {
     input[type="color"]::-webkit-color-swatch {
         box-sizing: border-box;
         border-radius: 50%;
+    }
+    .addCalendarList {
+        height: 60px;
+        vertical-align: middle;
+        padding-top: 8px;
     }
 </style>

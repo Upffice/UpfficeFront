@@ -6,12 +6,12 @@
                 게시판
             </div>
             <router-link to="/pst">
-                <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+                <li class="list-group-item d-flex justify-content-between align-items-center libgclr" style="font-weight: bold">
                     전사 게시판
                 </li>
             </router-link>
             <router-link to="/dep_pst">
-            <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+            <li class="list-group-item d-flex justify-content-between align-items-center libgclr" style="font-weight: bold">
                 부서 게시판
             </li>
         </router-link>
@@ -28,10 +28,10 @@
                 </li>
         </ul>
         <router-link to="/dep_pst/newBoard">
-            <button type="button" class="btn btn-primary btn-lg">게시판 등록</button>
+            <button type="button" class="btn btn-success">게시판 등록</button>
         </router-link>
         <router-link to="/dep_pst/DeleteBoard">
-            <button type="button" class="btn btn-primary btn-lg">게시판 삭제</button>
+            <button type="button" class="btn btn-danger">게시판 삭제</button>
         </router-link>
     </div>
 </template>

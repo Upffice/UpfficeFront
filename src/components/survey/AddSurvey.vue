@@ -51,8 +51,8 @@
                 </div>
                 <br>
 
-                <button v-on:click="saveSurvey" class="btn btn-success">설문 등록</button>
-                <button v-on:click="cnlth" class="btn btn-success">취소하기</button>
+                <button v-on:click="saveSurvey" class="btn btn-success" style="font-weight: bold;" >설문 등록</button>
+                <button v-on:click="cnlth" class="btn btn-danger" style="font-weight: bold;" >취소하기</button>
             </div>
         </div>
     </div>

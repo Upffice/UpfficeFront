@@ -1,10 +1,9 @@
 <template>
 
 
-    <div class="card border-primary mb-3" style="max-width: 1100px;">
-        <div class="list row">
-            <subMenu></subMenu>
-        </div>
+    <div class=" border-primary mb-3" style="max-width: 1100px;">
+        <subMenu></subMenu>
+
         <div class="card-header">
             <div class="top" style="font-size: 30px">
                 <span class="title"><b>기안문 확인</b></span>
@@ -62,7 +61,7 @@
 
 
             <!--------------------------------------------form테이블 시작---------------------------------------------------------->
-            <table class="table tb-bd">
+            <table class="table tb-bd table-responsive">
                 <th scope="row" style="border: aliceblue; font-size: 18px">
                     <div>문서유형</div>
 
@@ -128,7 +127,7 @@
                         <div class="container">
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;"
                                  readonly>
-                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing"
+                                <router-link to="#" v-for="(file, key) in downLoadNames" class="file-listing" key="key"
                                              @click.native="getDown(approval.docNum,file)">
                                     <div>{{ file }}</div>
                                 </router-link>

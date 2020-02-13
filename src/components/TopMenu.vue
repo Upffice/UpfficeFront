@@ -13,6 +13,9 @@
                         <ul class="navbar-nav mr-auto">
 
                             <li class="nav-item">
+                                <router-link class="nav-link" to="/calendar">일정관리</router-link>
+                            </li>
+                            <li class="nav-item">
                                 <router-link class="nav-link" to="/working">근태관리</router-link>
                             </li>
                             <li class="nav-item">
@@ -24,9 +27,9 @@
                             <li class="nav-item">
                                 <router-link class="nav-link" to="/survey">설문</router-link>
                             </li>
-                            <li class="nav-item">
-                                <router-link class="nav-link" to="/file">자료실</router-link>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <router-link class="nav-link" to="/file">자료실</router-link>-->
+<!--                            </li>-->
                             <li class="nav-item">
                                 <router-link class="nav-link" to="/mainEmployAddress">주소록</router-link>
                             </li>
@@ -141,7 +144,7 @@
                 // 밑의 경로에 사번.jpg에 해당하는 이미지 파일을 넣어두고 사용하면 됨
                 if(!this.loginInfo.manager) {
                     this.getName(); // 이름 가져오기 위한 메소드
-                    this.emp_img_url = require('../assets/emp_img/' + this.loginInfo.login_id + '.jpg');
+                    this.emp_img_url = 'http://localhost:8080/emp_img/'+ this.loginInfo.login_id + '.jpg';  // 사원 이미지 경로 설정
                 }
 
             }

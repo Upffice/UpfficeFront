@@ -1,7 +1,7 @@
 <template>
 
 
-    <div class="card border-primary mb-3" style="max-width: 1100px;">
+    <div class="border-primary mb-3" style="max-width: 1100px;">
         <!--        <div class="list row">-->
         <subMenu></subMenu>
         <!--        </div>-->
@@ -45,7 +45,7 @@
                             style="vertical-align: middle; line-height: 20px; width:45px !important;">결<br><br>재
                         </td>
                         <td style="border: black 2px solid; width:70px !important; padding-top: 5px; padding-bottom: 5px;">
-                            <b>{{approval.writerName}}</b><br><img v-bind:src="sign_url_1"><br>{{cTime}}
+                            <b>{{approval.writerName}}</b><br><img v-bind:src="sign_url_1"><br>{{cTime.substring(2,9)}}
                         </td>
                         <!--                        <td v-for="signid in signIds" style="border: black 2px solid"><b>{{signid.name}}</b><br><br>사인<br>{{signid.date}}</td>-->
 
@@ -69,7 +69,7 @@
 
 
             <!--------------------------------------------form테이블 시작---------------------------------------------------------->
-            <table class="table tb-bd">
+            <table class="table tb-bd table-responsive">
                 <th scope="row" style="border: aliceblue; font-size: 18px">
                     <div>문서유형</div>
 
@@ -313,7 +313,7 @@
                 }, {
                     name: 'dynamic-modal',
                     width: '600px',
-                    height: '600px',
+                    height: '450px',
                     draggable: true
                 })
                 /*this.approval.status1 = false;
@@ -337,7 +337,7 @@
                 }, {
                     name: 'dynamic-modal',
                     width: '600px',
-                    height: '600px',
+                    height: '450px',
                     draggable: true
                 })
             },

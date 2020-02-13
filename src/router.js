@@ -10,7 +10,6 @@ import PostsList from "./components/posts/PostsList";
 import Post from "./components/posts/Post";
 import WorkingStatus from "./components/working/WorkingStatus.vue";
 import AnnualDetail from "./components/working/AnnualDetail.vue";
-import Calendar from "./components/schedule/Calendar";
 import FileExplorer from "./components/file/fileExplorer.vue";
 import SignWait from "./components/approval/SignWait.vue";
 import Approval from "./components/approval/Approval";
@@ -46,6 +45,8 @@ import OutManagement from "./components/managerpage/OutManagement";
 import AddOutAddress from "./components/managerpage/AddOutAddress";
 import OutMgmDetail from "./components/managerpage/OutMgmDetail";
 import FormManagement from "./components/managerpage/FormManagement";
+import employeesPopup from "./components/managerpage/employeesPopup";
+import Calendar from "./components/schedule/Calendar";
 
 Vue.use(Router);
 
@@ -84,7 +85,7 @@ export default new Router({
             component: OutAddressMain
         },
 
-        /*--ManagerRouter*/
+                                                                /*--ManagerRouter*/
 
         {
             path: "/manager/employees",
@@ -169,7 +170,6 @@ export default new Router({
             alias: "/calendar",
             component: Calendar
         },
-
         {
             path:"/survey/addsurvey",
             name:"addsurvey",
@@ -348,8 +348,14 @@ export default new Router({
         {
             path: "/file/All",
             name: "file",
-            alias: ["/file","/file/dep","/file/emp"],
+            alias: ["/file", "/file/dep", "/file/emp"],
             component: FileExplorer
+        },
+        {
+            path: "/schedule/calendar",
+            name: "calendar",
+            alias: "/calendar",
+            component: Calendar
         }
     ]
 });

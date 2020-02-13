@@ -9,21 +9,21 @@
                 <!--        사용자 정보 입력란-->
                 <div class="newcontent">
                     <div class="form-group " >
-                        <label style="font-weight: bold">작성자</label>
-                        <input type="text" class="form-control " id="writer" required v-model="post.post_writer" name="writer" placeholder="작성자" readonly>
+                        <label style="font-weight: bold; margin-left: 30%;">작성자</label>
+                        <input type="text" class="form-control " style="width: 150%;" id="writer" required v-model="post.post_writer" name="writer" placeholder="작성자" readonly>
 
 
                     </div>  <br>
                     <div class="form-group ">
-                        <label style="font-weight: bold">게시판 명</label>
-                        <input type="text" class="form-control " id="subject" required v-model="board_name" name="subject" placeholder="게시판 명">
+                        <label style="font-weight: bold; margin-left: 30%;">게시판 명</label>
+                        <input type="text" class="form-control" style="width: 150%;" id="subject" required v-model="board_name" name="subject" placeholder="게시판 명">
                     </div>
 
                     <br>
                 </div>
                 <div class="boardbutton">
                 <button v-on:click="saveBoard" class="btn btn-success">등록하기</button>
-                <button class="btn btn-success" @click="backlist">취소하기</button>
+                <button class="btn btn-danger" @click="backlist">취소하기</button>
                 </div>
             </div>
 
@@ -159,7 +159,7 @@
     }
     .newcontent{
         position: absolute;
-        left: 25%;
+        left: 42%;
     }
     .boardbutton{
         position: absolute;

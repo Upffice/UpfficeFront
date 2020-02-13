@@ -6,10 +6,10 @@
         <div class="col-md-20">
             <br>
             <h4>전사 게시판</h4>
-            <br>
+            <hr>
             <div>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keypress="searchPost" id="SearchSubject" placeholder="Search"
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="searchPost" id="SearchSubject" placeholder="Search"
                        required v-model="SearchSubject" name="SearchSubject">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
@@ -103,13 +103,6 @@
         },
         methods: {
             /* eslint-disable no-console */
-            searchPost(){
-              http
-                .get("/pst/post_subject/"+this.SearchSubject)
-                .then(response =>{
-
-                })
-            },
 
             //dep_pst 가 포함되어 있으면 0(부서게시판) 이상의 숫자, 없으면 -1(전사게시판)
             retrieveBoards() {
@@ -174,6 +167,14 @@
                 }
 
 
+            },
+            searchPost(){
+                http
+                    .get("/pst/pst/SearchSubject/"+this.SearchSubject)
+                    .then(response =>{
+                        this.currentPosts = response.data;
+
+                    })
             },
             refreshList() {
                 this.retrieveBoards();

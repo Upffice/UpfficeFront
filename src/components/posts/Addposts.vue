@@ -11,7 +11,7 @@
 <!--        사용자 정보 입력란-->
             <div class="selectbox" style="margin-bottom:10px;">
             <label class="labelfont">게시판 선택 &nbsp;&nbsp;&nbsp;&nbsp; </label>
-            <select v-model="post.board_name">
+            <select class="custom-select" v-model="post.board_name">
                 <option disabled value="">게시판명을 선택하세요</option>
                 <option v-for="(board, index) in boards" :key="index">{{board.board_name}}</option>
             </select>
@@ -28,13 +28,13 @@
             </div>
             <div class="form-group form-inline form-group-JH">
                 <label for="writer" class="labelfont">작 성 란&nbsp;&nbsp;&nbsp;</label>
-                <textarea class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
+                <textarea  class="form-control col-sm-9" id="exampleTextarea" rows="10" required v-model="post.post_content" name="content" placeholder="1000자 내로 입력하세요"></textarea>
             </div>
             <br>
             <div class="form-group form-inline form-group-JH">
                 <label for="exampleInputFile" class="labelfont">사진 업로드</label>
                 <input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">
-                <small class="form-text text-muted" id="fileHelp">안녕하세요 저는 정준희에요 멋쟁이 정준희입니다 ㅎㅎ 짱짱맨 정준희</small>
+                <small class="form-text text-muted" id="fileHelp">사진은 .jpg .png 만 지원합니다</small>
             </div>
 
         <button v-on:click="savePost" class="btn btn-success">게시물 등록</button> &nbsp;&nbsp;&nbsp;&nbsp;

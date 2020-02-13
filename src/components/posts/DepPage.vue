@@ -7,7 +7,9 @@
             <subMenu></subMenu>
         </div>
         <div class="col-md-20">
-            <br><h4>{{this.board_name}} 게시판</h4><br>
+            <br>
+            <h4>{{this.board_name}} 게시판</h4>
+            <hr>
             <div>
                 <form class="form-inline my-2 my-lg-0 searchbar">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -42,6 +44,7 @@
 
                 </tbody>
             </table>
+            <button class="btn btn-primary" type="button" style="position: absolute; left: 80%;" @click="write">글쓰기</button>
             <div class="pagebox">
                 <ul class="pagination">
                     <li class="page-item">
@@ -97,6 +100,11 @@
 
             //PostSubmenu 에서 보내준 param 값을 억지로 집어 넣어주는 메서드
             //원래 parameter로 넘어가야하는데 갑자기 값이 안들어감 그래서 억지로 넣어준것임.
+            write(){
+                this.$router.push({
+                    path:'/dep_pst/add'
+                })
+            },
             setBoard(){
                 this.board = this.$route.params;
                 this.board_name = this.$route.params.board_name;
