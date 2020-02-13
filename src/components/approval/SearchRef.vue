@@ -260,7 +260,7 @@
     }
 
     .searchResult {
-        max-height: 215px;
+        max-height: 150px;
         overflow: scroll;
         text-overflow: ellipsis; /*말 줄임표 위한 설정*/
         white-space: nowrap; /*말 줄임표 위한 설정*/
