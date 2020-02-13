@@ -337,9 +337,6 @@
         position: relative;
     }
 
-    .page-link {
-        background-color: #0e0b37;
-    }
 
     .btn {
         margin: 20px 0px 20px 0px
