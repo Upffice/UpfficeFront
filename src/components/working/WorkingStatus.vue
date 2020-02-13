@@ -2,11 +2,11 @@
     <div class="list row">
         <subMenu></subMenu>
         <div class="col-md-12">
-            <h4>근태</h4>
+            <h3>근태</h3>
             <h2>
-                <button class="btn btn-success" v-on:click="onClickPrev(currentMonth)">◀</button>
+                <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
                 {{currentYear}}.{{currentMonth}}
-                <button class="btn btn-success" v-on:click="onClickNext(currentMonth)">▶</button>
+                <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
             </h2>
 
             <div class="progress">
@@ -16,21 +16,21 @@
             </div>
             필요 근무 시간:{{monthTime}}시간<br>
             실제 근무 시간:{{workingTime}}
-            <button v-if="weeks.week1.show" class="btn btn-success btn-lg btn-block"
+            <button v-if="weeks.week1.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week1.show = !weeks.week1.show">
                 1주차 ▲
             </button>
-            <button v-else="weeks.week1.show" class="btn btn-success btn-lg btn-block"
+            <button v-else="weeks.week1.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week1.show = !weeks.week1.show">
                 1주차 ▼
             </button>
             <table v-if="weeks.week1.show" class="table table-hover">
                 <thead>
-                <tr class="table-primary">
-                    <td>날짜</td>
-                    <td>출근시각</td>
-                    <td>퇴근시각</td>
-                    <td>근무시간</td>
+                <tr class="table-light">
+                    <th>날짜</th>
+                    <th>출근시각</th>
+                    <th>퇴근시각</th>
+                    <th>근무시간</th>
                 </tr>
                 </thead>
                 <tr v-for="(working, index) in weeks.week1.workings" :key="index">
@@ -40,21 +40,21 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week2.show" class="btn btn-success btn-lg btn-block"
+            <button v-if="weeks.week2.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week2.show = !weeks.week2.show">
                 2주차 ▲
             </button>
-            <button v-else="weeks.week2.show" class="btn btn-success btn-lg btn-block"
+            <button v-else="weeks.week2.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week2.show = !weeks.week2.show">
                 2주차 ▼
             </button>
             <table v-if="weeks.week2.show" class="table table-hover">
                 <thead>
-                <tr class="table-primary">
-                    <td>날짜</td>
-                    <td>출근시각</td>
-                    <td>퇴근시각</td>
-                    <td>근무시간</td>
+                <tr class="table-light">
+                    <th>날짜</th>
+                    <th>출근시각</th>
+                    <th>퇴근시각</th>
+                    <th>근무시간</th>
                 </tr>
                 </thead>
                 <tr v-for="(working, index) in weeks.week2.workings" :key="index">
@@ -64,21 +64,21 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week3.show" class="btn btn-success btn-lg btn-block"
+            <button v-if="weeks.week3.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week3.show = !weeks.week3.show">
                 3주차 ▲
             </button>
-            <button v-else="weeks.week3.show" class="btn btn-success btn-lg btn-block"
+            <button v-else="weeks.week3.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week3.show = !weeks.week3.show">
                 3주차 ▼
             </button>
             <table v-if="weeks.week3.show" class="table table-hover">
                 <thead>
-                <tr class="table-primary">
-                    <td>날짜</td>
-                    <td>출근시각</td>
-                    <td>퇴근시각</td>
-                    <td>근무시간</td>
+                <tr class="table-light">
+                    <th>날짜</th>
+                    <th>출근시각</th>
+                    <th>퇴근시각</th>
+                    <th>근무시간</th>
                 </tr>
                 </thead>
                 <tr v-for="(working, index) in weeks.week3.workings" :key="index">
@@ -88,21 +88,21 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week4.show" class="btn btn-success btn-lg btn-block"
+            <button v-if="weeks.week4.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week4.show = !weeks.week4.show">
                 4주차 ▲
             </button>
-            <button v-else="weeks.week4.show" class="btn btn-success btn-lg btn-block"
+            <button v-else="weeks.week4.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week4.show = !weeks.week4.show">
                 4주차 ▼
             </button>
             <table v-if="weeks.week4.show" class="table table-hover">
                 <thead>
-                <tr class="table-primary">
-                    <td>날짜</td>
-                    <td>출근시각</td>
-                    <td>퇴근시각</td>
-                    <td>근무시간</td>
+                <tr class="table-light">
+                    <th>날짜</th>
+                    <th>출근시각</th>
+                    <th>퇴근시각</th>
+                    <th>근무시간</th>
                 </tr>
                 </thead>
                 <tr v-for="(working, index) in weeks.week4.workings" :key="index">
@@ -112,21 +112,21 @@
                     <td>{{working.workingTime}}</td>
                 </tr>
             </table>
-            <button v-if="weeks.week5.show" class="btn btn-success btn-lg btn-block"
+            <button v-if="weeks.week5.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week5.show = !weeks.week5.show">
                 5주차 ▲
             </button>
-            <button v-else="weeks.week5.show" class="btn btn-success btn-lg btn-block"
+            <button v-else="weeks.week5.show" class="btn btn-outline-primary btn-lg btn-block"
                     v-on:click="weeks.week5.show = !weeks.week5.show">
                 5주차 ▼
             </button>
             <table v-if="weeks.week5.show" class="table table-hover">
                 <thead>
-                <tr class="table-primary">
-                    <td>날짜</td>
-                    <td>출근시각</td>
-                    <td>퇴근시각</td>
-                    <td>근무시간</td>
+                <tr class="table-light">
+                    <th>날짜</th>
+                    <th>출근시각</th>
+                    <th>퇴근시각</th>
+                    <th>근무시간</th>
                 </tr>
                 </thead>
                 <tr v-for="(working, index) in weeks.week5.workings" :key="index">
@@ -304,5 +304,12 @@
         text-align: left;
         max-width: 450px;
         margin: auto;
+    }
+    .changeBtn {
+        font-size: 25px;
+        text-decoration: none;
+    }
+    th {
+        text-align: center;
     }
 </style>
