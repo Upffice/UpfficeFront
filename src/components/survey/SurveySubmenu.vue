@@ -2,7 +2,7 @@
     <div class="subMenu">
 
         <ul class="nav nav-pills flex-column">
-                <div style="font-weight: bold; margin: 8%; font-size: 20px">
+                <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center;">
                     설문
                 </div>
             <button class="btn btn-primary btn-lg" @click="addSurvey" style="width: 80%; margin: auto auto 20px;">설문 등록</button>
@@ -16,12 +16,6 @@
                     마감된 설문
                 </li>
             </router-link>
-<!--            <router-link to="/addsurvey">-->
-<!--                <li class="btn btn-secondary" style="width: 100%; margin-top: 40%; font-size: 20px">-->
-<!--                    설문 등록하기-->
-<!--                </li>-->
-<!--            </router-link>-->
-
 
         </ul>
     </div>

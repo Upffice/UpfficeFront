@@ -1,6 +1,6 @@
 <template>
     <div class="subMenu">
-        <div style="font-weight: bold; margin: 8%; font-size: 20px">
+        <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center;">
             일정관리
         </div>
         <ul class="nav nav-pills flex-column">
