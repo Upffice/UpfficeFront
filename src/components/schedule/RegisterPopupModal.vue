@@ -4,6 +4,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">일정 등록</h5>
+                    <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
+                            @click="$emit('close')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <!-- 일정 추가 기능 -->
                 <div class="modal-body">

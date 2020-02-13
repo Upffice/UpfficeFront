@@ -4,6 +4,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">캘린더 수정</h5>
+                    <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
+                            @click="$emit('close')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <!-- 일정 수정/삭제 기능 -->
                 <div class="modal-body modifySchedule">

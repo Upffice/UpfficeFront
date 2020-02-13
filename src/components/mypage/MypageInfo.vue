@@ -144,6 +144,7 @@ export default {
             this.employee.emp_id = sessionStorage.getItem("login_id");
             this.getEmpInfo(this.employee.emp_id); // 사원 정보 가져오기
         }else {
+            alert("로그인을 해주세요!");
             this.$router.push("/");
         }
     } // End - mounted()
