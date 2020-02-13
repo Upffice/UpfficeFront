@@ -8,10 +8,12 @@
         </div>
         <div class="col-md-20">
             <br>
-            <h4>진행중인 설문</h4>
+            <div class="big-subject">
+            <h3>진행중인 설문</h3>
+            </div>
             <br>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="검색"
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="SurveySearch" id="SearchSurvey" placeholder="설문 검색"
                        required v-model="SearchSurvey" name="SearchSurvey">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
             </form>
@@ -265,7 +267,7 @@
     }
     .searchbar{
         position: absolute;
-        right: 13%;
+        right: 8%;
         top: 15%;
     }
     .maljul{
@@ -283,5 +285,8 @@
         width: 70%;
         margin-left: 23%;
 
+    }
+    .big-subject{
+        width: 60%;
     }
 </style>

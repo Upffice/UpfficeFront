@@ -9,11 +9,11 @@
 
         <div class="col-md-20">
             <br>
-            <h4>{{this.board_name}} 게시판</h4>
+            <h3>{{this.board_name}} 게시판</h3>
             <br>
             <div>
                 <form class="form-inline my-2 my-lg-0 searchbar">
-                    <input class="form-control mr-sm-2" type="text" placeholder="검색">
+                    <input class="form-control mr-sm-2" type="text" placeholder="게시판 내 검색">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
                 </form>
             </div>

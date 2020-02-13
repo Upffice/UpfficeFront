@@ -5,11 +5,11 @@
         </div>
         <div class="col-md-20">
             <br>
-            <h4>전사 게시판</h4>
+            <h3>전사 게시판</h3>
             <br>
             <div>
             <form class="form-inline my-2 my-lg-0 searchbar">
-                <input class="form-control mr-sm-2" type="text" v-on:keyup="searchPost" id="SearchSubject" placeholder="검색"
+                <input class="form-control mr-sm-2" type="text" v-on:keyup="searchPost" id="SearchSubject" placeholder="게시글 검색"
                        required v-model="SearchSubject" name="SearchSubject">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
             </form>
