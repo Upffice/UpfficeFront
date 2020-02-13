@@ -11,15 +11,17 @@
                            placeholder="성명, 회사명 입력" id="nameAndCompany"
                            required v-model="nameAndCompany" name="nameAndCompany"/>
 
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="searchOutAddress">검색</button>
-                    <button class="btn btn-secondary my-2 my-sm-0" v-on:click="refreshList">취소</button>
+                    <button class="btn btn-primary" type="submit"
+                            v-on:click="searchOutAddress">검색</button>
+                    <button class="btn btn-secondary" type="submit"
+                            v-on:click="refreshList">취소</button>
                 </fieldset>
             </div>
 
 
-            <table boder="2" class="table table-hover" style="margin-top: 70px">
+            <table class="table table-hover" style="margin-top: 20px">
                 <!--출력-->
-                <thead class="table-primary">
+                <thead class="table-secondary">
                 <td>이름</td>
                 <td>휴대폰</td>
                 <td>이메일</td>
@@ -28,11 +30,7 @@
 
                 </thead>
                 <tr v-for="(outAddress,index) in currentPosts" :key="index">
-                    <td>
-
-                        {{outAddress.outName}}
-
-                    </td>
+                    <td>{{outAddress.outName}}</td>
                     <td>{{outAddress.out_mobile}}</td>
                     <td>{{outAddress.out_email}}</td>
                     <td>{{outAddress.outCompany}}</td>
@@ -40,7 +38,7 @@
                 </tr>
             </table>
 
-            <div>
+            <div class="page">
                 <ul class="pagination">
                     <li class="page-item">
                         <button class="page-link" @click="gotoStart()">&laquo;</button>
@@ -78,7 +76,7 @@
                 outaddress: [],
                 currentPosts: [],
                 count: 0,   //총 길이
-                countList: 5, // 한 페이지에 나올 게시글 개수
+                countList: 10, // 한 페이지에 나올 게시글 개수
                 totalPage: 1, // 페이지 번호 묶음 (5 개씩 묶음)
                 page: 1,
                 countPage: 5,
@@ -257,15 +255,26 @@
     .list {
         text-align: center;
         max-width: 90%;
-        /*  margin: auto;*/
-        margin-left: 15%;
+        margin-left: 18%;
+        margin-right: 5%;
+        margin-top: 20px;
     }
 
 
-    .table {
-        width: 80%;
-        margin: auto;
+
+  .btn-group {
+        float: right;
+    }
+
+
+    .page {
+        display: table;
         text-align: center;
+        margin: auto;
+        padding-top: 30px;
+        position: relative;
     }
-
+    .btn {
+        margin: 20px 0px 20px 0px
+    }
 </style>

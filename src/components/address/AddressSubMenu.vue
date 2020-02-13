@@ -1,7 +1,8 @@
 <template>
     <div class="subMenu">
         <ul class="nav nav-pills flex-column">
-            <li class="nav-item"><h4>5.공용주소록</h4></li>
+            <br>
+            <li class="nav-item"><h4>공용주소록</h4></li>
             <router-link to="/mainEmployAddress">
                 <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                    내부주소록
