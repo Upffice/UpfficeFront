@@ -162,7 +162,7 @@
             emp_modi_del(employee) { // employee-Detail modal 띄우는 메소드
 
                 this.$modal.show(EmployeesMgmDetail, {
-                        name: EmployeesMgmDetail,
+                        name: 'EmployeesMgmDetail',
                         employees: employee,
                         modal: this.$modal,
                     },

@@ -255,7 +255,7 @@
                     .get('/employees/down')
                     .then(response => {
                         this.downLoadNames = response.data;
-                        console.log(this.downLoadNames);
+                      /*  console.log(this.downLoadNames);*/
                         this.setPagination();
                         this.setCurrentPosts();
 
@@ -341,7 +341,7 @@
                     for (let i = 0; i <= (this.endPage - this.startPage) && j < this.totalPage; i++) {
                         this.currentPages[i] = this.totalPages[j];
                         j++;
-                        console.log("curr " + i + "번째 " + this.currentPages[i]);
+                       /* console.log("curr " + i + "번째 " + this.currentPages[i]);*/
                     }
                     this.setCurrentPosts();
                 }
