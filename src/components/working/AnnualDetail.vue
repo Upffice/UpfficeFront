@@ -16,8 +16,8 @@
                     <th>잔여 연차</th>
                 </tr>
                 </thead>
-                <tr>
-                    <td>{{this.name}}</td>
+                <tr class="alignCenter">
+                    <td>{{this.empName}}</td>
                     <td>{{this.totalAnnual}}</td>
                     <td>{{this.usedAnnual}}</td>
                     <td>{{this.leftAnnual}}</td>
@@ -32,7 +32,7 @@
                     <th colspan="2">연차 사용일</th>
                 </tr>
                 </thead>
-                <tr v-for="(annual, index) in annuals" :key="index">
+                <tr class="alignCenter" v-for="(annual, index) in annuals" :key="index">
                     <td>{{index+1}}</td>
                     <td>{{annual}}</td>
                 </tr>
@@ -52,7 +52,7 @@
         data() {
             return {
                 empId: "",
-                name: "대표",
+                empName: '',
                 totalAnnual: 0,
                 usedAnnual: 0,
                 leftAnnual: 0,
@@ -65,6 +65,14 @@
         },
         methods: {
             /* eslint-disable no-console */
+            getName() {
+                /* 사원번호에 해당하는 사원명 가져오는 메소드 */
+                http
+                    .post("/login/name/" + this.empId)
+                    .then(response => {
+                        this.empName = response.data;
+                    })
+            }, // End - getName()
             readAnnuals() {// 사용한 연차의 내역을 조회하는 메소드
                 http
                     .get("/working/annuals/" + this.empId)
@@ -109,6 +117,7 @@
                 this.empId = sessionStorage.getItem("login_id");
                 this.readTotalAnnual();
                 this.readAnnuals();
+                this.getName();
             }  else {
                 alert("로그인을 해주세요!");
                 this.$router.push('/');
