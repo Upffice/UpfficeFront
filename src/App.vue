@@ -42,6 +42,12 @@
 
     a:hover {
         text-decoration: none;
+
+    }
+
+      a:hover >li {
+        font-size: 17px;
+
     }
 
 </style>

@@ -1,13 +1,13 @@
 <template>
     <div class="subMenu">
-         <ul class="nav nav-pills flex-column">
-             <router-link to="/app">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                 <b>전자결재 메인</b>
-             </li></router-link>
+             <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center">
+                 전자 결재
+             </div>
+        <ul class="nav nav-pills flex-column">
 
-            <router-link to="/app/doc">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
+        <li class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center libgclr">
                 <b>기안</b>
-              </li></router-link>
+              </li>
               <router-link to="/app/doc/write"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기안문작성
               </li></router-link>
@@ -15,9 +15,9 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;임시저장함
               </li></router-link>
 
-             <router-link to="/app/sign">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                 <b>결재</b>
-             </li></router-link>
+             <li class="list-group-item list-group-item-action active">
+             <b>결재</b>
+             </li>
              <router-link to="/app/sign/wait"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 대기함
              </li></router-link>
@@ -33,16 +33,16 @@
              <router-link to="/app/sign/hold"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;보류 문서함
              </li></router-link>
-             <router-link to="/app/ref">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                 <b>참조/열람</b>
-             </li></router-link>
+             <li class="list-group-item list-group-item-action active">
+             <b>참조/열람</b>
+             </li>
              <router-link to="/app/ref/ref"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조/열람문서함
              </li></router-link>
 
-             <router-link to="/app/rcv">  <li class="list-group-item d-flex justify-content-between align-items-center libgclr">
-                 <b>수신</b>
-             </li></router-link>
+             <li class="list-group-item list-group-item-action active">
+             <b>수신</b>
+             </li>
              <router-link to="/app/rcv/rcv"><li class="list-group-item d-flex justify-content-between align-items-center libgclr">
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부서 수신함
              </li></router-link>
@@ -85,6 +85,12 @@ export default {
     .shtable > thead > tr > th:nth-child(6){
         width: 10%;
     }
+
+
+    .shtable > tbody > tr > td:nth-child(5){
+        text-align: left;
+    }
+
     .shtable > tbody > tr > td:nth-child(7),
     .shtable > thead > tr > th:nth-child(7){
         width: 20%;
@@ -113,6 +119,11 @@ export default {
 
     .subMenu{
         height: 678px;
+        text-align: left;
+    }
+
+    .search-group{
+        margin-bottom: 10px;
     }
 
 

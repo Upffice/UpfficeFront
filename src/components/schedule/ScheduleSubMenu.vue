@@ -1,11 +1,11 @@
 <template>
     <div class="subMenu">
-        <div style="font-weight: bold; margin: 8%; font-size: 20px">
+        <div style="font-weight: bold; margin: 8%; font-size: 20px; text-align: center;">
             일정관리
         </div>
         <ul class="nav nav-pills flex-column">
             <button class="btn btn-primary btn-lg" @click="addSchedule()" style="width: 80%; margin: auto auto 20px;">일정 등록</button>
-            <li class="list-group-item libgclr">
+            <li class="list-group-item libgclr listTextCenter">
                 <label class="col-form-label col-form-label calendarLabel" for="inputSmall">캘린더 추가</label><br>
                 <div style="width: 100%">
                     <input type="color" class="inputColor" v-model="calendarInput.cal_color">
@@ -14,7 +14,7 @@
                     <button class="btn btn-lg btn-link addBtn" @click="addCalendar()">+</button>
                 </div>
             </li>
-            <li class="list-group-item libgclr">
+            <li class="list-group-item libgclr listTextCenter">
                 <div v-if="calendarList">
                     <label class="col-form-label col-form-label calendarLabel">캘린더 목록</label><br>
                     <label class="form-check-label category" v-for="(calendar, index) in calendarList" :key="index">
@@ -158,6 +158,9 @@ export default {
         font-size: 13px;
         margin: auto 20px;
         padding-right: 10px;
+    }
+    .listTextCenter {
+        text-align: center;
     }
     .calendarLabel {
         padding-top: 0;

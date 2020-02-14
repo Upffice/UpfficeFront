@@ -278,7 +278,7 @@
     .shtable {
 
         margin: auto auto auto auto !important;
-        width: 770px !important;
+        width:770px;
 
     }
 

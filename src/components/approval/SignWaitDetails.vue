@@ -145,7 +145,7 @@
                                 </router-link>
                             </div>
                             <div class="large-12 medium-12 small-12 cell" style="float: left; margin: 0px 20px;">
-                                <button @click="getDownAll">Download All</button>
+                                <button @click="getDownAll">다운로드</button>
                             </div>
                         </div>
                     </td>

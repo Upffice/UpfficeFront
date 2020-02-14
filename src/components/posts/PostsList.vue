@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                 <tr id="text-over" v-for="(post, index) in currentPosts" :key="index" >
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{post.post_id}}</td>
+                    <td>{{numbering(posts.length)-(index-1)}}</td>
                     <td>{{post.post_writer}}</td>
                     <td class="maljul"  style="text-align: left;"><router-link :to="{
                             name: 'post-details',
@@ -79,6 +79,7 @@
         name: "post-list",
         data() {
             return {
+                a:0,
                 posts: [],//모든 게시물을 저장하는 변수
                 currentPosts: [],//[ ] 현재 게시물을 보여주는 페이지
                 empID: "",
@@ -103,6 +104,13 @@
         },
         methods: {
             /* eslint-disable no-console */
+            numbering(idx){
+                if(idx>0) {
+                    this.a=(idx-(this.page-1)*10)-1;
+                }
+
+                return this.a;
+            },
 
             //dep_pst 가 포함되어 있으면 0(부서게시판) 이상의 숫자, 없으면 -1(전사게시판)
             retrieveBoards() {
