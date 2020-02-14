@@ -92,7 +92,7 @@
         methods: {
             setPagination() {
                 this.count = this.outaddress.length;
-                console.log(this.outaddress.length + "길이 찍어보기")
+               /* console.log(this.outaddress.length + "길이 찍어보기")*/
                 this.totalPage = this.count / this.countList; // 총 페이지 개수
                 if (this.count % this.countList > 0) {
                     this.totalPage = Math.ceil(this.totalPage);
@@ -119,11 +119,11 @@
                 this.totalPage; i++) {
                     this.currentPages[i] = this.totalPages[j];
                     j++;
-                    console.log("curr " + i + "번째 " + this.currentPages[i]);
+                  /*  console.log("curr " + i + "번째 " + this.currentPages[i]);
                     console.log("startPage : " + this.startPage)
                     console.log("endPage : " + this.endPage)
                     console.log("totalPage : " + this.totalPage)
-                    console.log("totalPages : " + this.totalPages)
+                    console.log("totalPages : " + this.totalPages)*/
 
                 }
 
@@ -165,6 +165,8 @@
                     .then(response => {
                         this.currentPosts = response.data, // JSON are parsed automatically.
                             console.log(response.data);
+                        this.setPagination();
+                        this.setCurrentPosts();
                     })
                     .catch(e => {
                         console.log(e);

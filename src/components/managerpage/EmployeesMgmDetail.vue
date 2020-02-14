@@ -70,7 +70,7 @@
     import http from "../../http-common";
 
     export default {
-        name: '"EmployeesMgmDetail",',
+        name: 'EmployeesMgmDetail',
         props: ['employees'],
         data() {
             return {

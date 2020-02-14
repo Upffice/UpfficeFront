@@ -123,7 +123,7 @@
         methods: {
             setPagination() {
                 this.count = this.outaddress.length;
-                console.log(this.outaddress.length + "길이 찍어보기")
+                /*console.log(this.outaddress.length + "길이 찍어보기")*/
                 this.totalPage = this.count / this.countList; // 총 페이지 개수
                 if (this.count % this.countList > 0) {
                     this.totalPage = Math.ceil(this.totalPage);
@@ -150,11 +150,11 @@
                 this.totalPage; i++) {
                     this.currentPages[i] = this.totalPages[j];
                     j++;
-                    console.log("curr " + i + "번째 " + this.currentPages[i]);
+                   /* console.log("curr " + i + "번째 " + this.currentPages[i]);
                     console.log("startPage : " + this.startPage)
                     console.log("endPage : " + this.endPage)
                     console.log("totalPage : " + this.totalPage)
-                    console.log("totalPages : " + this.totalPages)
+                    console.log("totalPages : " + this.totalPages)*/
 
                 }
             },
@@ -198,7 +198,7 @@
                     .get("/outaddress/outaddress/outName")
                     .then(response => {
                         this.outaddress = response.data;
-                        console.log("SortOfOutName " + response.data);
+                        console.log(response.data);
                         this.setPagination();
                         this.setCurrentPosts();
                     })
@@ -237,8 +237,6 @@
                         height: '530px',
                         draggable: true,
                     });
-
-                console.log(outaddress.out_id);
             },
 
             out_modi_del(outaddress) {

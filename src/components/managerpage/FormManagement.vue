@@ -109,8 +109,6 @@
             return {
                 files: [],
                 downLoadNames: [],
-                cnt: 0,
-                totalCnt: 0,
 
                 currentPosts: [],
                 count: 0,   //총 길이
@@ -134,7 +132,6 @@
                 for (var i = 0; i < uploadedFiles.length; i++) {
                     /*전역변수 배열끝에 돔에서 가져온 파일 추가*/
                     this.files.push(uploadedFiles[i]);
-                    this.totalCnt++;
                 }
             },
             removeFile(key) {
@@ -259,8 +256,6 @@
                     .then(response => {
                         this.downLoadNames = response.data;
                         console.log(this.downLoadNames);
-                        this.totalCnt = this.downLoadNames.length;
-                        this.cnt = this.totalCnt - (this.totalCnt - 1);
                         this.setPagination();
                         this.setCurrentPosts();
 

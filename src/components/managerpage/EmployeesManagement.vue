@@ -49,7 +49,6 @@
                     <td>{{employee.phone_number}}</td>
                     <td>{{employee.dep_id}}</td>
 
-                    <!--<td>{{this.dep_name, getDep_Name(this.employee.dep_id)}}</td>-->
                 </tr>
                 </tbody>
             </table>
@@ -95,7 +94,6 @@
         data() {
             return {
                 employees: [],
-                dep_name: "",
                 emp_id: "",
                 dep_id: "",
                 nameAndPosition: "",
@@ -125,8 +123,6 @@
                         console.log(response.data);
                         this.setPagination();
                         this.setCurrentPosts();
-
-                        this.getDep_Name(this.employees.dep_id);
                     })
                     .catch(e => {
                         console.log(e);
@@ -166,7 +162,7 @@
             emp_modi_del(employee) { // employee-Detail modal 띄우는 메소드
 
                 this.$modal.show(EmployeesMgmDetail, {
-                        name: 'EmployeesMgmDetail',
+                        name: EmployeesMgmDetail,
                         employees: employee,
                         modal: this.$modal,
                     },
@@ -178,18 +174,6 @@
                 console.log(employee.emp_id);
 
             },
-            getDep_Name(dep_id) {
-                console.log("getDep_name입니다")
-                http
-                    .post("/dep/" + dep_id)
-                    .then(response => {
-                        this.dep_name = response.data;
-                        console.log(this.dep_name + "부서이름가져오나");
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            }, // 부서 정보 가져오기
 
             setPagination() {
                 this.count = this.employees.length;
