@@ -1,15 +1,15 @@
 <template>
     <div class="list row">
         <subMenu></subMenu>
-        <div class="col-md-12">
+        <div class="col-md-12 divWidth divPosition">
             <h3>근태</h3>
-            <h2>
-                <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickPrev(currentMonth)">◀</button>
+            <h2 class="alignCenter">
+                <button class="btn btn-link btn-lg" style="font-size: 25px; text-decoration: none" v-on:click="onClickPrev(currentMonth)">◀</button>
                 {{currentYear}}.{{currentMonth}}
-                <button class="btn btn-link btn-lg changeBtn" v-on:click="onClickNext(currentMonth)">▶</button>
+                <button class="btn btn-link btn-lg" style="font-size: 25px; text-decoration: none" v-on:click="onClickNext(currentMonth)">▶</button>
             </h2>
 
-            <div class="progress">
+            <div class="progress" style="margin:0; width: 100%">
                 <div class="progress-bar" role="progressbar" :style="{width: barWidth}" aria-valuenow="25"
                      aria-valuemin="0"
                      aria-valuemax="100"></div>
@@ -304,10 +304,6 @@
         text-align: left;
         max-width: 450px;
         margin: auto;
-    }
-    .changeBtn {
-        font-size: 25px;
-        text-decoration: none;
     }
     th {
         text-align: center;

@@ -1,7 +1,7 @@
 <template>
     <div class="list row">
         <subMenu></subMenu>
-        <div class="col-md-12">
+        <div class="col-md-12 divWidth divPosition">
             <h3>연차</h3>
             <div class="alignRight">
                 <button v-on:click="showModal()" class="btn btn-secondary btn-lg">연차신청</button>
@@ -24,7 +24,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 divWidth divPosition">
             <h4>연차 사용 이력</h4>
             <table class="table table-hover">
                 <thead>
@@ -129,4 +129,11 @@
     .alignRight {
         text-align: right;
     }
+    .divPosition {
+        left: 10%;
+    }
+    .divWidth {
+        width: 80%;
+    }
+
 </style>
