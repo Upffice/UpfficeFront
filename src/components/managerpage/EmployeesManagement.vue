@@ -26,14 +26,14 @@
                 <!--출력부분-->
                 <thead class="table-primary">
                 <tr>
-                    <th style="width: 120px">아이디</th>
-                    <th style="width: 120px">성명</th>
-                    <th>이메일</th>
-                    <th style="width: 120px">직책</th>
+                    <th style="width: 10%">아이디</th>
+                    <th style="width: 10%">성명</th>
+                    <th style="width: 18%">이메일</th>
+                    <th style="width: 10%">직책</th>
                     <th>입사일</th>
                     <th>내선번호</th>
                     <th>휴대폰번호</th>
-                    <th style="width: 120px">부서</th>
+                    <th style="width: 10%">부서</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -158,7 +158,7 @@
                     },
                     {
                         width: '500px',
-                        height: '780px',
+                        height: '800px',
                         draggable: true,
                     });
             },

@@ -52,12 +52,14 @@
                 <table class="table table-hover" style="margin-top: 20px">
                     <thead thead class="table-primary">
                     <tr>
+                        <td style="width: 15%">번호</td>
                         <td>파일 이름</td>
-                        <td>파일</td>
+                        <td style="width: 30%">파일</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="(downLoadName,index) in currentPosts " :key="index"><!--downLoadNames / currentPosts-->
+                        <td>{{(index+1)}}</td>
                         <td class="td_name">{{downLoadName}}</td>
                         <td>
                             <router-link to="#" @click.native="getDown(downLoadName)"><label
@@ -435,7 +437,7 @@
     }
 
     .td_name {
-        padding-left: 12%;
+        padding-left: 10%;
         text-align: left;
     }
 
