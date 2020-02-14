@@ -89,21 +89,21 @@
 
                             <button type="button" class="btn btn-primary" v-on:click="addEmployees">등록</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    v-on:click="$emit('close')">취소
+                                    v-on:click="cancel">취소
                             </button>
                         </div>
                     </div>
 
 
                     <div v-else>
-                        <div class="table">
+                        <div style="height: 35rem">
                             <h5 style="text-align: center"><strong>{{this.employee.name}}</strong>님의 정보가 입력되었습니다.</h5>
                         </div>
                         <div class="modal-footer">
                             <button button type="button" class="btn btn-primary" v-on:click="newEmployees">다른 직원 정보 추가
                             </button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    @click="$emit('close')">취소
+                                    @click="cancel">취소
                             </button>
                         </div>
                     </div>
@@ -204,17 +204,11 @@
                     phone_number: this.employee.phone_number,
                     dep_id: this.employee.dep_id
                 }
-
-
-
-
-                if (data.emp_id ==""|data.emp_pw==""|data.name == "" | data.emp_email == "" | data.position == ""| data.dep_id == ""  |
-                    data.hire_date == ""  | data.extension_number == "" |data.phone_number == "") { // 빈 칸 인지 확인하기
+                if (data.emp_id == "" | data.emp_pw == "" | data.name == "" | data.emp_email == "" | data.position == "" | data.dep_id == "" |
+                    data.hire_date == "" | data.extension_number == "" | data.phone_number == "") { // 빈 칸 인지 확인하기
                     alert("빈 칸을 확인해주세요!");
 
                 } else {
-
-
                     http
                         .post("/employees/employees/add", data)
                         .then(response => {
@@ -236,7 +230,10 @@
             /* goBack() {
                  history.go(-1);
              },*/
-
+            cancel() {
+               this.$emit('close');
+                location.reload();
+            },
 
         }
     }
