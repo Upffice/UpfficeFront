@@ -154,7 +154,7 @@
                     },
                     {
                         width: '500px',
-                        height: '800px',
+                        height: '720px',
                         draggable: true,
                     });
             },
@@ -168,7 +168,7 @@
                     },
                     {
                         width: '500px',
-                        height: '770px',
+                        height: '690px',
                         draggable: true,
                     });
                 console.log(employee.emp_id);

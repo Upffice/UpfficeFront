@@ -126,7 +126,7 @@
 
     .card-border {
         width: 22rem;
-        height: 30rem;
+        height: 31rem;
         border-radius: 4px;
         margin: 5rem 0 0 20%;
 

@@ -4,13 +4,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" style="text-align: left"><strong>직원 등록</strong></h5>
-                    <button type="button" class="close" aria-label="Close" style="font-size: 40px; color: black;"
-                            @click="$emit('close')">
+                    <button type="button" class="close" aria-label="Close" @click="$emit('close')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <!-- 직원 추가 기능 -->
-                <div class="modal-body">
+                <div class="modal-body" style="padding: 0 16px 5px 16px">
 
                     <div v-if="!added">
 
@@ -247,6 +246,9 @@
     .modal-footer {
         padding-bottom: 0px;
     }
+    .modal-header{
+        padding: 10px 16px 10px 16px;
+    }
 
     .file-listing {
         width: 120px;
@@ -264,8 +266,8 @@
 
     .img {
         margin: auto;
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 105px;
         border-radius: 70%;
         overflow: hidden;
         display: block;
@@ -274,6 +276,11 @@
     th, td {
         padding-top: 10px;
         padding-bottom: 10px;
+    }
+    .close{
+        font-size: 40px;
+        color: black;
+        padding: 5px 16px 5px 16px;
     }
 
 </style>

@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <!-- 직원 수정/삭제 기능 -->
-                <div v-if="employees" class="modal-body">
+                <div v-if="employees" class="modal-body" style="padding: 0 16px 5px 16px">
                     <table class="table table-hover">
                         <tr>
                             <td v-if="!emp_img_url" colspan="2">
@@ -157,8 +157,8 @@
 
     img {
         margin: auto;
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 110px;
         border-radius: 70%;
         overflow: hidden;
         display: block
@@ -171,5 +171,10 @@
 
     .table {
         margin-bottom: 0;
+    }
+    .close{
+        font-size: 40px;
+        color: black;
+        padding: 5px 16px 5px 16px;
     }
 </style>
