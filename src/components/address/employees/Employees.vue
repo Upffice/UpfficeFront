@@ -96,6 +96,9 @@
         position: fixed;
     }
 
+    tr{
+        height: 2px;
+    }
     td {
         width: 70%;
         margin: auto;
@@ -106,7 +109,9 @@
         margin: auto;
         text-align: center;
     }
-
+    td,th{
+        padding: 6px 12px 6px 12px;
+    }
 
     img {
         margin: auto;
@@ -120,10 +125,10 @@
 
 
     .card-border {
-        width: 25rem;
-        height: 35rem;
+        width: 22rem;
+        height: 30rem;
         border-radius: 4px;
-        margin: 7rem 0 0 20%;
+        margin: 5rem 0 0 20%;
 
     }
     .header{
