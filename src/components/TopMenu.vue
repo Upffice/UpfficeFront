@@ -23,11 +23,11 @@
                             <li class="nav-item">
                                 <router-link class="nav-link" to="/survey">설문</router-link>
                             </li>
-<!--                            <li class="nav-item">-->
-<!--                                <router-link class="nav-link" to="/file">자료실</router-link>-->
-<!--                            </li>-->
                             <li class="nav-item">
                                 <router-link class="nav-link" to="/mainEmployAddress">주소록</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/Form/formFile">양식</router-link>
                             </li>
 
                         </ul>

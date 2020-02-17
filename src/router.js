@@ -48,6 +48,7 @@ import FormManagement from "./components/managerpage/FormManagement";
 import Calendar from "./components/schedule/Calendar";
 import IngMain from "./components/approval/IngMain";
 import WaitMain from "./components/approval/WaitMain";
+import formFile from "./components/Form/formFile";
 
 
 Vue.use(Router);
@@ -125,6 +126,11 @@ export default new Router({
             path: "/manager/form-management",
             name: "formManagement",
             component: FormManagement
+        },
+        {
+            path: "/Form/formFile",
+            name: "formFile",
+            component: formFile
         },
 
 
