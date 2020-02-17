@@ -84,17 +84,16 @@
                 this.$emit('close');
             },
             searchMatching: function (lang) {
-                if (this.showArr.length > 6) {//결과값 6이상이면 함수종료//유효하지않은듯
-                    return
-                } else {//결과값 6개 미만
+
                     /*새변수 = .filter() [새로운 배열로 반환]*/
+                    this.showArr=[];
                     this.showArr = this.empArr.filter(function (emp) {
                         /*return [이름,부서] 문자열검색 || 초성검색*/
 
                         return emp.emp_name.includes(lang) || emp.dis_emp_name.includes(Hangul.disassemble(lang).join(""))
                             || emp.dep_name.includes(lang) || emp.dis_dep_name.includes(Hangul.disassemble(lang).join(""));
                     })
-                }
+
             },
             idToName: function () {
                 /*emp,dep table dep_id비교해서 emp에 dep_name bind*/
