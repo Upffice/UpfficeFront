@@ -1,10 +1,10 @@
 <template>
     <div class="list row">
+        <AddressSubMenu></AddressSubMenu>
         <div>
-            <h4>양식 다운로드</h4>
-            <hr>
+            <h3>양식 다운로드</h3>
 
-            <div class="btn-group">
+            <div class="btn-group" style="margin-bottom: 2px; float: right">
                 <div class="file-listing">
                     <input type="file"
                            id="files"
@@ -87,6 +87,7 @@
 
 <script>
     import http from "../../http-common";
+    import AddressSubMenu from "../address/AddressSubMenu";
 
     export default {
         name: "formFile",
@@ -365,6 +366,9 @@
                 this.$router.push("/");
             }
         },
+        components:{
+            AddressSubMenu
+        }
     }
 </script>
 
@@ -372,6 +376,8 @@
     .list {
         text-align: center;
         max-width: 90%;
+        margin-left: 18%;
+        margin-right: 5%;
         margin-top: 20px;
     }
 
@@ -418,6 +424,10 @@
     tbody > tr > td {
         height: 5px;
         padding: 8px 8px 8px 8px;
+    }
+    h3 {
+        text-align: left;
+        float: left;
     }
 
 </style>
