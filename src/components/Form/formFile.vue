@@ -25,9 +25,6 @@
                 <div style="float: right;">
 
                     <button class="btn btn-primary"
-                            @click="fileUpload">저장
-                    </button>
-                    <button class="btn btn-outline-primary"
                             @click="getDownAll">모든 파일 다운
                     </button>
                 </div>
@@ -156,11 +153,6 @@
                         console.log('FAILURE!!');
                     });
 
-            },
-
-            fileUpload() {
-                this.submitFiles();
-                location.reload();
             },
 
             getDown(filename) {
