@@ -1,6 +1,5 @@
 <template>
     <div class="list row">
-        <AddressSubMenu></AddressSubMenu>
         <div>
             <h3>양식 다운로드</h3>
 
@@ -84,7 +83,6 @@
 
 <script>
     import http from "../../http-common";
-    import AddressSubMenu from "../address/AddressSubMenu";
 
     export default {
         name: "formFile",
@@ -108,7 +106,6 @@
             }
         },
         methods: {
-
             handleFilesUpload() {
                 /*2.input type=file dom(원래file형식의 돔)*/
                 let uploadedFiles = this.$refs.files.files;
@@ -359,7 +356,6 @@
             }
         },
         components:{
-            AddressSubMenu
         }
     }
 </script>
@@ -368,8 +364,8 @@
     .list {
         text-align: center;
         max-width: 90%;
-        margin-left: 18%;
-        margin-right: 5%;
+        margin-left: 10%;
+        margin-right: 10%;
         margin-top: 20px;
     }
 
